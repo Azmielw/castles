@@ -118,6 +118,10 @@ body{margin:0}
 .small{font-size:.85rem;padding:6px 10px}
 .toprow{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .who{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:.9rem}
+.paid{background:#1f8a4c;color:#fff;border:0;border-radius:999px;padding:3px 12px;font:inherit;font-size:.85rem;font-weight:700;cursor:pointer}
+.unpaid{background:transparent;color:var(--ink);border:1px dashed var(--muted);border-radius:999px;padding:3px 12px;font:inherit;font-size:.85rem;font-weight:600;cursor:pointer}
+.pill-ok{background:#1f8a4c22;color:#1f8a4c;border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:700;white-space:nowrap}
+.pill-due{background:var(--soft);color:var(--muted);border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:700;white-space:nowrap}
 .cred{background:var(--soft);border-radius:8px;padding:10px 14px;white-space:pre-wrap;font-variant-numeric:tabular-nums}
 </style>
 </head>
@@ -154,7 +158,8 @@ let me=null;          // profile
 let events=[];        // [{id,name,has_placed}]
 let records=[];       // with merchant info for admin
 let merchants=[];     // admin: profiles
-let filter="all";     // event id or "all"
+let filter="all";
+let paid=[];          // [{merchant_id,event_id,paid_at}]     // event id or "all"
 let state={tab:"merchants",open:null,editing:null,pendingDel:null,showForm:false};
 
 async function fn(body){
@@ -216,6 +221,8 @@ async function loadRecords(){
   if(error){banner("ما قدرت أجيب البيانات: "+error.message);return}
   records=data||[];
 }
+async function loadPaid(){const {data}=await sb.from("settlements").select("*"); paid=data||[]}
+const paidOf=(mid,eid)=>paid.find(p=>p.merchant_id===mid&&p.event_id===eid);
 async function loadMerchants(){const {data}=await sb.from("profiles").select("*").order("created_at"); merchants=data||[]}
 function banner(t){const b=$("#banner"); b.hidden=!t; b.textContent=t||""}
 const visible=()=>records.filter(r=>filter==="all"||r.event_id===+filter);
@@ -296,6 +303,11 @@ function statementText(name,list){
   });
   return t+`\n━━━━━━━━\nمجموع القلاع: ${tc}\nمجموع المصاريف: ${fmt(tm)}`;
 }
+function payCtl(mid,eid){
+  if(!mid) return ""; const p=paidOf(mid,eid); const admin=me?.role==="admin";
+  if(admin) return p?`<button class="paid" data-pay="${eid}" title="اضغط للتراجع">✓ تمت · ${dstr(p.paid_at)}</button>`:`<button class="unpaid" data-pay="${eid}">علّم تمت</button>`;
+  return p?`<span class="pill-ok">✓ تمت</span>`:"";
+}
 function sheetHTML(name,list,opts={}){
   const evIds=[...new Set(list.map(r=>r.event_id))]; let tc=0,tm=0;
   const blocks=evIds.map(id=>{
@@ -304,7 +316,7 @@ function sheetHTML(name,list,opts={}){
     const exRows=rows.flatMap(r=>(r.expenses||[]).map(x=>`<tr><td>${esc(x.item||"مصروف")}</td><td class="p">${fmt(x.price)}</td></tr>`)).join("")||`<tr><td colspan="2" style="color:var(--muted)">ما في مصاريف بهالحدث</td></tr>`;
     const tools=rows.map(r=>`<div class="entry-tools"><span>تسجيل ${dstr(r.created_at)}: ${r.castles} قلعة${evPlaced(r.event_id)?`، ${r.placed||0} موقع`:""}، ${fmt(sumExp(r))}</span>
       <button data-edit="${r.id}">تعديل</button><button class="del" data-del="${r.id}">${state.pendingDel===r.id?"متأكد؟ اضغط للحذف":"حذف"}</button></div>`).join("");
-    return `<div class="ev"><div class="ev-head"><h3>حدث ${esc(evName(id))}</h3><span style="display:flex;gap:6px;flex-wrap:wrap"><span class="castle">${c} قلعة</span>${evPlaced(id)?`<span class="castle">${pl} أخدت موقع</span>`:""}</span></div>
+    return `<div class="ev"><div class="ev-head"><h3>حدث ${esc(evName(id))}</h3><span style="display:flex;gap:6px;flex-wrap:wrap"><span class="castle">${c} قلعة</span>${evPlaced(id)?`<span class="castle">${pl} أخدت موقع</span>`:""}${payCtl(opts.mid,id)}</span></div>
       <div class="tbl-wrap"><table><thead><tr><th>شو صرف</th><th style="text-align:left">المبلغ</th></tr></thead><tbody>${exRows}
       <tr class="sub"><td>مجموع مصاريف الحدث</td><td class="p">${fmt(m)}</td></tr></tbody></table></div>${tools}</div>`;
   }).join("");
@@ -324,6 +336,12 @@ function wireSheet(root,name,list,rerender,onEdit){
     catch(e){const ta=root.querySelector("#copyTxt");ta.hidden=false;ta.value=txt;ta.select();m.textContent="حدد النص وانسخه يدوياً."}
   };
   root.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>onEdit(b.dataset.edit));
+  root.querySelectorAll("[data-pay]").forEach(b=>b.onclick=async()=>{
+    const eid=+b.dataset.pay, mid=state.open; if(!mid) return; b.disabled=true;
+    const {error}=paidOf(mid,eid)?await sb.from("settlements").delete().eq("merchant_id",mid).eq("event_id",eid):await sb.from("settlements").insert({merchant_id:mid,event_id:eid,paid_by:me.id});
+    if(error){root.querySelector("#copyMsg").textContent="ما انحفظ: "+error.message;b.disabled=false;return}
+    await loadPaid(); rerender();
+  });
   root.querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{
     const id=b.dataset.del; if(state.pendingDel!==id){state.pendingDel=id;rerender();return}
     state.pendingDel=null; const {error}=await sb.from("records").delete().eq("id",id);
@@ -336,7 +354,7 @@ function wireSheet(root,name,list,rerender,onEdit){
 function renderMerchant(flash){
   const list=visible();
   app.innerHTML=`<div style="display:flex;flex-direction:column;gap:14px">${chips()}
-    <section class="grid">${formHTML(false)}<div id="mine" style="min-width:0">${sheetHTML(me.display_name,list)}</div></section></div>`;
+    <section class="grid">${formHTML(false)}<div id="mine" style="min-width:0">${sheetHTML(me.display_name,list,{mid:me.id})}</div></section></div>`;
   wireChips(app,()=>renderMerchant());
   wireForm(false,(m)=>renderMerchant(m));
   if(flash){$("#formMsg").className="msg ok";$("#formMsg").textContent=flash}
@@ -359,14 +377,14 @@ function adminMerchants(pane,flash){
   const name=id=>merchants.find(m=>m.id===id)?.display_name||"تاجر محذوف";
   if(state.open && !state.editing){
     const list=visible().filter(r=>r.merchant_id===state.open);
-    pane.innerHTML=`<div style="display:flex;flex-direction:column;gap:14px">${chips()}<div id="sheet">${sheetHTML(name(state.open),list,{back:true})}</div></div>`;
+    pane.innerHTML=`<div style="display:flex;flex-direction:column;gap:14px"><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><b>اختار الحدث:</b>${chips()}</div><div id="sheet">${sheetHTML(name(state.open),list,{back:true,mid:state.open})}</div></div>`;
     wireChips(pane,()=>renderAdmin()); $("#back").onclick=()=>{state.open=null;renderAdmin()};
     wireSheet($("#sheet"),name(state.open),list,()=>renderAdmin(),id=>{state.editing=id;state.showForm=true;renderAdmin()});
     return;
   }
   const agg=new Map();
   merchants.filter(m=>m.role==="merchant"||records.some(r=>r.merchant_id===m.id)).forEach(m=>agg.set(m.id,{id:m.id,name:m.display_name+(m.role==="admin"?" (أدمن)":""),user:m.username,castles:0,placed:0,money:0,n:0,last:0}));
-  visible().forEach(r=>{const o=agg.get(r.merchant_id); if(!o) return; o.castles+=r.castles; o.placed+=r.placed||0; o.money+=sumExp(r); o.n++; o.last=Math.max(o.last,+new Date(r.created_at))});
+  visible().forEach(r=>{const o=agg.get(r.merchant_id); if(!o) return; o.castles+=r.castles; o.placed+=r.placed||0; (o.evs=o.evs||new Set()).add(r.event_id); o.money+=sumExp(r); o.n++; o.last=Math.max(o.last,+new Date(r.created_at))});
   const q=(state.q||"").trim();
   const all=[...agg.values()].sort((a,b)=>b.last-a.last);
   const list=all.filter(m=>!q||m.name.includes(q)||m.user.includes(q.toLowerCase()));
@@ -384,7 +402,7 @@ function adminMerchants(pane,flash){
         <div class="stat"><small>مجموع المصاريف</small><b class="num">${fmt(all.reduce((s,m)=>s+m.money,0))}</b></div>
       </div>
       <div class="mlist">${list.length?list.map(m=>`<button class="m" data-open="${m.id}">
-        <span><span class="mname">${esc(m.name)}</span><br><span class="mevents">${m.n} تسجيل · ${esc(m.user)}</span></span>
+        <span><span class="mname">${esc(m.name)}</span><br><span class="mevents">${m.n} تسجيل · ${esc(m.user)}</span> ${m.evs?([...m.evs].every(e=>paidOf(m.id,e))?`<span class="pill-ok">✓ تمت</span>`:`<span class="pill-due">باقي</span>`):""}</span>
         <span class="castle">${m.castles} قلعة${showPlaced&&m.placed?` · ${m.placed} موقع`:""}</span><span class="money num">${fmt(m.money)}</span></button>`).join("")
         :`<div class="empty">${all.length?"ما في نتائج.":"لسا ما في تجار. روح على تبويب الحسابات واعمل حساب لكل تاجر."}</div>`}</div>
     </div></section></div>`;
@@ -454,7 +472,7 @@ async function boot(){
   banner("");
   const {data:{session}}=await sb.auth.getSession();
   if(!session) return showLogin();
-  const [{data:prof}]=await Promise.all([sb.from("profiles").select("*").eq("id",session.user.id).maybeSingle(),loadEvents(),loadRecords()]);
+  const [{data:prof}]=await Promise.all([sb.from("profiles").select("*").eq("id",session.user.id).maybeSingle(),loadEvents(),loadRecords(),loadPaid()]);
   if(!prof){await sb.auth.signOut(); return showLogin()}
   me=prof;
   $("#who").hidden=false; $("#whoName").textContent=me.display_name+" ("+me.username+")";
