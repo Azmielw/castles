@@ -130,6 +130,18 @@ body{margin:0}
 .st{border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:700;white-space:nowrap}
 .st-new{background:#e8a31722;color:#b07600}.st-in_progress{background:#2c47c922;color:var(--accent)}.st-activated{background:#1f8a4c22;color:#1f8a4c}.st-rejected{background:#c2362f22;color:var(--danger)}
 .badge{background:var(--danger);color:#fff;border-radius:999px;padding:0 7px;font-size:.75rem;margin-inline-start:6px}
+.st-issue{background:#e8701722;color:#c25a00}
+.bellwrap{position:relative}
+.bell{position:relative}
+.bell .badge{position:absolute;top:-6px;left:-6px;margin:0}
+.npanel{position:absolute;top:calc(100% + 6px);left:0;z-index:20;width:min(360px,calc(100vw - 32px));max-height:60vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 30px #0003;padding:6px}
+.nitem{display:block;width:100%;text-align:right;background:none;border:0;border-radius:8px;padding:9px 10px;font:inherit;color:var(--ink);cursor:pointer}
+.nitem:hover{background:var(--soft)}
+.nitem.unread{font-weight:700}
+.nitem small{display:block;color:var(--muted);font-weight:400;font-size:.78rem}
+.ocard.focus{outline:3px solid var(--accent);outline-offset:2px}
+.issuebox{border-radius:8px;padding:10px 12px;background:#e8701714;display:flex;flex-direction:column;gap:6px;font-size:.9rem}
+.issuebox.ok{background:#1f8a4c14}
 .cred{background:var(--soft);border-radius:8px;padding:10px 14px;white-space:pre-wrap;font-variant-numeric:tabular-nums}
 </style>
 </head>
@@ -140,7 +152,7 @@ body{margin:0}
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><h1>Team Mohpton</h1><span class="role" id="roleTag" hidden></span></div>
       <p class="sub" id="subLine">سجّل الحدث وعدد القلاع وكل مصروف بسعره.</p>
     </div>
-    <div class="who" id="who" hidden><span id="whoName"></span><button class="btn ghost small" id="myPass">غيّر كلمة السر</button><button class="btn ghost small" id="logout">تسجيل خروج</button></div>
+    <div class="who" id="who" hidden><span class="bellwrap"><button class="btn ghost small bell" id="bell" aria-label="الإشعارات">🔔<span class="badge" id="bellN" hidden></span></button><div class="npanel" id="npanel" hidden></div></span><span id="whoName"></span><button class="btn ghost small" id="myPass">غيّر كلمة السر</button><button class="btn ghost small" id="logout">تسجيل خروج</button></div>
   </header>
   <div class="banner" id="banner" hidden></div>
   <main id="app"><p class="sub">جاري التحميل...</p></main>
@@ -170,6 +182,7 @@ let filter="all";
 let paid=[];
 let manual=[];        // records table rows
 let orders=[];        // castle activation orders
+let notes=[];         // my notifications
 let prices=[];        // [{merchant_id,event_id,price}]          // [{merchant_id,event_id,paid_at}]     // event id or "all"
 let state={tab:"orders",open:null,editing:null,pendingDel:null,showForm:false};
 
@@ -223,7 +236,7 @@ $("#myPass").onclick=()=>{
     if(error){$("#mpMsg").textContent=error.message.includes("different")?"اختار كلمة سر غير القديمة.":"ما تغيّرت، لازم 6 أحرف أو أكثر.";return}
     $("#mpMsg").className="msg ok"; $("#mpMsg").textContent="تغيّرت كلمة السر."; setTimeout(()=>f.remove(),1500)};
 };
-$("#logout").onclick=async()=>{await sb.auth.signOut(); me=null; boot()};
+$("#logout").onclick=async()=>{try{sb.removeAllChannels()}catch(e){} notesOn=false;await sb.auth.signOut(); me=null; boot()};
 
 // ---------------- data ----------------
 async function loadEvents(){const {data}=await sb.from("events").select("*").order("sort").order("id"); events=data||[]}
@@ -236,6 +249,7 @@ function rebuild(){
   const virt=orders.filter(o=>o.status==="activated").map(o=>({id:"o_"+o.id,merchant_id:o.merchant_id,event_id:o.event_id,castles:1,placed:0,expenses:[],created_at:o.activated_at||o.created_at,fromOrder:true,igg:o.igg_id}));
   records=[...manual,...virt].sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));
 }
+async function loadNotes(){const {data}=await sb.from("notifications").select("*").order("created_at",{ascending:false}).limit(60); notes=data||[]; renderBell()}
 async function loadOrders(){const {data}=await sb.from("orders").select("*").order("created_at",{ascending:false}); orders=data||[]; rebuild()}
 async function loadPrices(){const {data}=await sb.from("merchant_prices").select("*"); prices=data||[]}
 const priceOf=(mid,eid)=>+(prices.find(p=>p.merchant_id===mid&&p.event_id===eid)?.price||0);
@@ -408,10 +422,13 @@ function ordersPane(root,rerender){
   const of=state.ofilter||(admin?"open":"all");
   const nameOf=id=>merchants.find(m=>m.id===id)?.display_name||(id===me.id?me.display_name:"");
   let list=orders.filter(o=>admin?true:o.merchant_id===me.id);
-  if(of==="open") list=list.filter(o=>o.status==="new"||o.status==="in_progress");
+  if(of==="open") list=list.filter(o=>o.status==="new"||o.status==="in_progress"||o.issue_state==="open");
+  else if(of==="issue") list=list.filter(o=>o.issue_state==="open");
   else if(of==="mine") list=list.filter(o=>o.merchant_id===me.id);
   else if(of!=="all") list=list.filter(o=>o.status===of);
-  const filters=admin?[["open","المفتوحة"],["new","جديد"],["in_progress","قيد التفعيل"],["activated","تفعّل"],["rejected","مرفوض"],["mine","طلباتي"],["all","الكل"]]:[["all","الكل"],["new","بانتظار"],["in_progress","قيد التفعيل"],["activated","تفعّل"],["rejected","مرفوض"]];
+  const nIss=orders.filter(o=>o.issue_state==="open"&&(admin||o.merchant_id===me.id)).length;
+  const issL="🟠 مشاكل"+(nIss?` (${nIss})`:"");
+  const filters=admin?[["open","المفتوحة"],["new","جديد"],["in_progress","قيد التفعيل"],["issue",issL],["activated","تفعّل"],["rejected","مرفوض"],["mine","طلباتي"],["all","الكل"]]:[["all","الكل"],["new","بانتظار"],["in_progress","قيد التفعيل"],["activated","تفعّل"],["issue",issL],["rejected","مرفوض"]];
   root.innerHTML=`<section class="grid">
     <form class="card" id="oForm" autocomplete="off">
       <h2>${ed?"عدّل الطلب وأرسله":"طلب تفعيل جديد"}</h2>
@@ -426,15 +443,36 @@ function ordersPane(root,rerender){
       <p class="msg" id="oMsg" role="status"></p>
     </form>
     <div class="card" style="min-width:0">
-      <div class="toprow"><h2>${admin?"الطلبات":"طلباتي"}</h2></div>
+      <div class="toprow"><h2>${admin?"الطلبات":"طلباتي"}</h2><input id="oSearch" placeholder="🔍 ابحث بـ IGG ID أو الإيميل${admin?" أو اسم التاجر":""}" style="max-width:300px" dir="auto"></div>
       <div class="chips">${filters.map(([k,l])=>`<button class="chip" data-of="${k}" aria-pressed="${of===k}">${l}</button>`).join("")}</div>
-      <div style="display:flex;flex-direction:column;gap:10px">${list.length?list.map(o=>orderCard(o,admin,nameOf)).join(""):`<div class="empty">ما في طلبات هون.</div>`}</div>
+      <div style="display:flex;flex-direction:column;gap:10px" id="olist">${list.length?list.map(o=>orderCard(o,admin,nameOf)).join(""):`<div class="empty">ما في طلبات هون.</div>`}</div>
+      <div class="empty" id="oNone" hidden>ما لقيت طلب بهالبحث. جرّب فلتر "الكل".</div>
     </div></section>`;
   const sel=$("#oEvent");
   if(ed){sel.value=ed.event_id;$("#oEmail").value=ed.game_email;$("#oPass").value=ed.game_password||"";$("#oTg").value=ed.telegram||"";$("#oIgg").value=ed.igg_id;$("#oNote").value=ed.note||""}
   else if(events.length) sel.value=events[events.length-1].id;
   if($("#oCancel")) $("#oCancel").onclick=()=>{state.oEdit=null;rerender()};
   root.querySelectorAll("[data-of]").forEach(b=>b.onclick=()=>{state.ofilter=b.dataset.of;rerender()});
+  const srch=$("#oSearch"); srch.value=state.oq||"";
+  const doSearch=()=>{state.oq=srch.value; const q=srch.value.trim().toLowerCase(); let n=0;
+    root.querySelectorAll(".ocard").forEach(c=>{const ok=!q||c.dataset.s.includes(q); c.hidden=!ok; if(ok)n++});
+    $("#oNone").hidden=!(q&&n===0)};
+  srch.oninput=doSearch; doSearch();
+  root.querySelectorAll("[data-issue]").forEach(b=>b.onclick=async()=>{
+    const id=b.dataset.issue, box=root.querySelector("#is-"+id);
+    if(box.hidden){box.hidden=false;box.querySelector("textarea").focus();return}
+    const note=box.querySelector("textarea").value.trim(); if(!note){box.querySelector("textarea").focus();return}
+    b.disabled=true; const {error}=await sb.rpc("report_order_issue",{p_order:id,p_note:note});
+    if(error){b.disabled=false;banner("ما انبعتت المشكلة، جرب كمان مرة.");return}
+    await loadOrders(); rerender();
+  });
+  root.querySelectorAll("[data-resolve]").forEach(b=>b.onclick=async()=>{
+    const id=b.dataset.resolve, reply=(root.querySelector("#rs-"+id)?.value||"").trim();
+    b.disabled=true; const {error}=await sb.from("orders").update({issue_state:"resolved",issue_reply:reply||null}).eq("id",id);
+    if(error){b.disabled=false;banner("ما انحفظ: "+error.message);return}
+    await loadOrders(); rerender();
+  });
+  if(state.focus){const c=root.querySelector("#oc-"+state.focus); state.focus=null; if(c){c.hidden=false;c.classList.add("focus");c.scrollIntoView({behavior:"smooth",block:"center"});setTimeout(()=>c.classList.remove("focus"),2500)}}
   $("#oForm").onsubmit=async e=>{
     e.preventDefault(); const m=$("#oMsg"); m.className="msg";
     const row={event_id:+sel.value,game_email:$("#oEmail").value.trim(),game_password:$("#oPass").value,telegram:$("#oTg").value.trim(),igg_id:$("#oIgg").value.trim(),note:$("#oNote").value.trim()||null};
@@ -461,10 +499,11 @@ function orderCard(o,admin,nameOf){
   const msg=`تم تفعيل القلعة ✅\nالحدث: ${evName(o.event_id)}\nIGG ID: ${o.igg_id}`;
   const own=o.merchant_id===me.id;
   const when=d=>new Date(d).toLocaleString("en-GB",{dateStyle:"short",timeStyle:"short"});
-  return `<div class="ocard"><div class="head"><b>${admin?esc(nameOf(o.merchant_id))+" · ":""}حدث ${esc(evName(o.event_id))}</b><span class="st st-${o.status}">${ST[o.status]}</span></div>
+  const sdata=[o.igg_id,o.game_email,o.telegram,nameOf(o.merchant_id)].join(" ").toLowerCase();
+  return `<div class="ocard" id="oc-${o.id}" data-s="${esc(sdata)}"><div class="head"><b>${admin?esc(nameOf(o.merchant_id))+" · ":""}حدث ${esc(evName(o.event_id))}</b><span style="display:flex;gap:6px;flex-wrap:wrap">${o.issue_state==="open"?`<span class="st st-issue">🟠 فيها مشكلة</span>`:""}<span class="st st-${o.status}">${ST[o.status]}</span></span></div>
     <div class="okv">
       <div><span>الإيميل</span><b dir="ltr">${esc(o.game_email)}</b>${admin?copyBtn(o.game_email):""}</div>
-      <div><span>الباسورد</span><b dir="ltr">${o.game_password?esc(o.game_password):"انمسح بعد التفعيل"}</b>${admin&&o.game_password?copyBtn(o.game_password):""}</div>
+      <div><span>الباسورد</span><b dir="ltr">${o.game_password?esc(o.game_password):"-"}</b>${admin&&o.game_password?copyBtn(o.game_password):""}</div>
       <div><span>IGG ID</span><b dir="ltr">${esc(o.igg_id)}</b>${admin?copyBtn(o.igg_id):""}</div>
       <div><span>تلجرام</span><b dir="ltr">${esc(o.telegram||"-")}</b></div>
       <div><span>وقت الطلب</span><b dir="ltr">${when(o.created_at)}</b></div>
@@ -472,19 +511,27 @@ function orderCard(o,admin,nameOf){
     </div>
     ${o.note?`<div class="mevents">ملاحظة: ${esc(o.note)}</div>`:""}
     ${o.status==="rejected"?`<div style="color:var(--danger);font-size:.9rem">سبب الرفض: ${esc(o.reject_reason||"")}</div>`:""}
+    ${o.issue_state?`<div class="issuebox ${o.issue_state==="resolved"?"ok":""}">
+      <div><b>${o.issue_state==="open"?"🟠 مشكلة":"✓ انحلت المشكلة"}</b> <span class="mevents" dir="ltr">${when(o.issue_at)}</span></div>
+      <div>${esc(o.issue_note||"")}</div>
+      ${o.issue_state==="resolved"?`<div class="mevents">${o.issue_reply?"رد الإدارة: "+esc(o.issue_reply)+" · ":""}<span dir="ltr">${when(o.issue_resolved_at||o.updated_at)}</span></div>`:""}
+      ${admin&&o.issue_state==="open"?`<div style="display:flex;gap:6px;flex-wrap:wrap"><input id="rs-${o.id}" placeholder="ردّك (اختياري)" style="max-width:260px"><button class="btn primary small" data-resolve="${o.id}">انحلت ✓</button></div>`:""}
+    </div>`:""}
     <div class="actions">
       ${admin&&o.status!=="activated"?`${o.status!=="in_progress"?`<button class="btn ghost small" data-ost="${o.id}|in_progress">قيد التفعيل</button>`:""}<button class="btn primary small" data-ost="${o.id}|activated">تفعّل ✓</button>${o.status!=="rejected"?`<button class="btn danger small" data-ost="${o.id}|rejected">رفض</button>`:""}`:""}
       ${o.status==="activated"?`<button class="btn ghost small" data-copy="${esc(msg)}">انسخ رسالة التفعيل</button>`:""}
+      ${own&&o.status==="activated"&&o.issue_state!=="open"?`<button class="btn danger small" data-issue="${o.id}">لسا ما تفعّلت؟</button>`:""}
       ${own&&(o.status==="new"||o.status==="rejected")?`<button class="btn ghost small" data-oedit="${o.id}">تعديل</button>`:""}
       ${own&&o.status==="new"?`<button class="btn danger small" data-odel="${o.id}">${state.pendingDel===o.id?"متأكد؟":"حذف"}</button>`:""}
     </div>
+    ${own&&o.status==="activated"&&o.issue_state!=="open"?`<div id="is-${o.id}" hidden style="display:flex;flex-direction:column;gap:6px"><textarea placeholder="اشرح المشكلة (مثلاً: القلعة لسا مش ظاهرة باللعبة)" style="font:inherit;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-height:70px"></textarea><span class="mevents">اكتب المشكلة واضغط "لسا ما تفعّلت؟" كمان مرة للإرسال</span></div>`:""}
     ${admin?`<div id="rj-${o.id}" hidden style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><input placeholder="سبب الرفض (مثلاً الباسورد غلط)" style="max-width:280px"><span class="mevents">اضغط رفض كمان مرة للتأكيد</span></div>`:""}
   </div>`;
 }
 
 // ---------------- admin view ----------------
 function renderAdmin(flash){
-  const nNew=orders.filter(o=>o.status==="new").length;
+  const nNew=orders.filter(o=>o.status==="new"||o.issue_state==="open").length;
   const tabs=[["orders","الطلبات"+(nNew?`<span class="badge">${nNew}</span>`:"")],["merchants","التجار"],["accounts","الحسابات"],["events","الأحداث"]];
   app.innerHTML=`<div style="display:flex;flex-direction:column;gap:14px">
     <div class="tabs" role="tablist">${tabs.map(([k,l])=>`<button class="tab" role="tab" data-tab="${k}" aria-selected="${state.tab===k}">${l}</button>`).join("")}</div>
@@ -591,6 +638,22 @@ function adminEvents(pane){
   pane.querySelectorAll("[data-tp]").forEach(b=>b.onclick=async()=>{const ev=events.find(x=>x.id===+b.dataset.tp);await sb.from("events").update({has_placed:!ev.has_placed}).eq("id",ev.id);await loadEvents();adminEvents(pane)});
 }
 
+function rerenderAll(){ if(!me) return; if(document.activeElement?.matches("input,select,textarea")) return; me.role==="admin"?renderAdmin():renderMerchant() }
+function renderBell(){
+  const n=notes.filter(x=>!x.read_at).length, b=$("#bellN"); if(!b) return;
+  b.hidden=!n; b.textContent=n>9?"9+":n;
+  const p=$("#npanel"); if(p.hidden) return;
+  p.innerHTML=(notes.length?notes.map(x=>`<button class="nitem ${x.read_at?"":"unread"}" data-nid="${x.id}" data-oid="${x.order_id||""}">${esc(x.body)}<small dir="ltr">${new Date(x.created_at).toLocaleString("en-GB",{dateStyle:"short",timeStyle:"short"})}</small></button>`).join(""):`<div class="empty">ما في إشعارات.</div>`)
+    +(n?`<button class="btn link small" id="readAll" style="margin:4px 10px">علّم الكل مقروء</button>`:"");
+  p.querySelectorAll("[data-nid]").forEach(el=>el.onclick=async()=>{
+    p.hidden=true; const id=+el.dataset.nid, oid=el.dataset.oid;
+    if(oid){ if(me.role==="admin") state.tab="orders"; else state.mtab="orders"; state.ofilter="all"; state.oq=""; state.focus=oid; state.open=null; me.role==="admin"?renderAdmin():renderMerchant() }
+    const x=notes.find(y=>y.id===id); if(x&&!x.read_at){x.read_at=new Date().toISOString(); renderBell(); await sb.from("notifications").update({read_at:x.read_at}).eq("id",id)}
+  });
+  const ra=$("#readAll"); if(ra) ra.onclick=async()=>{const now=new Date().toISOString(); notes.forEach(x=>{if(!x.read_at)x.read_at=now}); renderBell(); await sb.from("notifications").update({read_at:now}).is("read_at",null)};
+}
+$("#bell").onclick=e=>{e.stopPropagation(); const p=$("#npanel"); p.hidden=!p.hidden; renderBell()};
+document.addEventListener("click",e=>{const p=$("#npanel"); if(p&&!p.hidden&&!p.contains(e.target)) p.hidden=true});
 function beep(){try{const c=new (window.AudioContext||window.webkitAudioContext)();const o=c.createOscillator(),g=c.createGain();o.frequency.value=880;o.connect(g);g.connect(c.destination);g.gain.setValueAtTime(.15,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.5);o.start();o.stop(c.currentTime+.5)}catch(e){}
   try{document.title="🔔 طلب جديد · Team Mohpton";setTimeout(()=>document.title="Team Mohpton",8000)}catch(e){}}
 // ---------------- boot ----------------
@@ -598,21 +661,29 @@ async function boot(){
   banner("");
   const {data:{session}}=await sb.auth.getSession();
   if(!session) return showLogin();
-  const [{data:prof}]=await Promise.all([sb.from("profiles").select("*").eq("id",session.user.id).maybeSingle(),loadEvents(),loadRecords(),loadPaid(),loadPrices(),loadOrders()]);
+  const [{data:prof}]=await Promise.all([sb.from("profiles").select("*").eq("id",session.user.id).maybeSingle(),loadEvents(),loadRecords(),loadPaid(),loadPrices(),loadOrders(),loadNotes()]);
   if(!prof){await sb.auth.signOut(); return showLogin()}
   me=prof;
   $("#who").hidden=false; $("#whoName").textContent=me.display_name+" ("+me.username+")";
   $("#roleTag").hidden=false; $("#roleTag").textContent=me.role==="admin"?"الإدارة":"تاجر";
+  startNotes();
   if(me.role==="admin"){
     $("#subLine").textContent="طلبات التفعيل والجرد لكل التجار بتوصل هون أول بأول.";
     await loadMerchants(); renderAdmin();
-    sb.channel("orders-a").on("postgres_changes",{event:"*",schema:"public",table:"orders"},async(p)=>{await loadOrders(); if(p.eventType==="INSERT"&&p.new?.merchant_id!==me.id) beep(); if(!document.activeElement?.matches("input,select")) renderAdmin()}).subscribe();
+    sb.channel("orders-a").on("postgres_changes",{event:"*",schema:"public",table:"orders"},async()=>{await loadOrders(); rerenderAll()}).subscribe();
     sb.channel("records").on("postgres_changes",{event:"*",schema:"public",table:"records"},async()=>{await loadRecords(); if(!state.showForm && !document.activeElement?.matches("input,select")) renderAdmin()}).subscribe();
   } else {
     $("#subLine").textContent="أول ما يجيك حجز ابعت طلب التفعيل، وسجّل مصاريفك بالجرد.";
     renderMerchant();
-    sb.channel("orders-m").on("postgres_changes",{event:"*",schema:"public",table:"orders"},async()=>{await loadOrders(); if(!document.activeElement?.matches("input,select")) renderMerchant()}).subscribe();
+    sb.channel("orders-m").on("postgres_changes",{event:"*",schema:"public",table:"orders"},async()=>{await loadOrders(); rerenderAll()}).subscribe();
   }
+}
+let notesOn=false;
+async function startNotes(){
+  if(notesOn) return; notesOn=true;
+  sb.channel("notes-"+me.id).on("postgres_changes",{event:"INSERT",schema:"public",table:"notifications",filter:"user_id=eq."+me.id},async(p)=>{
+    notes.unshift(p.new); notes=notes.slice(0,60); renderBell(); beep();
+  }).subscribe();
 }
 boot();
 </script>
