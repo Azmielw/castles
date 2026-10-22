@@ -594,6 +594,8 @@ function adminAccounts(pane){
       <label>كلمة السر<input id="uPass" dir="ltr" required minlength="6"></label></div>
       <div class="row2"><label>رقم التلفون (اختياري)<input id="uPhone" dir="ltr"></label>
       <label>النوع<select id="uRole"><option value="merchant">تاجر</option><option value="admin">أدمن</option></select></label></div>
+      <div><div style="font-weight:600;font-size:.88rem;margin-bottom:6px">💲 سعر القلعة لكل حدث</div>
+        <div class="row2">${events.map(e=>`<label style="font-weight:500">${esc(e.name)}<span style="display:flex;gap:6px;align-items:center">$<input type="number" min="0" step="0.01" data-np="${e.id}" placeholder="0.00" dir="ltr"></span></label>`).join("")}</div></div>
       <button class="btn ghost small" type="button" id="genPass" style="align-self:flex-start">اقترح كلمة سر</button>
       <button class="btn primary" type="submit">أنشئ الحساب</button>
       <p class="msg" id="uMsg" role="status"></p>
@@ -601,20 +603,33 @@ function adminAccounts(pane){
       <button class="btn ghost small" type="button" id="copyCred" hidden style="align-self:flex-start">انسخ بيانات الدخول</button>
     </form>
     <div class="card"><h2>كل الحسابات</h2><div id="ulist">${merchants.map(m=>`<div class="urow"><div><b>${esc(m.display_name)}</b> <span class="role">${m.role==="admin"?"أدمن":"تاجر"}</span><br><span class="mevents" dir="ltr">${esc(m.username)}${m.phone?" · "+esc(m.phone):""}</span><div id="act-${m.id}"></div></div>
-      <div class="tools">${m.id===me.id?"":`<button class="btn ghost small" data-pw="${m.id}">تغيير الباسورد</button><button class="btn danger small" data-rm="${m.id}">${state.pendingDel===m.id?"متأكد؟ بيمحي تسجيلاته":"حذف"}</button>`}</div></div>`).join("")}</div></div>
+      <div class="tools"><button class="btn ghost small" data-pr="${m.id}">💲 الأسعار</button>${m.id===me.id?"":`<button class="btn ghost small" data-pw="${m.id}">تغيير الباسورد</button><button class="btn danger small" data-rm="${m.id}">${state.pendingDel===m.id?"متأكد؟ بيمحي تسجيلاته":"حذف"}</button>`}</div></div>`).join("")}</div></div>
   </section>`;
   const gen=()=>{const a="abcdefghjkmnpqrstuvwxyz23456789";let s="";const r=crypto.getRandomValues(new Uint32Array(8));r.forEach(x=>s+=a[x%a.length]);return s};
   $("#genPass").onclick=()=>$("#uPass").value=gen();
   $("#newUser").onsubmit=async e=>{
     e.preventDefault(); const m=$("#uMsg"); m.className="msg"; m.textContent="";
     const body={action:"create",display_name:$("#uName").value.trim(),username:$("#uUser").value.trim().toLowerCase(),password:$("#uPass").value,phone:$("#uPhone").value.trim(),role:$("#uRole").value};
-    try{await fn(body); await loadMerchants();
+    try{const res=await fn(body);
+      const pr=[...pane.querySelectorAll("[data-np]")].filter(i=>i.value!=="").map(i=>({merchant_id:res.id,event_id:+i.dataset.np,price:Math.max(0,Math.round((+i.value||0)*100)/100)}));
+      if(res.id&&pr.length){await sb.from("merchant_prices").upsert(pr); await loadPrices()}
+      await loadMerchants();
       const txt=`رابط الموقع: ${location.href.split("#")[0]}\nاسم المستخدم: ${body.username}\nكلمة السر: ${body.password}`;
       adminAccounts(pane); $("#uMsg").className="msg ok"; $("#uMsg").textContent="انعمل الحساب: "+body.display_name;
       $("#cred").hidden=false; $("#cred").textContent=txt; $("#copyCred").hidden=false;
       $("#copyCred").onclick=async()=>{try{await navigator.clipboard.writeText(txt);$("#uMsg").textContent="انتسخت، ابعتها للتاجر."}catch(e){}};
     }catch(err){m.textContent=err.message}
   };
+  pane.querySelectorAll("[data-pr]").forEach(b=>b.onclick=()=>{
+    const id=b.dataset.pr, box=$("#act-"+id); if(box.innerHTML){box.innerHTML="";return}
+    box.innerHTML=`<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">${events.map(e=>`<label style="font-weight:500;font-size:.85rem">${esc(e.name)}<span style="display:flex;gap:4px;align-items:center">$<input type="number" min="0" step="0.01" data-ep="${e.id}" value="${priceOf(id,e.id)||""}" placeholder="0.00" dir="ltr" style="width:100px;padding:5px 8px"></span></label>`).join("")}</div><p class="msg" id="pmsg-${id}">بينحفظ لحاله لما تغيّر الرقم.</p>`;
+    box.querySelectorAll("[data-ep]").forEach(inp=>inp.onchange=async()=>{
+      const price=Math.max(0,Math.round((+inp.value||0)*100)/100);
+      const {error}=await sb.from("merchant_prices").upsert({merchant_id:id,event_id:+inp.dataset.ep,price,updated_at:new Date().toISOString()});
+      const m=$("#pmsg-"+id); if(error){m.className="msg";m.textContent="ما انحفظ: "+error.message;return}
+      await loadPrices(); m.className="msg ok"; m.textContent="انحفظ ✓";
+    });
+  });
   pane.querySelectorAll("[data-pw]").forEach(b=>b.onclick=()=>{
     const id=b.dataset.pw, box=$("#act-"+id);
     box.innerHTML=`<div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"><input id="np-${id}" dir="ltr" placeholder="كلمة سر جديدة" style="max-width:180px"><button class="btn primary small" id="ok-${id}">احفظ</button></div><p class="msg" id="pm-${id}"></p>`;
