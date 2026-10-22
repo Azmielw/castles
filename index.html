@@ -252,8 +252,7 @@ function calcForm(){const t=$("#fTotal"); if(t) t.textContent=fmt(readExps().red
 function formHTML(forAdmin){
   const rec=state.editing?records.find(r=>r.id===state.editing):null;
   return `<form class="card" id="recForm" autocomplete="off">
-    <h2>${rec?"تعديل تسجيل":"تسجيل جديد"}</h2>
-    ${forAdmin?`<label>التاجر<select id="fMerchant" required><option value="${me.id}">أنا (${esc(me.display_name)})</option>${merchants.filter(m=>m.id!==me.id).map(m=>`<option value="${m.id}">${esc(m.display_name)}${m.role==="admin"?" (أدمن)":""}</option>`).join("")}</select></label>`:""}
+    <h2>${rec?"تعديل تسجيل":(forAdmin?"تسجيل تفاصيلي":"تسجيل جديد")}</h2>
     <div class="row2">
       <label>نوع الحدث<select id="fEvent" required>${events.map(e=>`<option value="${e.id}">${esc(e.name)}</option>`).join("")}</select></label>
       <label>عدد القلاع<input id="fCastles" type="number" min="0" step="1" inputmode="numeric" placeholder="0" class="num" style="text-align:right"></label>
@@ -270,7 +269,7 @@ function formHTML(forAdmin){
 function wireForm(forAdmin,after){
   const rec=state.editing?records.find(r=>r.id===state.editing):null;
   const sel=$("#fEvent");
-  if(rec){sel.value=rec.event_id; $("#fCastles").value=rec.castles||""; $("#fPlaced").value=rec.placed||""; if(forAdmin)$("#fMerchant").value=rec.merchant_id}
+  if(rec){sel.value=rec.event_id; $("#fCastles").value=rec.castles||""; $("#fPlaced").value=rec.placed||""}
   else if(filter!=="all") sel.value=filter; else if(events.length) sel.value=events[events.length-1].id;
   const tp=()=>{const on=evPlaced(+sel.value);$("#placedWrap").hidden=!on;if(!on)$("#fPlaced").value=""}; sel.onchange=tp; tp();
   const exps=rec?.expenses?.length?rec.expenses:[{},{}];
@@ -284,7 +283,7 @@ function wireForm(forAdmin,after){
     const expenses=readExps();
     if(!castles&&!expenses.length){msg.textContent="اكتب عدد القلاع أو مصروف واحد على الأقل.";return}
     if(castles&&placed>castles){msg.textContent="القلاع اللي أخدت موقع أكثر من عدد القلاع.";return}
-    const merchant_id=forAdmin?$("#fMerchant").value:me.id;
+    const merchant_id=me.id;
     if(!merchant_id){msg.textContent="اعمل حساب لتاجر أول.";return}
     $("#saveBtn").disabled=true;
     const row={merchant_id,event_id,castles,placed,expenses};
@@ -320,7 +319,7 @@ function sheetHTML(name,list,opts={}){
     const pl=rows.reduce((s,r)=>s+(r.placed||0),0);
     const exRows=rows.flatMap(r=>(r.expenses||[]).map(x=>`<tr><td>${esc(x.item||"مصروف")}</td><td class="p">${fmt(x.price)}</td></tr>`)).join("")||`<tr><td colspan="2" style="color:var(--muted)">ما في مصاريف بهالحدث</td></tr>`;
     const tools=rows.map(r=>`<div class="entry-tools"><span>تسجيل ${dstr(r.created_at)}: ${r.castles} قلعة${evPlaced(r.event_id)?`، ${r.placed||0} موقع`:""}، ${fmt(sumExp(r))}</span>
-      <button data-edit="${r.id}">تعديل</button><button class="del" data-del="${r.id}">${state.pendingDel===r.id?"متأكد؟ اضغط للحذف":"حذف"}</button></div>`).join("");
+      ${r.merchant_id===me.id?`<button data-edit="${r.id}">تعديل</button><button class="del" data-del="${r.id}">${state.pendingDel===r.id?"متأكد؟ اضغط للحذف":"حذف"}</button>`:""}</div>`).join("");
     return `<div class="ev"><div class="ev-head"><h3>حدث ${esc(evName(id))}</h3><span style="display:flex;gap:6px;flex-wrap:wrap"><span class="castle">${c} قلعة</span>${evPlaced(id)?`<span class="castle">${pl} أخدت موقع</span>`:""}${payCtl(opts.mid,id)}</span></div>
       <div class="tbl-wrap"><table><thead><tr><th>شو صرف</th><th style="text-align:left">المبلغ</th></tr></thead><tbody>${exRows}
       <tr class="sub"><td>مجموع مصاريف الحدث</td><td class="p">${fmt(m)}</td></tr></tbody></table></div>
@@ -414,7 +413,7 @@ function adminMerchants(pane,flash){
     <div class="card">
       <div class="toprow"><h2>كل التجار</h2>
         <div style="display:flex;gap:8px;flex-wrap:wrap"><input id="search" placeholder="ابحث عن تاجر" value="${esc(state.q||"")}" style="max-width:200px">
-        <button class="btn ghost" id="toggleForm">${state.showForm?"إخفاء النموذج":"+ سجّل عن تاجر"}</button></div></div>
+        <button class="btn ghost" id="toggleForm">${state.showForm?"إخفاء النموذج":"+ سجّل تفاصيلي"}</button></div></div>
       <div class="stats">
         <div class="stat"><small>التجار</small><b class="num">${all.length}</b></div>
         <div class="stat"><small>مجموع القلاع</small><b class="num">${all.reduce((s,m)=>s+m.castles,0)}</b></div>
