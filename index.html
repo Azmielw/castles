@@ -243,7 +243,7 @@ function formHTML(forAdmin){
   const rec=state.editing?records.find(r=>r.id===state.editing):null;
   return `<form class="card" id="recForm" autocomplete="off">
     <h2>${rec?"تعديل تسجيل":"تسجيل جديد"}</h2>
-    ${forAdmin?`<label>التاجر<select id="fMerchant" required>${merchants.filter(m=>m.role==="merchant").map(m=>`<option value="${m.id}">${esc(m.display_name)}</option>`).join("")}</select></label>`:""}
+    ${forAdmin?`<label>التاجر<select id="fMerchant" required><option value="${me.id}">أنا (${esc(me.display_name)})</option>${merchants.filter(m=>m.id!==me.id).map(m=>`<option value="${m.id}">${esc(m.display_name)}${m.role==="admin"?" (أدمن)":""}</option>`).join("")}</select></label>`:""}
     <div class="row2">
       <label>نوع الحدث<select id="fEvent" required>${events.map(e=>`<option value="${e.id}">${esc(e.name)}</option>`).join("")}</select></label>
       <label>عدد القلاع<input id="fCastles" type="number" min="0" step="1" inputmode="numeric" placeholder="0" class="num" style="text-align:right"></label>
@@ -365,7 +365,7 @@ function adminMerchants(pane,flash){
     return;
   }
   const agg=new Map();
-  merchants.filter(m=>m.role==="merchant").forEach(m=>agg.set(m.id,{id:m.id,name:m.display_name,user:m.username,castles:0,placed:0,money:0,n:0,last:0}));
+  merchants.filter(m=>m.role==="merchant"||records.some(r=>r.merchant_id===m.id)).forEach(m=>agg.set(m.id,{id:m.id,name:m.display_name+(m.role==="admin"?" (أدمن)":""),user:m.username,castles:0,placed:0,money:0,n:0,last:0}));
   visible().forEach(r=>{const o=agg.get(r.merchant_id); if(!o) return; o.castles+=r.castles; o.placed+=r.placed||0; o.money+=sumExp(r); o.n++; o.last=Math.max(o.last,+new Date(r.created_at))});
   const q=(state.q||"").trim();
   const all=[...agg.values()].sort((a,b)=>b.last-a.last);
