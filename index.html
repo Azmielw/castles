@@ -115,9 +115,13 @@ body{margin:0}
 .urow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
 .urow:first-child{border-top:0}
 .urow .tools{display:flex;gap:6px;flex-wrap:wrap}
+.urow b{white-space:nowrap}
+@media (max-width:480px){.urow{grid-template-columns:minmax(0,1fr)}.who #whoName{font-weight:600;color:var(--ink,inherit)}}
 .small{font-size:.85rem;padding:6px 10px}
 .toprow{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.who{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:.9rem}
+.who{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:.9rem;flex-wrap:wrap}
+.who .btn{white-space:nowrap}
+@media (max-width:480px){.who{gap:6px;width:100%}.who #whoName{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.who .btn.small{padding:6px 9px;font-size:.82rem}.toprow input{max-width:none!important;width:100%}}
 .paid{background:#1f8a4c;color:#fff;border:0;border-radius:999px;padding:3px 12px;font:inherit;font-size:.85rem;font-weight:700;cursor:pointer}
 .unpaid{background:transparent;color:var(--ink);border:1px dashed var(--muted);border-radius:999px;padding:3px 12px;font:inherit;font-size:.85rem;font-weight:600;cursor:pointer}
 .pill-ok{background:#1f8a4c22;color:#1f8a4c;border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:700;white-space:nowrap}
@@ -267,7 +271,7 @@ function wireChips(root,rerender){root.querySelectorAll("[data-f]").forEach(b=>b
 
 function expRow(item="",price=""){
   const d=document.createElement("div"); d.className="exp";
-  d.innerHTML=`<input placeholder="شو صرف؟ (مثلاً شحن)" value="${esc(item)}" aria-label="البند">
+  d.innerHTML=`<input placeholder="شو صرف؟" value="${esc(item)}" aria-label="البند">
     <div class="price"><span>$</span><input type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00" value="${esc(price)}" aria-label="السعر"></div>
     <button type="button" class="icon" aria-label="احذف البند">×</button>`;
   d.querySelector("button").onclick=()=>{const l=d.parentElement;d.remove();if(!l.children.length)l.append(expRow());calcForm()};
@@ -348,7 +352,7 @@ function sheetHTML(name,list,opts={}){
     const pl=rows.reduce((s,r)=>s+(r.placed||0),0);
     const exRows=rows.flatMap(r=>(r.expenses||[]).map(x=>`<tr><td>${esc(x.item||"مصروف")}</td><td class="p">${fmt(x.price)}</td></tr>`)).join("")||`<tr><td colspan="2" style="color:var(--muted)">ما في مصاريف بهالحدث</td></tr>`;
     const tools=rows.map(r=>`<div class="entry-tools"><span>${r.fromOrder?`طلب تفعيل ${dstr(r.created_at)}: قلعة واحدة · IGG ${esc(r.igg)}`:`تسجيل ${dstr(r.created_at)}: ${r.castles} قلعة${evPlaced(r.event_id)?`، ${r.placed||0} موقع`:""}، ${fmt(sumExp(r))}`}</span>
-      ${r.merchant_id===me.id&&!r.fromOrder?`<button data-edit="${r.id}">تعديل</button><button class="del" data-del="${r.id}">${state.pendingDel===r.id?"متأكد؟ اضغط للحذف":"حذف"}</button>`:""}</div>`).join("");
+      ${r.merchant_id===me.id&&!r.fromOrder?`<span style="white-space:nowrap"><button data-edit="${r.id}">تعديل</button><button class="del" data-del="${r.id}">${state.pendingDel===r.id?"متأكد؟ اضغط للحذف":"حذف"}</button></span>`:""}</div>`).join("");
     return `<div class="ev"><div class="ev-head"><h3>حدث ${esc(evName(id))}</h3><span style="display:flex;gap:6px;flex-wrap:wrap"><span class="castle">${c} قلعة</span>${evPlaced(id)?`<span class="castle">${pl} أخدت موقع</span>`:""}${payCtl(opts.mid,id)}</span></div>
       <div class="tbl-wrap"><table><thead><tr><th>شو صرف</th><th style="text-align:left">المبلغ</th></tr></thead><tbody>${exRows}
       <tr class="sub"><td>مجموع مصاريف الحدث</td><td class="p">${fmt(m)}</td></tr></tbody></table></div>
@@ -445,7 +449,7 @@ function ordersPane(root,rerender){
       <p class="msg" id="oMsg" role="status"></p>
     </form>
     <div class="card" style="min-width:0">
-      <div class="toprow"><h2>${admin?"الطلبات":"طلباتي"}</h2><input id="oSearch" placeholder="🔍 ابحث بـ IGG ID أو الإيميل${admin?" أو اسم التاجر":""}" style="max-width:300px" dir="auto"></div>
+      <div class="toprow"><h2>${admin?"الطلبات":"طلباتي"}</h2><input id="oSearch" placeholder="🔍 بحث: IGG ID، إيميل${admin?"، تاجر":""}" style="max-width:300px" dir="rtl"></div>
       <div class="chips">${filters.map(([k,l])=>`<button class="chip" data-of="${k}" aria-pressed="${of===k}">${l}</button>`).join("")}</div>
       <div style="display:flex;flex-direction:column;gap:10px" id="olist">${list.length?list.map(o=>orderCard(o,admin,nameOf)).join(""):`<div class="empty">ما في طلبات هون.</div>`}</div>
       <div class="empty" id="oNone" hidden>ما لقيت طلب بهالبحث. جرّب فلتر "الكل".</div>
@@ -681,7 +685,7 @@ async function boot(){
   const [{data:prof}]=await Promise.all([sb.from("profiles").select("*").eq("id",session.user.id).maybeSingle(),loadEvents(),loadRecords(),loadPaid(),loadPrices(),loadOrders(),loadNotes()]);
   if(!prof){await sb.auth.signOut(); return showLogin()}
   me=prof;
-  $("#who").hidden=false; $("#whoName").textContent=me.display_name+" ("+me.username+")";
+  $("#who").hidden=false; $("#whoName").textContent=me.display_name;$("#whoName").title=me.username;
   $("#roleTag").hidden=false; $("#roleTag").textContent=me.role==="admin"?"الإدارة":"تاجر";
   startNotes();
   if(me.role==="admin"){
