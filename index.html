@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>جرد قلاع التجار</title>
+<link rel="preconnect" href="https://exfxqtgcvbfpvgiykupk.supabase.co" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Readex+Pro:wght@500;700&display=swap">
 <style>
@@ -126,7 +128,7 @@ body{margin:0}
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><h1>جرد قلاع التجار</h1><span class="role" id="roleTag" hidden></span></div>
       <p class="sub" id="subLine">سجّل الحدث وعدد القلاع وكل مصروف بسعره.</p>
     </div>
-    <div class="who" id="who" hidden><span id="whoName"></span><button class="btn ghost small" id="logout">تسجيل خروج</button></div>
+    <div class="who" id="who" hidden><span id="whoName"></span><button class="btn ghost small" id="myPass">غيّر كلمة السر</button><button class="btn ghost small" id="logout">تسجيل خروج</button></div>
   </header>
   <div class="banner" id="banner" hidden></div>
   <main id="app"><p class="sub">جاري التحميل...</p></main>
@@ -168,8 +170,7 @@ const evPlaced=id=>!!events.find(e=>e.id===id)?.has_placed;
 // ---------------- auth screens ----------------
 async function showLogin(){
   $("#who").hidden=true; $("#roleTag").hidden=true; $("#subLine").textContent="ادخل باليوزر والباسورد اللي أخدتهم من الإدارة.";
-  let hasAdmin=true; try{hasAdmin=(await fn({action:"status"})).hasAdmin}catch(e){}
-  if(!hasAdmin) return showSetup();
+  sb.rpc("castles_has_admin").then(({data})=>{if(data===false && $("#loginForm")) showSetup()});
   app.innerHTML=`<form class="card auth" id="loginForm" autocomplete="on">
     <h2>تسجيل الدخول</h2>
     <label>اسم المستخدم<input id="lUser" autocomplete="username" dir="ltr" required></label>
@@ -197,6 +198,15 @@ function showSetup(){
     catch(err){$("#sMsg").textContent=err.message}
   };
 }
+$("#myPass").onclick=()=>{
+  if($("#myPassForm")) return $("#myPassForm").remove();
+  const f=document.createElement("form"); f.id="myPassForm"; f.className="card"; f.style.maxWidth="420px";
+  f.innerHTML=`<h2>غيّر كلمة السر</h2><label>كلمة السر الجديدة<input id="mpNew" type="password" dir="ltr" minlength="6" required autocomplete="new-password"></label><button class="btn primary" type="submit">احفظ</button><p class="msg" id="mpMsg"></p>`;
+  app.before(f); $("#mpNew").focus();
+  f.onsubmit=async e=>{e.preventDefault(); const {error}=await sb.auth.updateUser({password:$("#mpNew").value});
+    if(error){$("#mpMsg").textContent=error.message.includes("different")?"اختار كلمة سر غير القديمة.":"ما تغيّرت، لازم 6 أحرف أو أكثر.";return}
+    $("#mpMsg").className="msg ok"; $("#mpMsg").textContent="تغيّرت كلمة السر."; setTimeout(()=>f.remove(),1500)};
+};
 $("#logout").onclick=async()=>{await sb.auth.signOut(); me=null; boot()};
 
 // ---------------- data ----------------
@@ -444,12 +454,11 @@ async function boot(){
   banner("");
   const {data:{session}}=await sb.auth.getSession();
   if(!session) return showLogin();
-  const {data:prof}=await sb.from("profiles").select("*").eq("id",session.user.id).maybeSingle();
+  const [{data:prof}]=await Promise.all([sb.from("profiles").select("*").eq("id",session.user.id).maybeSingle(),loadEvents(),loadRecords()]);
   if(!prof){await sb.auth.signOut(); return showLogin()}
   me=prof;
   $("#who").hidden=false; $("#whoName").textContent=me.display_name+" ("+me.username+")";
   $("#roleTag").hidden=false; $("#roleTag").textContent=me.role==="admin"?"الإدارة":"تاجر";
-  await loadEvents(); await loadRecords();
   if(me.role==="admin"){
     $("#subLine").textContent="كل تسجيلات التجار بتوصل هون. اضغط على أي تاجر لتشوف تسجيلاته.";
     await loadMerchants(); renderAdmin();
