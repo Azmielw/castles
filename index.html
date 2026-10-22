@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Team Mohpton</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#2563eb">
 <link rel="preconnect" href="https://exfxqtgcvbfpvgiykupk.supabase.co" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,6 +31,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15p
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
 .wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
 header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px}
+.logo{width:44px;height:44px;border-radius:12px;display:block;box-shadow:0 2px 8px rgba(37,99,235,.25)}
 h1{font-family:var(--display);font-size:1.7rem;margin:0;text-wrap:balance}
 h2{font-family:var(--display);font-size:1.1rem;margin:0}
 .sub{color:var(--muted);margin:0}
@@ -153,7 +157,7 @@ body{margin:0}
 <div class="wrap">
   <header>
     <div>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><h1>Team Mohpton</h1><span class="role" id="roleTag" hidden></span></div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><img src="logo.png" alt="" class="logo" width="44" height="44"><h1>Team Mohpton</h1><span class="role" id="roleTag" hidden></span></div>
       <p class="sub" id="subLine">سجّل الحدث وعدد القلاع وكل مصروف بسعره.</p>
     </div>
     <div class="who" id="who" hidden><span class="bellwrap"><button class="btn ghost small bell" id="bell" aria-label="الإشعارات">🔔<span class="badge" id="bellN" hidden></span></button><div class="npanel" id="npanel" hidden></div></span><span id="whoName"></span><button class="btn ghost small" id="myPass">غيّر كلمة السر</button><button class="btn ghost small" id="logout">تسجيل خروج</button></div>
@@ -205,7 +209,7 @@ async function showLogin(){
   $("#who").hidden=true; $("#roleTag").hidden=true; $("#subLine").textContent="ادخل باليوزر والباسورد اللي أخدتهم من الإدارة.";
   sb.rpc("castles_has_admin").then(({data})=>{if(data===false && $("#loginForm")) showSetup()});
   app.innerHTML=`<form class="card auth" id="loginForm" autocomplete="on">
-    <h2>تسجيل الدخول</h2>
+    <img src="logo.png" alt="Team Mohpton" width="84" height="84" style="width:84px;height:84px;border-radius:20px;margin:0 auto 6px;display:block;box-shadow:0 4px 16px rgba(37,99,235,.3)"><h2 style="text-align:center">تسجيل الدخول</h2>
     <label>اسم المستخدم<input id="lUser" autocomplete="username" dir="ltr" required></label>
     <label>كلمة السر<input id="lPass" type="password" autocomplete="current-password" dir="ltr" required></label>
     <button class="btn primary" type="submit">دخول</button>
