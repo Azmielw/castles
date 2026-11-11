@@ -1,0 +1,1307 @@
+{
+ "duration": 58.48,
+ "segments": [
+  {
+   "id": "hook",
+   "srcStart": 0,
+   "srcEnd": 7.505,
+   "placeAt": 0.5,
+   "endAt": 8.005,
+   "text": "تخيّل إنك تقدر تحوّل أي فكرة في دماغك إلى فيديو أنيميشن احترافي... من غير ما تكون خبير في البرمجة أو التصميم!"
+  },
+  {
+   "id": "claude",
+   "srcStart": 7.505,
+   "srcEnd": 16.78,
+   "placeAt": 8.6,
+   "endAt": 17.875,
+   "text": "مع Claude Code، أنت مش بس بتتكلم مع ذكاء اصطناعي... أنت بتتعامل مع مساعد قادر يفهم مشروعك، ويكتب الكود، وينفّذ التعديلات."
+  },
+  {
+   "id": "workflow",
+   "srcStart": 16.78,
+   "srcEnd": 24.145,
+   "placeAt": 19,
+   "endAt": 26.365,
+   "text": "تبدأ بكتابة فكرتك، وبعدها تحوّلها لسيناريو، وتقسّمها لمشاهد، وتبدأ في بناء كل حركة وتفصيلة."
+  },
+  {
+   "id": "magic",
+   "srcStart": 24.145,
+   "srcEnd": 33.14,
+   "placeAt": 33,
+   "endAt": 41.995,
+   "text": "من النصوص المتحركة، للمجسمات ثلاثية الأبعاد، للخرائط والانتقالات السينمائية... كل حاجة ممكن تتحوّل لتجربة بصرية مميّزة."
+  },
+  {
+   "id": "remotion",
+   "srcStart": 33.14,
+   "srcEnd": 42.785,
+   "placeAt": 47.5,
+   "endAt": 57.145,
+   "text": "ومع Remotion، تقدر تستخدم React لبناء فيديوهات حقيقية، تضيف الصوت والموسيقى والكابشن، وتجهّز مشروعك للتصدير بصيغة MP4."
+  },
+  {
+   "id": "iterate",
+   "srcStart": 42.785,
+   "srcEnd": 49.385,
+   "placeAt": 58.2,
+   "endAt": 64.8,
+   "text": "والأجمل إنك تقدر تعدّل وتطوّر كل مشهد بالكود، لحد ما توصل للنتيجة اللي أنت متخيّلها."
+  },
+  {
+   "id": "rethink",
+   "srcStart": 49.385,
+   "srcEnd": 54.465,
+   "placeAt": 64.9,
+   "endAt": 69.98,
+   "text": "Claude Code مش مجرد أداة للبرمجة... ده طريقة مختلفة للتفكير في صناعة الفيديو."
+  },
+  {
+   "id": "closing",
+   "srcStart": 54.465,
+   "srcEnd": 58.48,
+   "placeAt": 70.3,
+   "endAt": 74.315,
+   "text": "فكرتك هي البداية... والإبداع هو اللي بيحدد النهاية!"
+  }
+ ],
+ "phrases": [
+  {
+   "seg": "hook",
+   "tokens": [
+    {
+     "text": "تخيّل",
+     "full": "تخيّل",
+     "start": 0.5,
+     "end": 0.9,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "إنك",
+     "full": "إنك",
+     "start": 0.98,
+     "end": 1.22,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "تقدر",
+     "full": "تقدر",
+     "start": 1.26,
+     "end": 1.54,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "تحوّل",
+     "full": "تحوّل",
+     "start": 1.78,
+     "end": 2.02,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 0.5,
+   "end": 2.08
+  },
+  {
+   "seg": "hook",
+   "tokens": [
+    {
+     "text": "أي",
+     "full": "أي",
+     "start": 2.1,
+     "end": 2.34,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "فكرة",
+     "full": "فكرة",
+     "start": 2.42,
+     "end": 2.74,
+     "color": "violet",
+     "latin": false
+    },
+    {
+     "text": "في",
+     "full": "في",
+     "start": 2.78,
+     "end": 2.82,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "دماغك",
+     "full": "دماغك",
+     "start": 2.9,
+     "end": 3.3,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 2.1,
+   "end": 3.36
+  },
+  {
+   "seg": "hook",
+   "tokens": [
+    {
+     "text": "إلى",
+     "full": "إلى",
+     "start": 3.38,
+     "end": 3.54,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "فيديو",
+     "full": "فيديو",
+     "start": 3.7,
+     "end": 3.86,
+     "color": "violet",
+     "latin": false
+    },
+    {
+     "text": "أنيميشن",
+     "full": "أنيميشن",
+     "start": 3.9,
+     "end": 4.34,
+     "color": "violet",
+     "latin": false
+    },
+    {
+     "text": "احترافي",
+     "full": "احترافي...",
+     "start": 4.42,
+     "end": 5.38,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 3.38,
+   "end": 5.44
+  },
+  {
+   "seg": "hook",
+   "tokens": [
+    {
+     "text": "من",
+     "full": "من",
+     "start": 5.46,
+     "end": 5.54,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "غير",
+     "full": "غير",
+     "start": 5.62,
+     "end": 5.7,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "ما",
+     "full": "ما",
+     "start": 5.78,
+     "end": 5.86,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "تكون",
+     "full": "تكون",
+     "start": 5.98,
+     "end": 6.1,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "خبير",
+     "full": "خبير",
+     "start": 6.18,
+     "end": 6.42,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 5.46,
+   "end": 6.44
+  },
+  {
+   "seg": "hook",
+   "tokens": [
+    {
+     "text": "في",
+     "full": "في",
+     "start": 6.46,
+     "end": 6.5,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "البرمجة",
+     "full": "البرمجة",
+     "start": 6.58,
+     "end": 6.98,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "أو",
+     "full": "أو",
+     "start": 7.06,
+     "end": 7.14,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "التصميم",
+     "full": "التصميم!",
+     "start": 7.18,
+     "end": 8.1,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 6.46,
+   "end": 8.755
+  },
+  {
+   "seg": "claude",
+   "tokens": [
+    {
+     "text": "مع",
+     "full": "مع",
+     "start": 8.775,
+     "end": 8.855,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "Claude Code",
+     "full": "Claude Code،",
+     "start": 8.935,
+     "end": 9.735,
+     "color": "violet",
+     "latin": true
+    }
+   ],
+   "start": 8.775,
+   "end": 9.755
+  },
+  {
+   "seg": "claude",
+   "tokens": [
+    {
+     "text": "أنت",
+     "full": "أنت",
+     "start": 9.775,
+     "end": 9.895,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "مش",
+     "full": "مش",
+     "start": 9.975,
+     "end": 10.055,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "بس",
+     "full": "بس",
+     "start": 10.135,
+     "end": 10.295,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "بتتكلم",
+     "full": "بتتكلم",
+     "start": 10.375,
+     "end": 10.855,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 9.775,
+   "end": 10.915
+  },
+  {
+   "seg": "claude",
+   "tokens": [
+    {
+     "text": "مع",
+     "full": "مع",
+     "start": 10.935,
+     "end": 11.015,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "ذكاء",
+     "full": "ذكاء",
+     "start": 11.095,
+     "end": 11.335,
+     "color": "blue",
+     "latin": false
+    },
+    {
+     "text": "اصطناعي",
+     "full": "اصطناعي...",
+     "start": 11.415,
+     "end": 12.215,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 10.935,
+   "end": 12.235
+  },
+  {
+   "seg": "claude",
+   "tokens": [
+    {
+     "text": "أنت",
+     "full": "أنت",
+     "start": 12.255,
+     "end": 12.375,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "بتتعامل",
+     "full": "بتتعامل",
+     "start": 12.455,
+     "end": 13.015,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "مع",
+     "full": "مع",
+     "start": 13.095,
+     "end": 13.175,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "مساعد",
+     "full": "مساعد",
+     "start": 13.295,
+     "end": 13.735,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 12.255,
+   "end": 13.875
+  },
+  {
+   "seg": "claude",
+   "tokens": [
+    {
+     "text": "قادر",
+     "full": "قادر",
+     "start": 13.895,
+     "end": 14.215,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "يفهم",
+     "full": "يفهم",
+     "start": 14.295,
+     "end": 14.535,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "مشروعك",
+     "full": "مشروعك،",
+     "start": 14.775,
+     "end": 15.335,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 13.895,
+   "end": 15.435
+  },
+  {
+   "seg": "claude",
+   "tokens": [
+    {
+     "text": "ويكتب",
+     "full": "ويكتب",
+     "start": 15.455,
+     "end": 15.815,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "الكود",
+     "full": "الكود،",
+     "start": 15.895,
+     "end": 16.375,
+     "color": "violet",
+     "latin": false
+    }
+   ],
+   "start": 15.455,
+   "end": 16.395
+  },
+  {
+   "seg": "claude",
+   "tokens": [
+    {
+     "text": "وينفّذ",
+     "full": "وينفّذ",
+     "start": 16.415,
+     "end": 16.855,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "التعديلات",
+     "full": "التعديلات.",
+     "start": 16.935,
+     "end": 17.655,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 16.415,
+   "end": 18.355
+  },
+  {
+   "seg": "workflow",
+   "tokens": [
+    {
+     "text": "تبدأ",
+     "full": "تبدأ",
+     "start": 19.02,
+     "end": 19.34,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "بكتابة",
+     "full": "بكتابة",
+     "start": 19.42,
+     "end": 19.82,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "فكرتك",
+     "full": "فكرتك،",
+     "start": 19.98,
+     "end": 20.62,
+     "color": "violet",
+     "latin": false
+    }
+   ],
+   "start": 19.02,
+   "end": 20.68
+  },
+  {
+   "seg": "workflow",
+   "tokens": [
+    {
+     "text": "وبعدها",
+     "full": "وبعدها",
+     "start": 20.7,
+     "end": 21.18,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "تحوّلها",
+     "full": "تحوّلها",
+     "start": 21.26,
+     "end": 21.74,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "لسيناريو",
+     "full": "لسيناريو،",
+     "start": 21.82,
+     "end": 22.54,
+     "color": "violet",
+     "latin": false
+    }
+   ],
+   "start": 20.7,
+   "end": 22.56
+  },
+  {
+   "seg": "workflow",
+   "tokens": [
+    {
+     "text": "وتقسّمها",
+     "full": "وتقسّمها",
+     "start": 22.58,
+     "end": 23.1,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "لمشاهد",
+     "full": "لمشاهد،",
+     "start": 23.22,
+     "end": 23.98,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 22.58,
+   "end": 24.08
+  },
+  {
+   "seg": "workflow",
+   "tokens": [
+    {
+     "text": "وتبدأ",
+     "full": "وتبدأ",
+     "start": 24.1,
+     "end": 24.46,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "في",
+     "full": "في",
+     "start": 24.5,
+     "end": 24.54,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "بناء",
+     "full": "بناء",
+     "start": 24.62,
+     "end": 24.86,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 24.1,
+   "end": 24.92
+  },
+  {
+   "seg": "workflow",
+   "tokens": [
+    {
+     "text": "كل",
+     "full": "كل",
+     "start": 24.94,
+     "end": 25.26,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "حركة",
+     "full": "حركة",
+     "start": 25.34,
+     "end": 25.66,
+     "color": "violet",
+     "latin": false
+    },
+    {
+     "text": "وتفصيلة",
+     "full": "وتفصيلة.",
+     "start": 25.7,
+     "end": 26.46,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 24.94,
+   "end": 27.16
+  },
+  {
+   "seg": "magic",
+   "tokens": [
+    {
+     "text": "من",
+     "full": "من",
+     "start": 33.175,
+     "end": 33.255,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "النصوص",
+     "full": "النصوص",
+     "start": 33.295,
+     "end": 33.655,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "المتحركة",
+     "full": "المتحركة،",
+     "start": 33.735,
+     "end": 34.535,
+     "color": "violet",
+     "latin": false
+    }
+   ],
+   "start": 33.175,
+   "end": 34.555
+  },
+  {
+   "seg": "magic",
+   "tokens": [
+    {
+     "text": "للمجسمات",
+     "full": "للمجسمات",
+     "start": 34.575,
+     "end": 35.255,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "ثلاثية",
+     "full": "ثلاثية",
+     "start": 35.415,
+     "end": 35.735,
+     "color": "blue",
+     "latin": false
+    },
+    {
+     "text": "الأبعاد",
+     "full": "الأبعاد،",
+     "start": 35.815,
+     "end": 36.455,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 34.575,
+   "end": 36.555
+  },
+  {
+   "seg": "magic",
+   "tokens": [
+    {
+     "text": "للخرائط",
+     "full": "للخرائط",
+     "start": 36.575,
+     "end": 37.175,
+     "color": "violet",
+     "latin": false
+    },
+    {
+     "text": "والانتقالات",
+     "full": "والانتقالات",
+     "start": 37.255,
+     "end": 37.735,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "السينمائية",
+     "full": "السينمائية...",
+     "start": 37.815,
+     "end": 38.775,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 36.575,
+   "end": 38.915
+  },
+  {
+   "seg": "magic",
+   "tokens": [
+    {
+     "text": "كل",
+     "full": "كل",
+     "start": 38.935,
+     "end": 39.095,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "حاجة",
+     "full": "حاجة",
+     "start": 39.175,
+     "end": 39.455,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "ممكن",
+     "full": "ممكن",
+     "start": 39.495,
+     "end": 39.735,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "تتحوّل",
+     "full": "تتحوّل",
+     "start": 39.815,
+     "end": 40.295,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 38.935,
+   "end": 40.315
+  },
+  {
+   "seg": "magic",
+   "tokens": [
+    {
+     "text": "لتجربة",
+     "full": "لتجربة",
+     "start": 40.335,
+     "end": 40.775,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "بصرية",
+     "full": "بصرية",
+     "start": 40.935,
+     "end": 41.255,
+     "color": "blue",
+     "latin": false
+    },
+    {
+     "text": "مميّزة",
+     "full": "مميّزة.",
+     "start": 41.335,
+     "end": 42.055,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 40.335,
+   "end": 42.755
+  },
+  {
+   "seg": "remotion",
+   "tokens": [
+    {
+     "text": "ومع",
+     "full": "ومع",
+     "start": 47.68,
+     "end": 47.84,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "Remotion",
+     "full": "Remotion،",
+     "start": 47.88,
+     "end": 48.68,
+     "color": "violet",
+     "latin": true
+    }
+   ],
+   "start": 47.68,
+   "end": 48.7
+  },
+  {
+   "seg": "remotion",
+   "tokens": [
+    {
+     "text": "تقدر",
+     "full": "تقدر",
+     "start": 48.72,
+     "end": 48.92,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "تستخدم",
+     "full": "تستخدم",
+     "start": 49,
+     "end": 49.48,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "React",
+     "full": "React",
+     "start": 49.56,
+     "end": 49.96,
+     "color": "blue",
+     "latin": true
+    }
+   ],
+   "start": 48.72,
+   "end": 50.02
+  },
+  {
+   "seg": "remotion",
+   "tokens": [
+    {
+     "text": "لبناء",
+     "full": "لبناء",
+     "start": 50.04,
+     "end": 50.36,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "فيديوهات",
+     "full": "فيديوهات",
+     "start": 50.48,
+     "end": 50.76,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "حقيقية",
+     "full": "حقيقية،",
+     "start": 50.84,
+     "end": 51.64,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 50.04,
+   "end": 51.66
+  },
+  {
+   "seg": "remotion",
+   "tokens": [
+    {
+     "text": "تضيف",
+     "full": "تضيف",
+     "start": 51.68,
+     "end": 51.96,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "الصوت",
+     "full": "الصوت",
+     "start": 52.04,
+     "end": 52.44,
+     "color": "blue",
+     "latin": false
+    },
+    {
+     "text": "والموسيقى",
+     "full": "والموسيقى",
+     "start": 52.52,
+     "end": 53.16,
+     "color": "blue",
+     "latin": false
+    },
+    {
+     "text": "والكابشن",
+     "full": "والكابشن،",
+     "start": 53.24,
+     "end": 54.12,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 51.68,
+   "end": 54.14
+  },
+  {
+   "seg": "remotion",
+   "tokens": [
+    {
+     "text": "وتجهّز",
+     "full": "وتجهّز",
+     "start": 54.16,
+     "end": 54.6,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "مشروعك",
+     "full": "مشروعك",
+     "start": 54.8,
+     "end": 55.08,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "للتصدير",
+     "full": "للتصدير",
+     "start": 55.16,
+     "end": 55.64,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "بصيغة",
+     "full": "بصيغة",
+     "start": 55.72,
+     "end": 56.2,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "MP4",
+     "full": "MP4.",
+     "start": 56.28,
+     "end": 57.24,
+     "color": "violet",
+     "latin": true
+    }
+   ],
+   "start": 54.16,
+   "end": 57.94
+  },
+  {
+   "seg": "iterate",
+   "tokens": [
+    {
+     "text": "والأجمل",
+     "full": "والأجمل",
+     "start": 58.335,
+     "end": 58.855,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "إنك",
+     "full": "إنك",
+     "start": 59.095,
+     "end": 59.415,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "تقدر",
+     "full": "تقدر",
+     "start": 59.455,
+     "end": 59.735,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "تعدّل",
+     "full": "تعدّل",
+     "start": 59.815,
+     "end": 60.215,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 58.335,
+   "end": 60.275
+  },
+  {
+   "seg": "iterate",
+   "tokens": [
+    {
+     "text": "وتطوّر",
+     "full": "وتطوّر",
+     "start": 60.295,
+     "end": 60.775,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "كل",
+     "full": "كل",
+     "start": 60.855,
+     "end": 61.095,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "مشهد",
+     "full": "مشهد",
+     "start": 61.215,
+     "end": 61.495,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "بالكود",
+     "full": "بالكود،",
+     "start": 61.615,
+     "end": 62.215,
+     "color": "violet",
+     "latin": false
+    }
+   ],
+   "start": 60.295,
+   "end": 62.275
+  },
+  {
+   "seg": "iterate",
+   "tokens": [
+    {
+     "text": "لحد",
+     "full": "لحد",
+     "start": 62.295,
+     "end": 62.615,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "ما",
+     "full": "ما",
+     "start": 62.655,
+     "end": 62.695,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "توصل",
+     "full": "توصل",
+     "start": 62.775,
+     "end": 63.095,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "للنتيجة",
+     "full": "للنتيجة",
+     "start": 63.175,
+     "end": 63.575,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 62.295,
+   "end": 63.595
+  },
+  {
+   "seg": "iterate",
+   "tokens": [
+    {
+     "text": "اللي",
+     "full": "اللي",
+     "start": 63.615,
+     "end": 63.735,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "أنت",
+     "full": "أنت",
+     "start": 63.788,
+     "end": 63.895,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "متخيّلها",
+     "full": "متخيّلها.",
+     "start": 64.015,
+     "end": 64.855,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 63.615,
+   "end": 65.015
+  },
+  {
+   "seg": "rethink",
+   "tokens": [
+    {
+     "text": "Claude Code",
+     "full": "Claude Code",
+     "start": 65.035,
+     "end": 65.515,
+     "color": "violet",
+     "latin": true
+    },
+    {
+     "text": "مش",
+     "full": "مش",
+     "start": 65.595,
+     "end": 65.675,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "مجرد",
+     "full": "مجرد",
+     "start": 65.755,
+     "end": 66.155,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "أداة",
+     "full": "أداة",
+     "start": 66.195,
+     "end": 66.395,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "للبرمجة",
+     "full": "للبرمجة...",
+     "start": 66.475,
+     "end": 67.275,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 65.035,
+   "end": 67.295
+  },
+  {
+   "seg": "rethink",
+   "tokens": [
+    {
+     "text": "ده",
+     "full": "ده",
+     "start": 67.315,
+     "end": 67.355,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "طريقة",
+     "full": "طريقة",
+     "start": 67.435,
+     "end": 67.755,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "مختلفة",
+     "full": "مختلفة",
+     "start": 67.795,
+     "end": 68.315,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "للتفكير",
+     "full": "للتفكير",
+     "start": 68.395,
+     "end": 68.875,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 67.315,
+   "end": 68.935
+  },
+  {
+   "seg": "rethink",
+   "tokens": [
+    {
+     "text": "في",
+     "full": "في",
+     "start": 68.955,
+     "end": 69.035,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "صناعة",
+     "full": "صناعة",
+     "start": 69.075,
+     "end": 69.355,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "الفيديو",
+     "full": "الفيديو.",
+     "start": 69.435,
+     "end": 70.075,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 68.955,
+   "end": 70.535
+  },
+  {
+   "seg": "closing",
+   "tokens": [
+    {
+     "text": "فكرتك",
+     "full": "فكرتك",
+     "start": 70.555,
+     "end": 70.955,
+     "color": "violet",
+     "latin": false
+    },
+    {
+     "text": "هي",
+     "full": "هي",
+     "start": 71.035,
+     "end": 71.115,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "البداية",
+     "full": "البداية...",
+     "start": 71.155,
+     "end": 71.915,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 70.555,
+   "end": 71.975
+  },
+  {
+   "seg": "closing",
+   "tokens": [
+    {
+     "text": "والإبداع",
+     "full": "والإبداع",
+     "start": 71.995,
+     "end": 72.555,
+     "color": "violet",
+     "latin": false
+    },
+    {
+     "text": "هو",
+     "full": "هو",
+     "start": 72.795,
+     "end": 73.035,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "اللي",
+     "full": "اللي",
+     "start": 73.062,
+     "end": 73.115,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "بيحدد",
+     "full": "بيحدد",
+     "start": 73.195,
+     "end": 73.595,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "النهاية",
+     "full": "النهاية!",
+     "start": 73.635,
+     "end": 74.395,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 71.995,
+   "end": 75.095
+  }
+ ]
+}

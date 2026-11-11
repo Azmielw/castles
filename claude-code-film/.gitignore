@@ -1,0 +1,10 @@
+node_modules
+dist
+.DS_Store
+.env
+
+# Rendered deliverables in out/ are committed on purpose (final MP4, voiceover, SRT).
+out/*
+!out/claude-code-film.mp4
+!out/voiceover.mp3
+!out/captions.srt
