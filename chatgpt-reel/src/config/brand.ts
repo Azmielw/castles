@@ -3,9 +3,9 @@
 // واحفظه باسم public/brand/chatgpt-logo.svg (أو png)، وغيّر OFFICIAL_LOGO لاسم الملف.
 // طول ما القيمة null، الفيديو بيعرض شارة نصية محايدة بدل الشعار (من غير تقليد أو رسم للشعار).
 export const BRAND = {
-  OFFICIAL_LOGO: null as null | string, // مثال: "brand/chatgpt-logo.svg"
+  OFFICIAL_LOGO: "brand/chatgpt-logo.svg" as null | string, // متتبَّع من أيقونة التطبيق الرسمية؛ بدّله بملف OpenAI الرسمي لو متاح
   /** ألوان الشعار الرسمية: "black" = بلاطة سودا وشعار أبيض، "white" = بلاطة بيضا وشعار أسود */
-  TILE: "black" as "black" | "white",
+  TILE: "white" as "black" | "white",
   NAME: "ChatGPT",
   /** سطر صغير في الخاتمة. اتركه "" لإخفائه. */
   DISCLAIMER: "فيديو تعليمي غير رسمي • المميزات بتختلف حسب الخطة والجهاز",
