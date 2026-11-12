@@ -12,7 +12,7 @@ const Music: React.FC = () => {
   const { fps } = useVideoConfig();
   const t = frame / fps;
   // Duck under every voice segment with soft 0.35s ramps.
-  const duck = Math.max(
+  const duck = !voice.hasVoice ? 0 : Math.max(
     ...voice.segments.map((s) =>
       interpolate(t, [s.placeAt - 0.35, s.placeAt, s.endAt - 0.1, s.endAt + 0.45], [0, 1, 1, 0], {
         extrapolateLeft: "clamp",
@@ -42,7 +42,7 @@ export const AudioTracks: React.FC<{ voice?: boolean; music?: boolean; sfx?: boo
   return (
     <>
       {music ? <Music /> : null}
-      {v
+      {v && voice.hasVoice
         ? voice.segments.map((s) => (
             <Sequence key={s.id} name={`VO · ${s.id}`} from={Math.round(s.placeAt * fps)} layout="none">
               <VoiceSegment srcStart={s.srcStart} length={s.srcEnd - s.srcStart} />

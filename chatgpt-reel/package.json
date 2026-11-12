@@ -1,7 +1,7 @@
 {
-  "name": "claude-code-film",
+  "name": "chatgpt-reel",
   "version": "1.0.0",
-  "description": "فيديو موشن جرافيك سينمائي (75 ثانية) يشرح صناعة فيديوهات الأنيميشن باستخدام Claude Code و Remotion",
+  "description": "ريل موشن جرافيك 9:16 (60 ثانية) يشرح استخدام ChatGPT بالعربي المصري",
   "repository": {},
   "license": "UNLICENSED",
   "engines": {
@@ -34,13 +34,12 @@
   },
   "scripts": {
     "dev": "remotion studio",
-    "render": "remotion render Main out/claude-code-film.mp4",
-    "render:4k": "remotion render Main out/claude-code-film-4k.mp4 --scale=2",
-    "render:clean": "remotion render MainClean out/claude-code-film-no-captions.mp4",
+    "render": "remotion render Reel out/chatgpt-reel.mp4",
+    "render:clean": "remotion render ReelClean out/chatgpt-reel-no-captions.mp4",
+    "render:4k": "remotion render Reel out/chatgpt-reel-4k.mp4 --scale=2",
     "captions": "node scripts/build-captions.mjs",
+    "sync": "node scripts/align-voiceover.mjs && node scripts/build-captions.mjs",
     "audio": "node scripts/generate-audio.mjs",
-    "build": "remotion bundle",
-    "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc"
   },
   "allowScripts": {

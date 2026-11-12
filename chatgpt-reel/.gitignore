@@ -3,8 +3,7 @@ dist
 .DS_Store
 .env
 
-# Rendered deliverables in out/ are committed on purpose (final MP4, voiceover, SRT).
+# deliverables are committed on purpose
 out/*
-!out/claude-code-film.mp4
-!out/voiceover.mp3
+!out/chatgpt-reel.mp4
 !out/captions.srt

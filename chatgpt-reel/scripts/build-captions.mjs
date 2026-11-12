@@ -2,13 +2,35 @@
 // Input : src/config/script.json, src/data/voiceover-words.raw.json, public/audio/voiceover.mp3
 // Output: src/data/voiceover.generated.json, out/captions.srt, public/captions.srt
 import { execFileSync } from "node:child_process";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const script = JSON.parse(readFileSync(join(ROOT, "src/config/script.json"), "utf8"));
-const raw = JSON.parse(readFileSync(join(ROOT, "src/data/voiceover-words.raw.json"), "utf8")).words.filter((w) => w.type === "word");
+const MP3 = join(ROOT, "public/audio/voiceover.mp3");
+const RAW = join(ROOT, "src/data/voiceover-words.raw.json");
+const HAS_VOICE = existsSync(MP3) && existsSync(RAW);
+
+/** Without a recording: spread each paragraph's words over [placeAt, until], weighted by length, pausing at punctuation. */
+const estimate = () => {
+  const words = [];
+  for (const p of script.paragraphs) {
+    const ws = p.text.trim().split(/\s+/);
+    const weight = (w) => w.replace(/[\u064B-\u0652]/g, "").length + 2 + (/[،.!؟…]$/.test(w) ? 4 : 0);
+    const total = ws.reduce((a, w) => a + weight(w), 0);
+    let t = 0;
+    const span = p.until - p.placeAt;
+    for (const w of ws) {
+      const d = (weight(w) / total) * span;
+      const speak = /[،.!؟…]$/.test(w) ? d * 0.6 : d * 0.9;
+      words.push({ text: w, type: "word", start: t, end: t + speak, para: p.id });
+      t += d;
+    }
+  }
+  return words;
+};
+const raw = HAS_VOICE ? JSON.parse(readFileSync(RAW, "utf8")).words.filter((w) => w.type === "word") : estimate();
 
 const PUNCT = /[،.!؟?…,:؛]+$/u;
 const norm = (s) => s.replace(/[ً-ْٰ]/g, "").replace(/[أإآ]/g, "ا").replace(PUNCT, "");
@@ -17,7 +39,7 @@ const round = (x) => Math.round(x * 1000) / 1000;
 
 // --- find the quietest sample between two paragraphs so cuts never clip a word
 const SR = 16000;
-const pcm = execFileSync("ffmpeg", ["-loglevel", "error", "-i", join(ROOT, "public/audio/voiceover.mp3"), "-ac", "1", "-ar", String(SR), "-f", "s16le", "-"], { maxBuffer: 1 << 28 });
+const pcm = HAS_VOICE ? execFileSync("ffmpeg", ["-loglevel", "error", "-i", MP3, "-ac", "1", "-ar", String(SR), "-f", "s16le", "-"], { maxBuffer: 1 << 28 }) : Buffer.alloc(2);
 const samples = new Int16Array(pcm.buffer, pcm.byteOffset, pcm.length / 2);
 const total = samples.length / SR;
 const rms = (t, win = 0.03) => {
@@ -48,7 +70,7 @@ const paras = script.paragraphs.map((p) => {
 if (cursor !== raw.length) throw new Error(`script has ${cursor} words but the recording has ${raw.length}`);
 
 const cuts = [0];
-for (let i = 1; i < paras.length; i++) {
+for (let i = 1; HAS_VOICE && i < paras.length; i++) {
   const prevEnd = raw[paras[i].first - 1].end;
   const nextStart = raw[paras[i].first].start;
   cuts.push(quietest(prevEnd - 0.25, nextStart + 0.1));
@@ -61,8 +83,8 @@ const segments = [];
 const phrases = [];
 
 paras.forEach((p, pi) => {
-  const srcStart = cuts[pi];
-  const srcEnd = cuts[pi + 1];
+  const srcStart = HAS_VOICE ? cuts[pi] : 0;
+  const srcEnd = HAS_VOICE ? cuts[pi + 1] : p.until - p.placeAt;
   const shift = p.placeAt - srcStart;
   segments.push({ id: p.id, srcStart: round(srcStart), srcEnd: round(srcEnd), placeAt: p.placeAt, endAt: round(p.placeAt + srcEnd - srcStart), text: p.text });
 
@@ -111,7 +133,7 @@ phrases.forEach((ph, i) => {
   ph.tokens = ph.tokens.map(({ text, full, start, end, color, latin }) => ({ text, full, start, end, color, latin }));
 });
 
-writeFileSync(join(ROOT, "src/data/voiceover.generated.json"), JSON.stringify({ duration: round(total), segments, phrases }, null, 1));
+writeFileSync(join(ROOT, "src/data/voiceover.generated.json"), JSON.stringify({ hasVoice: HAS_VOICE, duration: round(total), segments, phrases }, null, 1));
 
 const ts = (s) => {
   const ms = Math.round(s * 1000);
@@ -122,5 +144,6 @@ const srt = phrases.map((ph, i) => `${i + 1}\n${ts(ph.start)} --> ${ts(ph.end)}\
 mkdirSync(join(ROOT, "out"), { recursive: true });
 writeFileSync(join(ROOT, "out/captions.srt"), srt);
 writeFileSync(join(ROOT, "public/captions.srt"), srt);
-console.log(`${segments.length} voice segments, ${phrases.length} captions`);
+console.log(HAS_VOICE ? "timed from the voiceover recording" : "no voiceover.mp3 — captions timed from script.json (placeAt → until)");
+console.log(`${segments.length} segments, ${phrases.length} captions`);
 segments.forEach((s) => console.log(s.id.padEnd(9), "src", s.srcStart, "→", s.srcEnd, "| timeline", s.placeAt, "→", s.endAt));

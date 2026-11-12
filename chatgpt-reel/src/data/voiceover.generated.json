@@ -1,1 +1,1094 @@
-{"duration":0,"segments":[],"phrases":[]}
+{
+ "hasVoice": false,
+ "duration": 0,
+ "segments": [
+  {
+   "id": "hook",
+   "srcStart": 0,
+   "srcEnd": 5.2,
+   "placeAt": 0.4,
+   "endAt": 5.6,
+   "text": "تخيّل إن عندك مساعد ذكي يقدر يشرحلك، ويكتبلك، ويخطط معاك، ويساعدك في شغلك ودراستك!"
+  },
+  {
+   "id": "intro",
+   "srcStart": 0,
+   "srcEnd": 7,
+   "placeAt": 6.4,
+   "endAt": 13.4,
+   "text": "أول حاجة، افتح ChatGPT، وسجّل دخولك، وهتلاقي واجهة بسيطة تقدر تبدأ منها محادثتك."
+  },
+  {
+   "id": "prompt",
+   "srcStart": 0,
+   "srcEnd": 9.9,
+   "placeAt": 14.4,
+   "endAt": 24.3,
+   "text": "أهم سر في استخدام ChatGPT هو إنك تعرف تطلب منه إيه، وكل ما كان طلبك واضح ومحدد، كل ما كانت النتيجة أفضل."
+  },
+  {
+   "id": "uses",
+   "srcStart": 0,
+   "srcEnd": 12.9,
+   "placeAt": 25.4,
+   "endAt": 38.3,
+   "text": "تقدر تستخدمه في كتابة المحتوى، وتلخيص المعلومات، وتعلّم اللغات، وشرح الدروس، وتحليل البيانات، وحتى توليد الأفكار والصور."
+  },
+  {
+   "id": "advanced",
+   "srcStart": 0,
+   "srcEnd": 10.8,
+   "placeAt": 39.4,
+   "endAt": 50.2,
+   "text": "ومش بس كده! تقدر تتكلم معاه بالصوت، وترفع صور وملفات، وتستخدم أدوات مختلفة تساعدك تنجز مهامك بشكل أذكى."
+  },
+  {
+   "id": "outro",
+   "srcStart": 0,
+   "srcEnd": 6.2,
+   "placeAt": 51.4,
+   "endAt": 57.6,
+   "text": "افتكر دايمًا، ChatGPT مش مجرد شات... ده مساعدك الذكي. اتعلم تستخدمه صح، وخلّي التكنولوجيا تشتغل معاك!"
+  }
+ ],
+ "phrases": [
+  {
+   "seg": "hook",
+   "tokens": [
+    {
+     "text": "تخيّل",
+     "full": "تخيّل",
+     "start": 0.4,
+     "end": 0.651,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "إن",
+     "full": "إن",
+     "start": 0.679,
+     "end": 0.846,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "عندك",
+     "full": "عندك",
+     "start": 0.864,
+     "end": 1.115,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "مساعد",
+     "full": "مساعد",
+     "start": 1.143,
+     "end": 1.435,
+     "color": "violet",
+     "latin": false
+    }
+   ],
+   "start": 0.4,
+   "end": 1.448
+  },
+  {
+   "seg": "hook",
+   "tokens": [
+    {
+     "text": "ذكي",
+     "full": "ذكي",
+     "start": 1.468,
+     "end": 1.677,
+     "color": "violet",
+     "latin": false
+    },
+    {
+     "text": "يقدر",
+     "full": "يقدر",
+     "start": 1.7,
+     "end": 1.951,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "يشرحلك",
+     "full": "يشرحلك،",
+     "start": 1.979,
+     "end": 2.341,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 1.468,
+   "end": 2.562
+  },
+  {
+   "seg": "hook",
+   "tokens": [
+    {
+     "text": "ويكتبلك",
+     "full": "ويكتبلك،",
+     "start": 2.582,
+     "end": 2.972,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 2.582,
+   "end": 3.212
+  },
+  {
+   "seg": "hook",
+   "tokens": [
+    {
+     "text": "ويخطط",
+     "full": "ويخطط",
+     "start": 3.232,
+     "end": 3.525,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "معاك",
+     "full": "معاك،",
+     "start": 3.557,
+     "end": 3.864,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 3.232,
+   "end": 4.048
+  },
+  {
+   "seg": "hook",
+   "tokens": [
+    {
+     "text": "ويساعدك",
+     "full": "ويساعدك",
+     "start": 4.068,
+     "end": 4.444,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "في",
+     "full": "في",
+     "start": 4.486,
+     "end": 4.653,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "شغلك",
+     "full": "شغلك",
+     "start": 4.671,
+     "end": 4.922,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "ودراستك",
+     "full": "ودراستك!",
+     "start": 4.95,
+     "end": 5.34,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 4.068,
+   "end": 6.04
+  },
+  {
+   "seg": "intro",
+   "tokens": [
+    {
+     "text": "أول",
+     "full": "أول",
+     "start": 6.4,
+     "end": 6.689,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "حاجة",
+     "full": "حاجة،",
+     "start": 6.721,
+     "end": 7.145,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 6.4,
+   "end": 7.408
+  },
+  {
+   "seg": "intro",
+   "tokens": [
+    {
+     "text": "افتح",
+     "full": "افتح",
+     "start": 7.428,
+     "end": 7.774,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "ChatGPT",
+     "full": "ChatGPT،",
+     "start": 7.813,
+     "end": 8.352,
+     "color": "violet",
+     "latin": true
+    }
+   ],
+   "start": 7.428,
+   "end": 8.692
+  },
+  {
+   "seg": "intro",
+   "tokens": [
+    {
+     "text": "وسجّل",
+     "full": "وسجّل",
+     "start": 8.712,
+     "end": 9.059,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "دخولك",
+     "full": "دخولك،",
+     "start": 9.097,
+     "end": 9.56,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 8.712,
+   "end": 9.848
+  },
+  {
+   "seg": "intro",
+   "tokens": [
+    {
+     "text": "وهتلاقي",
+     "full": "وهتلاقي",
+     "start": 9.868,
+     "end": 10.388,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "واجهة",
+     "full": "واجهة",
+     "start": 10.446,
+     "end": 10.85,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "بسيطة",
+     "full": "بسيطة",
+     "start": 10.895,
+     "end": 11.3,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "تقدر",
+     "full": "تقدر",
+     "start": 11.345,
+     "end": 11.692,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 9.868,
+   "end": 11.71
+  },
+  {
+   "seg": "intro",
+   "tokens": [
+    {
+     "text": "تبدأ",
+     "full": "تبدأ",
+     "start": 11.73,
+     "end": 12.077,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "منها",
+     "full": "منها",
+     "start": 12.116,
+     "end": 12.462,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "محادثتك",
+     "full": "محادثتك.",
+     "start": 12.501,
+     "end": 13.04,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 11.73,
+   "end": 13.74
+  },
+  {
+   "seg": "prompt",
+   "tokens": [
+    {
+     "text": "أهم",
+     "full": "أهم",
+     "start": 14.4,
+     "end": 14.721,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "سر",
+     "full": "سر",
+     "start": 14.756,
+     "end": 15.013,
+     "color": "blue",
+     "latin": false
+    },
+    {
+     "text": "في",
+     "full": "في",
+     "start": 15.041,
+     "end": 15.297,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "استخدام",
+     "full": "استخدام",
+     "start": 15.326,
+     "end": 15.903,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 14.4,
+   "end": 15.947
+  },
+  {
+   "seg": "prompt",
+   "tokens": [
+    {
+     "text": "ChatGPT",
+     "full": "ChatGPT",
+     "start": 15.967,
+     "end": 16.544,
+     "color": "violet",
+     "latin": true
+    },
+    {
+     "text": "هو",
+     "full": "هو",
+     "start": 16.608,
+     "end": 16.864,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "إنك",
+     "full": "إنك",
+     "start": 16.893,
+     "end": 17.213,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "تعرف",
+     "full": "تعرف",
+     "start": 17.249,
+     "end": 17.634,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 15.967,
+   "end": 17.656
+  },
+  {
+   "seg": "prompt",
+   "tokens": [
+    {
+     "text": "تطلب",
+     "full": "تطلب",
+     "start": 17.676,
+     "end": 18.061,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "منه",
+     "full": "منه",
+     "start": 18.104,
+     "end": 18.424,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "إيه",
+     "full": "إيه،",
+     "start": 18.46,
+     "end": 18.887,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 17.676,
+   "end": 19.152
+  },
+  {
+   "seg": "prompt",
+   "tokens": [
+    {
+     "text": "وكل",
+     "full": "وكل",
+     "start": 19.172,
+     "end": 19.492,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "ما",
+     "full": "ما",
+     "start": 19.528,
+     "end": 19.784,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "كان",
+     "full": "كان",
+     "start": 19.813,
+     "end": 20.133,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 19.172,
+   "end": 20.149
+  },
+  {
+   "seg": "prompt",
+   "tokens": [
+    {
+     "text": "طلبك",
+     "full": "طلبك",
+     "start": 20.169,
+     "end": 20.554,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "واضح",
+     "full": "واضح",
+     "start": 20.596,
+     "end": 20.981,
+     "color": "violet",
+     "latin": false
+    },
+    {
+     "text": "ومحدد",
+     "full": "ومحدد،",
+     "start": 21.024,
+     "end": 21.537,
+     "color": "violet",
+     "latin": false
+    }
+   ],
+   "start": 20.169,
+   "end": 21.858
+  },
+  {
+   "seg": "prompt",
+   "tokens": [
+    {
+     "text": "كل",
+     "full": "كل",
+     "start": 21.878,
+     "end": 22.135,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "ما",
+     "full": "ما",
+     "start": 22.163,
+     "end": 22.42,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "كانت",
+     "full": "كانت",
+     "start": 22.448,
+     "end": 22.833,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 21.878,
+   "end": 22.856
+  },
+  {
+   "seg": "prompt",
+   "tokens": [
+    {
+     "text": "النتيجة",
+     "full": "النتيجة",
+     "start": 22.876,
+     "end": 23.452,
+     "color": "blue",
+     "latin": false
+    },
+    {
+     "text": "أفضل",
+     "full": "أفضل.",
+     "start": 23.517,
+     "end": 23.987,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 22.876,
+   "end": 24.687
+  },
+  {
+   "seg": "uses",
+   "tokens": [
+    {
+     "text": "تقدر",
+     "full": "تقدر",
+     "start": 25.4,
+     "end": 25.833,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "تستخدمه",
+     "full": "تستخدمه",
+     "start": 25.881,
+     "end": 26.53,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "في",
+     "full": "في",
+     "start": 26.602,
+     "end": 26.89,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 25.4,
+   "end": 26.902
+  },
+  {
+   "seg": "uses",
+   "tokens": [
+    {
+     "text": "كتابة",
+     "full": "كتابة",
+     "start": 26.922,
+     "end": 27.427,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "المحتوى",
+     "full": "المحتوى،",
+     "start": 27.483,
+     "end": 28.156,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 26.922,
+   "end": 28.585
+  },
+  {
+   "seg": "uses",
+   "tokens": [
+    {
+     "text": "وتلخيص",
+     "full": "وتلخيص",
+     "start": 28.605,
+     "end": 29.182,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "المعلومات",
+     "full": "المعلومات،",
+     "start": 29.246,
+     "end": 30.015,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 28.605,
+   "end": 30.508
+  },
+  {
+   "seg": "uses",
+   "tokens": [
+    {
+     "text": "وتعلّم",
+     "full": "وتعلّم",
+     "start": 30.528,
+     "end": 31.033,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "اللغات",
+     "full": "اللغات،",
+     "start": 31.089,
+     "end": 31.714,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 30.528,
+   "end": 32.11
+  },
+  {
+   "seg": "uses",
+   "tokens": [
+    {
+     "text": "وشرح",
+     "full": "وشرح",
+     "start": 32.13,
+     "end": 32.563,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "الدروس",
+     "full": "الدروس،",
+     "start": 32.611,
+     "end": 33.236,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 32.13,
+   "end": 33.633
+  },
+  {
+   "seg": "uses",
+   "tokens": [
+    {
+     "text": "وتحليل",
+     "full": "وتحليل",
+     "start": 33.653,
+     "end": 34.23,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "البيانات",
+     "full": "البيانات،",
+     "start": 34.294,
+     "end": 35.015,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 33.653,
+   "end": 35.476
+  },
+  {
+   "seg": "uses",
+   "tokens": [
+    {
+     "text": "وحتى",
+     "full": "وحتى",
+     "start": 35.496,
+     "end": 35.928,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "توليد",
+     "full": "توليد",
+     "start": 35.976,
+     "end": 36.481,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "الأفكار",
+     "full": "الأفكار",
+     "start": 36.537,
+     "end": 37.186,
+     "color": "blue",
+     "latin": false
+    },
+    {
+     "text": "والصور",
+     "full": "والصور.",
+     "start": 37.258,
+     "end": 37.883,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 35.496,
+   "end": 38.583
+  },
+  {
+   "seg": "advanced",
+   "tokens": [
+    {
+     "text": "ومش",
+     "full": "ومش",
+     "start": 39.4,
+     "end": 39.752,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "بس",
+     "full": "بس",
+     "start": 39.791,
+     "end": 40.073,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "كده",
+     "full": "كده!",
+     "start": 40.104,
+     "end": 40.574,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 39.4,
+   "end": 40.867
+  },
+  {
+   "seg": "advanced",
+   "tokens": [
+    {
+     "text": "تقدر",
+     "full": "تقدر",
+     "start": 40.887,
+     "end": 41.31,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "تتكلم",
+     "full": "تتكلم",
+     "start": 41.357,
+     "end": 41.85,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "معاه",
+     "full": "معاه",
+     "start": 41.904,
+     "end": 42.327,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "بالصوت",
+     "full": "بالصوت،",
+     "start": 42.374,
+     "end": 42.984,
+     "color": "violet",
+     "latin": false
+    }
+   ],
+   "start": 40.887,
+   "end": 43.371
+  },
+  {
+   "seg": "advanced",
+   "tokens": [
+    {
+     "text": "وترفع",
+     "full": "وترفع",
+     "start": 43.391,
+     "end": 43.884,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "صور",
+     "full": "صور",
+     "start": 43.939,
+     "end": 44.291,
+     "color": "blue",
+     "latin": false
+    },
+    {
+     "text": "وملفات",
+     "full": "وملفات،",
+     "start": 44.33,
+     "end": 44.941,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 43.391,
+   "end": 45.328
+  },
+  {
+   "seg": "advanced",
+   "tokens": [
+    {
+     "text": "وتستخدم",
+     "full": "وتستخدم",
+     "start": 45.348,
+     "end": 45.982,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "أدوات",
+     "full": "أدوات",
+     "start": 46.052,
+     "end": 46.545,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "مختلفة",
+     "full": "مختلفة",
+     "start": 46.6,
+     "end": 47.163,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "تساعدك",
+     "full": "تساعدك",
+     "start": 47.226,
+     "end": 47.79,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 45.348,
+   "end": 47.832
+  },
+  {
+   "seg": "advanced",
+   "tokens": [
+    {
+     "text": "تنجز",
+     "full": "تنجز",
+     "start": 47.852,
+     "end": 48.275,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "مهامك",
+     "full": "مهامك",
+     "start": 48.322,
+     "end": 48.815,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "بشكل",
+     "full": "بشكل",
+     "start": 48.87,
+     "end": 49.292,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "أذكى",
+     "full": "أذكى.",
+     "start": 49.339,
+     "end": 49.856,
+     "color": "blue",
+     "latin": false
+    }
+   ],
+   "start": 47.852,
+   "end": 50.556
+  },
+  {
+   "seg": "outro",
+   "tokens": [
+    {
+     "text": "افتكر",
+     "full": "افتكر",
+     "start": 51.4,
+     "end": 51.687,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "دايمًا",
+     "full": "دايمًا،",
+     "start": 51.719,
+     "end": 52.047,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 51.4,
+   "end": 52.246
+  },
+  {
+   "seg": "outro",
+   "tokens": [
+    {
+     "text": "ChatGPT",
+     "full": "ChatGPT",
+     "start": 52.266,
+     "end": 52.635,
+     "color": "violet",
+     "latin": true
+    },
+    {
+     "text": "مش",
+     "full": "مش",
+     "start": 52.676,
+     "end": 52.841,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "مجرد",
+     "full": "مجرد",
+     "start": 52.859,
+     "end": 53.105,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "شات",
+     "full": "شات...",
+     "start": 53.132,
+     "end": 53.461,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 52.266,
+   "end": 53.659
+  },
+  {
+   "seg": "outro",
+   "tokens": [
+    {
+     "text": "ده",
+     "full": "ده",
+     "start": 53.679,
+     "end": 53.844,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "مساعدك",
+     "full": "مساعدك",
+     "start": 53.862,
+     "end": 54.19,
+     "color": "violet",
+     "latin": false
+    },
+    {
+     "text": "الذكي",
+     "full": "الذكي.",
+     "start": 54.226,
+     "end": 54.555,
+     "color": "violet",
+     "latin": false
+    }
+   ],
+   "start": 53.679,
+   "end": 54.754
+  },
+  {
+   "seg": "outro",
+   "tokens": [
+    {
+     "text": "اتعلم",
+     "full": "اتعلم",
+     "start": 54.774,
+     "end": 55.061,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "تستخدمه",
+     "full": "تستخدمه",
+     "start": 55.093,
+     "end": 55.462,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "صح",
+     "full": "صح،",
+     "start": 55.503,
+     "end": 55.749,
+     "color": "violet",
+     "latin": false
+    }
+   ],
+   "start": 54.774,
+   "end": 55.893
+  },
+  {
+   "seg": "outro",
+   "tokens": [
+    {
+     "text": "وخلّي",
+     "full": "وخلّي",
+     "start": 55.913,
+     "end": 56.159,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "التكنولوجيا",
+     "full": "التكنولوجيا",
+     "start": 56.187,
+     "end": 56.72,
+     "color": "blue",
+     "latin": false
+    },
+    {
+     "text": "تشتغل",
+     "full": "تشتغل",
+     "start": 56.779,
+     "end": 57.067,
+     "color": "white",
+     "latin": false
+    },
+    {
+     "text": "معاك",
+     "full": "معاك!",
+     "start": 57.099,
+     "end": 57.399,
+     "color": "white",
+     "latin": false
+    }
+   ],
+   "start": 55.913,
+   "end": 58.099
+  }
+ ]
+}
