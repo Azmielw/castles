@@ -1,10 +1,10 @@
 import React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { COLORS, FONTS } from "../config/theme";
+import { FONTS } from "../config/theme";
 import { voice } from "../lib/voice";
 import { EASE } from "../lib/anim";
 
-const TONE: Record<string, string> = { violet: COLORS.greenBright, blue: COLORS.greenSoft, white: COLORS.white };
+const TONE: Record<string, string> = { violet: "#FFFFFF", blue: "#FFFFFF", white: "#B9B9C0" };
 
 /** Word-synced Arabic captions. Each word pops in exactly when it is spoken. */
 export const Captions: React.FC = () => {

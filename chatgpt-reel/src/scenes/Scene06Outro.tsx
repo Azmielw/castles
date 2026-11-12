@@ -24,7 +24,7 @@ export const Scene06Outro: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
       <AbsoluteFill style={{ opacity: 1 - fade }}>
-        <AbsoluteFill style={{ background: `radial-gradient(55% 32% at 50% ${(CY / 1920) * 100}%, ${COLORS.green}44, transparent 72%)` }} />
+        <AbsoluteFill style={{ background: `radial-gradient(55% 32% at 50% ${(CY / 1920) * 100}%, ${COLORS.green}22, transparent 72%)` }} />
         <Particles count={90} seed="outro" opacity={0.7} drift={[0, -0.3]} />
 
         {/* every element from the video orbits in and gathers around the mark; camera pulls back */}
@@ -38,13 +38,13 @@ export const Scene06Outro: React.FC = () => {
               const y = Math.sin(a * 2 + i) * 60 * (1 - gather);
               const kind = i % 4;
               return (
-                <div key={i} style={{ position: "absolute", left: -55, top: -55, width: 110, height: 110, transform: `translate3d(${x}px, ${y}px, ${z}px) rotateX(${-lerp(30, 12, pull)}deg) scale(${1 - merge * 0.6})`, opacity: prog(frame, 0, 12) * (1 - merge), display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 30, background: kind === 0 ? COLORS.green : "rgba(20,24,22,0.9)", border: `2px solid ${kind === 0 ? COLORS.greenBright : COLORS.glassBorder}`, boxShadow: `0 0 30px ${COLORS.green}66` }}>
+                <div key={i} style={{ position: "absolute", left: -55, top: -55, width: 110, height: 110, transform: `translate3d(${x}px, ${y}px, ${z}px) rotateX(${-lerp(30, 12, pull)}deg) scale(${1 - merge * 0.6})`, opacity: prog(frame, 0, 12) * (1 - merge), display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 30, background: kind === 0 ? "#fff" : "rgba(22,22,24,0.92)", border: `2px solid ${kind === 0 ? "#fff" : COLORS.glassBorder}`, boxShadow: "0 0 30px rgba(255,255,255,0.25)" }}>
                   {kind === 3 ? (
                     <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
                       {[14, 28, 40, 28, 14].map((h, k) => <span key={k} style={{ width: 6, height: h * (0.6 + 0.4 * Math.abs(Math.sin(frame / 5 + k))), borderRadius: 6, background: "#fff" }} />)}
                     </div>
                   ) : (
-                    <Icon name={NAMES[i % NAMES.length]} size={62} />
+                    <Icon name={NAMES[i % NAMES.length]} size={62} color={kind === 0 ? "#000" : "#fff"} />
                   )}
                 </div>
               );

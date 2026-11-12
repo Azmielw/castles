@@ -39,7 +39,7 @@ export const Scene01Hook: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
-      <AbsoluteFill style={{ background: `radial-gradient(50% 30% at 50% 34%, ${COLORS.green}33, transparent 70%)`, opacity: prog(frame, 40, 90) }} />
+      <AbsoluteFill style={{ background: `radial-gradient(50% 30% at 50% 34%, ${COLORS.green}1f, transparent 70%)`, opacity: prog(frame, 40, 90) }} />
       <Particles count={80} seed="hook" opacity={prog(frame, 70, 110) * 0.8} drift={[0.05, -0.5]} />
 
       {/* light streaks rushing in and converging on the outline */}

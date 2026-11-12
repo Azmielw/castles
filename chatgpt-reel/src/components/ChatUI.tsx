@@ -21,10 +21,10 @@ export const Phone3D: React.FC<{
       <div style={{ position: "absolute", left: -width / 2, top: -height / 2, width, height, transformStyle: "preserve-3d", transform: `translate3d(${x}px, ${y}px, ${z}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})` }}>
         {/* body thickness */}
         {new Array(depth).fill(0).map((_, i) => (
-          <div key={i} style={{ position: "absolute", inset: 0, borderRadius: 78, transform: `translateZ(${-i * 2.2}px)`, background: i === depth - 1 ? "#0a0c0b" : `rgb(${38 - i},${44 - i},${41 - i})`, boxShadow: i === depth - 1 ? `0 50px 120px rgba(0,0,0,0.85), 0 0 ${120 * glow}px ${COLORS.green}55` : undefined }} />
+          <div key={i} style={{ position: "absolute", inset: 0, borderRadius: 78, transform: `translateZ(${-i * 2.2}px)`, background: i === depth - 1 ? "#0a0a0a" : `rgb(${42 - i},${42 - i},${44 - i})`, boxShadow: i === depth - 1 ? `0 50px 120px rgba(0,0,0,0.85), 0 0 ${120 * glow}px rgba(255,255,255,0.12)` : undefined }} />
         ))}
         {/* front glass */}
-        <div style={{ position: "absolute", inset: 0, borderRadius: 78, background: "linear-gradient(145deg,#3b423f,#141816 40%,#0b0d0c)", boxShadow: `inset 0 0 0 2px rgba(255,255,255,0.12), 0 0 0 1.5px ${COLORS.glassBorder}` }}>
+        <div style={{ position: "absolute", inset: 0, borderRadius: 78, background: "linear-gradient(145deg,#404044,#161618 40%,#0b0b0c)", boxShadow: `inset 0 0 0 2px rgba(255,255,255,0.12), 0 0 0 1.5px ${COLORS.glassBorder}` }}>
           <div style={{ position: "absolute", inset: 18, borderRadius: 62, overflow: "hidden", background: "#0d0d0d" }}>
             {children}
             {/* dynamic island */}
@@ -80,8 +80,8 @@ export const Composer: React.FC<{
   sendReady?: boolean;
   style?: React.CSSProperties;
 }> = ({ text = "", placeholder = "", caret = false, highlight = 0, plusActive = 0, sendReady = false, style }) => (
-  <div style={{ position: "absolute", left: 22, right: 22, bottom: 40, height: 104, borderRadius: 52, background: "#2f2f2f", display: "flex", alignItems: "center", padding: "0 16px", gap: 14, boxShadow: highlight > 0 ? `0 0 0 ${3 + highlight * 3}px ${COLORS.green}, 0 0 ${highlight * 60}px ${COLORS.green}` : "0 0 0 1px rgba(255,255,255,0.08)", ...style }}>
-    <div style={{ width: 66, height: 66, borderRadius: 66, display: "flex", alignItems: "center", justifyContent: "center", background: plusActive > 0 ? `rgba(16,163,127,${0.25 + plusActive * 0.5})` : "transparent", border: "2px solid rgba(255,255,255,0.18)", color: "#fff", fontSize: 44, fontFamily: FONTS.latin, lineHeight: 1 }}>+</div>
+  <div style={{ position: "absolute", left: 22, right: 22, bottom: 40, height: 104, borderRadius: 52, background: "#2f2f2f", display: "flex", alignItems: "center", padding: "0 16px", gap: 14, boxShadow: highlight > 0 ? `0 0 0 ${3 + highlight * 3}px #fff, 0 0 ${highlight * 60}px rgba(255,255,255,0.6)` : "0 0 0 1px rgba(255,255,255,0.08)", ...style }}>
+    <div style={{ width: 66, height: 66, borderRadius: 66, display: "flex", alignItems: "center", justifyContent: "center", background: plusActive > 0 ? `rgba(255,255,255,${0.12 + plusActive * 0.25})` : "transparent", border: "2px solid rgba(255,255,255,0.18)", color: "#fff", fontSize: 44, fontFamily: FONTS.latin, lineHeight: 1 }}>+</div>
     <div dir="rtl" lang="ar" style={{ flex: 1, fontFamily: FONTS.body, fontWeight: 500, fontSize: 34, color: text ? "#fff" : COLORS.grayMid, display: "flex", alignItems: "center", gap: 4, whiteSpace: "nowrap", overflow: "hidden" }}>
       {text || placeholder}
       {caret ? <span style={{ width: 3, height: 40, background: COLORS.greenBright, marginInlineStart: 4 }} /> : null}

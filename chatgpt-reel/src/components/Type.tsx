@@ -56,9 +56,9 @@ export const Glass: React.FC<{ style?: React.CSSProperties; children?: React.Rea
     style={{
       position: "absolute",
       borderRadius: 26,
-      background: "linear-gradient(160deg, rgba(255,255,255,0.075), rgba(255,255,255,0.02) 55%, rgba(139,61,255,0.05))",
+      background: "linear-gradient(160deg, rgba(255,255,255,0.075), rgba(255,255,255,0.02) 55%, rgba(255,255,255,0.02))",
       border: `1.5px solid ${COLORS.glassBorder}`,
-      boxShadow: `0 30px 90px rgba(0,0,0,0.6), 0 0 70px ${glow}22, inset 0 1px 0 rgba(255,255,255,0.14)`,
+      boxShadow: `0 30px 90px rgba(0,0,0,0.6), 0 0 70px ${glow}14, inset 0 1px 0 rgba(255,255,255,0.14)`,
       overflow: "hidden",
       ...style,
     }}

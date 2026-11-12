@@ -37,7 +37,7 @@ const MiniLearn: React.FC<{ lf: number }> = ({ lf }) => {
     <div style={{ position: "absolute", inset: 0, perspective: 1200, display: "flex", alignItems: "center", justifyContent: "center" }}>
       <div style={{ position: "relative", width: 520, height: 330, transformStyle: "preserve-3d", transform: `rotateY(${flip * 180}deg)` }}>
         <div style={{ position: "absolute", inset: 0, borderRadius: 30, background: "#1d211f", border: `2px solid ${COLORS.glassBorder}`, display: "flex", alignItems: "center", justifyContent: "center", backfaceVisibility: "hidden", fontFamily: FONTS.latin, fontWeight: 700, fontSize: 90, color: "#fff" }}>Hello</div>
-        <div dir="rtl" lang="ar" style={{ position: "absolute", inset: 0, borderRadius: 30, background: `linear-gradient(150deg, ${COLORS.green}, ${COLORS.greenDeep})`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, backfaceVisibility: "hidden", transform: "rotateY(180deg)", fontFamily: FONTS.display, fontWeight: 800, fontSize: 84, color: "#fff" }}>
+        <div dir="rtl" lang="ar" style={{ position: "absolute", inset: 0, borderRadius: 30, background: "linear-gradient(150deg, #3a3a40, #000)", border: "2px solid #fff", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, backfaceVisibility: "hidden", transform: "rotateY(180deg)", fontFamily: FONTS.display, fontWeight: 800, fontSize: 84, color: "#fff" }}>
           مرحبًا
           <span style={{ fontFamily: FONTS.body, fontWeight: 500, fontSize: 30, opacity: 0.85 }}>/ˈhɛloʊ/</span>
         </div>
@@ -63,7 +63,7 @@ const MiniCode: React.FC<{ lf: number }> = ({ lf }) => {
           })}
         </div>
       ))}
-      <div style={{ marginTop: 18, display: "inline-flex", gap: 12, alignItems: "center", padding: "8px 20px", borderRadius: 14, background: `${COLORS.green}33`, color: COLORS.greenBright, fontSize: 28, opacity: prog(lf, 34, 42) }}>✓ Ran successfully</div>
+      <div style={{ marginTop: 18, display: "inline-flex", gap: 12, alignItems: "center", padding: "8px 20px", borderRadius: 14, background: "rgba(255,255,255,0.12)", color: "#fff", fontSize: 28, opacity: prog(lf, 34, 42) }}>✓ Ran successfully</div>
     </div>
   );
 };
@@ -92,7 +92,7 @@ const MiniIdea: React.FC<{ lf: number }> = ({ lf }) => (
       const on = prog(lf, 8 + i * 6, 20 + i * 6, EASE.back);
       const pos = [[-250, -170], [250, -150], [-260, 160], [250, 170]][i];
       return (
-        <div key={n} dir="rtl" lang="ar" style={{ position: "absolute", left: "50%", top: "50%", transform: `translate(calc(-50% + ${pos[0] * on}px), calc(-50% + ${pos[1] * on}px)) rotate(${(i % 2 ? 1 : -1) * 5}deg) scale(${on})`, padding: "14px 24px 18px", borderRadius: 16, background: i % 2 ? COLORS.gray : COLORS.green, color: i % 2 ? "#111" : "#fff", fontFamily: FONTS.body, fontWeight: 700, fontSize: 32, whiteSpace: "nowrap" }}>
+        <div key={n} dir="rtl" lang="ar" style={{ position: "absolute", left: "50%", top: "50%", transform: `translate(calc(-50% + ${pos[0] * on}px), calc(-50% + ${pos[1] * on}px)) rotate(${(i % 2 ? 1 : -1) * 5}deg) scale(${on})`, padding: "14px 24px 18px", borderRadius: 16, background: i % 2 ? COLORS.gray : "#1c1c20", color: i % 2 ? "#111" : "#fff", border: "2px solid #fff", fontFamily: FONTS.body, fontWeight: 700, fontSize: 32, whiteSpace: "nowrap" }}>
           {n}
         </div>
       );
@@ -103,16 +103,16 @@ const MiniIdea: React.FC<{ lf: number }> = ({ lf }) => (
 const MiniImage: React.FC<{ lf: number }> = ({ lf }) => {
   const k = prog(lf, 6, 40, EASE.inOut);
   return (
-    <div style={{ position: "absolute", inset: 36, borderRadius: 26, overflow: "hidden", background: "#0b120f" }}>
+    <div style={{ position: "absolute", inset: 36, borderRadius: 26, overflow: "hidden", background: "#0b0b0c" }}>
       <div style={{ position: "absolute", inset: -30, filter: `blur(${(1 - k) * 34}px) saturate(${0.4 + k * 0.6})`, transform: `scale(${1.15 - k * 0.1})` }}>
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(180deg, #0d3b2e 0%, ${COLORS.green} 55%, ${COLORS.gray} 100%)` }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(180deg, #2b2b30 0%, #8a8a92 55%, #e9e9ee 100%)` }} />
         <div style={{ position: "absolute", left: "58%", top: "18%", width: 150, height: 150, borderRadius: 150, background: "#fff", boxShadow: "0 0 90px #fff" }} />
-        <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "55%", background: "#0a2a21", clipPath: "polygon(0 60%, 18% 20%, 34% 55%, 52% 5%, 72% 50%, 86% 25%, 100% 55%, 100% 100%, 0 100%)" }} />
-        <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "34%", background: "#06140f", clipPath: "polygon(0 50%, 22% 25%, 44% 60%, 66% 20%, 100% 55%, 100% 100%, 0 100%)" }} />
+        <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "55%", background: "#1c1c20", clipPath: "polygon(0 60%, 18% 20%, 34% 55%, 52% 5%, 72% 50%, 86% 25%, 100% 55%, 100% 100%, 0 100%)" }} />
+        <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "34%", background: "#0a0a0b", clipPath: "polygon(0 50%, 22% 25%, 44% 60%, 66% 20%, 100% 55%, 100% 100%, 0 100%)" }} />
       </div>
       {/* generation noise */}
       {new Array(48).fill(0).map((_, i) => (
-        <div key={i} style={{ position: "absolute", left: `${(i % 8) * 12.5}%`, top: `${Math.floor(i / 8) * 16.66}%`, width: "12.5%", height: "16.66%", background: rnd(`px${i}${Math.floor(lf / 3)}`) > 0.5 ? "#1a2a24" : "#2f4a40", opacity: Math.max(0, 1 - k * 1.6 - rnd(`po${i}`) * 0.3) }} />
+        <div key={i} style={{ position: "absolute", left: `${(i % 8) * 12.5}%`, top: `${Math.floor(i / 8) * 16.66}%`, width: "12.5%", height: "16.66%", background: rnd(`px${i}${Math.floor(lf / 3)}`) > 0.5 ? "#1f1f22" : "#3a3a40", opacity: Math.max(0, 1 - k * 1.6 - rnd(`po${i}`) * 0.3) }} />
       ))}
       <div style={{ position: "absolute", left: 24, bottom: 20, padding: "6px 16px", borderRadius: 12, background: "rgba(0,0,0,0.55)", color: "#fff", fontFamily: FONTS.latin, fontSize: 24 }}>{k < 1 ? `${Math.round(k * 100)}%` : "✓"}</div>
     </div>
@@ -151,7 +151,7 @@ export const Scene04Uses: React.FC = () => {
           const Mini = MINI[i];
           const miniOn = open * (1 - park);
           return (
-            <div key={i} style={{ position: "absolute", left: x - w / 2, top: y - h / 2, width: w, height: h, borderRadius: lerp(64, 40, park), transform: `scale(${pop}) rotateY(${(1 - pop) * 50}deg) rotateX(${parked ? Math.sin(frame / 30 + i) * 3 : 0}deg)`, opacity: dimmed, filter: dimmed < 1 ? "blur(2px)" : undefined, background: "linear-gradient(160deg, rgba(25,195,125,0.22), rgba(13,15,14,0.96) 60%)", border: `2px solid ${parked && over > 0 ? COLORS.green : COLORS.glassBorder}`, boxShadow: `0 30px 80px rgba(0,0,0,0.6), 0 0 ${miniOn * 80 + over * 30}px ${COLORS.green}66, inset 0 2px 0 rgba(255,255,255,0.14)`, overflow: "hidden", zIndex: parked ? 1 : 10 }}>
+            <div key={i} style={{ position: "absolute", left: x - w / 2, top: y - h / 2, width: w, height: h, borderRadius: lerp(64, 40, park), transform: `scale(${pop}) rotateY(${(1 - pop) * 50}deg) rotateX(${parked ? Math.sin(frame / 30 + i) * 3 : 0}deg)`, opacity: dimmed, filter: dimmed < 1 ? "blur(2px)" : undefined, background: "linear-gradient(160deg, rgba(255,255,255,0.1), rgba(13,15,14,0.96) 60%)", border: `2px solid ${parked && over > 0 ? COLORS.green : COLORS.glassBorder}`, boxShadow: `0 30px 80px rgba(0,0,0,0.6), 0 0 ${miniOn * 80 + over * 30}px ${COLORS.green}66, inset 0 2px 0 rgba(255,255,255,0.14)`, overflow: "hidden", zIndex: parked ? 1 : 10 }}>
               {/* icon (tile state) */}
               <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 18, opacity: 1 - miniOn }}>
                 <div style={{ filter: `drop-shadow(0 0 16px ${COLORS.green})` }}>

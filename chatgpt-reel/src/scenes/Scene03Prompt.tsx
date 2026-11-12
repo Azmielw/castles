@@ -59,7 +59,7 @@ export const Scene03Prompt: React.FC = () => {
       </Glass>
 
       {/* strong */}
-      <Glass style={{ left: 70, right: 70, top: 750, height: 610, padding: "34px 40px", opacity: strong, transform: `translateY(${(1 - strong) * 100 - verdict * 30}px) perspective(1400px) rotateX(${(1 - strong) * 18}deg) scale(${1 + verdict * 0.04})`, boxShadow: `0 30px 90px rgba(0,0,0,0.6), 0 0 ${40 + verdict * 90}px ${COLORS.green}66`, border: `2px solid ${verdict > 0.5 ? COLORS.green : COLORS.glassBorder}` }}>
+      <Glass style={{ left: 70, right: 70, top: 750, height: 610, padding: "34px 40px", opacity: strong, transform: `translateY(${(1 - strong) * 100 - verdict * 30}px) perspective(1400px) rotateX(${(1 - strong) * 18}deg) scale(${1 + verdict * 0.04})`, boxShadow: `0 30px 90px rgba(0,0,0,0.6), 0 0 ${40 + verdict * 90}px ${COLORS.green}33`, border: `2px solid ${verdict > 0.5 ? COLORS.green : COLORS.glassBorder}` }}>
         <div dir="rtl" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Tag color={COLORS.greenBright} style={{ fontSize: 30 }}>{COPY.prompt.strongTag}</Tag>
           <span style={{ fontSize: 60, color: COLORS.greenBright, fontFamily: FONTS.latin, opacity: verdict, transform: `scale(${0.6 + verdict * 0.4})`, display: "inline-block" }}>✓</span>
@@ -69,7 +69,7 @@ export const Scene03Prompt: React.FC = () => {
             const on = prog(frame, STRONG_IN + 20 + i * 15, STRONG_IN + 32 + i * 15, EASE.back);
             const hot = i > 0;
             return (
-              <span key={i} dir={/[A-Za-z0-9]/.test(chunk) && !/[؀-ۿ]/.test(chunk) ? "ltr" : "rtl"} style={{ display: "inline-block", fontFamily: FONTS.body, fontWeight: hot ? 700 : 500, fontSize: 34, color: "#fff", padding: hot ? "4px 16px 8px" : "4px 4px 8px", borderRadius: 14, background: hot ? `rgba(16,163,127,${0.18 + on * 0.22})` : "transparent", border: hot ? `1.5px solid ${COLORS.green}` : "none", opacity: on, transform: `translateY(${(1 - on) * 16}px) scale(${0.85 + on * 0.15})` }}>
+              <span key={i} dir={/[A-Za-z0-9]/.test(chunk) && !/[؀-ۿ]/.test(chunk) ? "ltr" : "rtl"} style={{ display: "inline-block", fontFamily: FONTS.body, fontWeight: hot ? 700 : 500, fontSize: 34, color: "#fff", padding: hot ? "4px 16px 8px" : "4px 4px 8px", borderRadius: 14, background: hot ? `rgba(255,255,255,${0.1 + on * 0.12})` : "transparent", border: hot ? `1.5px solid ${COLORS.green}` : "none", opacity: on, transform: `translateY(${(1 - on) * 16}px) scale(${0.85 + on * 0.15})` }}>
                 {chunk}
               </span>
             );

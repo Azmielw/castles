@@ -9,7 +9,7 @@ import { COLORS, FONTS } from "../config/theme";
  * never a hand-drawn imitation of the trademark.
  */
 export const BrandMark: React.FC<{ size: number; glow?: number; showName?: boolean }> = ({ size, glow = 0, showName = false }) => {
-  const halo = glow > 0 ? `0 0 ${glow * 70}px rgba(255,255,255,${0.18 * Math.min(1, glow)}), 0 0 ${glow * 30}px ${COLORS.green}66` : "";
+  const halo = glow > 0 ? `0 0 ${glow * 70}px rgba(255,255,255,${0.18 * Math.min(1, glow)}), 0 0 ${glow * 30}px rgba(255,255,255,0.3)` : "";
   const tile: React.CSSProperties = {
     width: size,
     height: size,

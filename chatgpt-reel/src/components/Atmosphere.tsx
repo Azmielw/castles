@@ -19,7 +19,7 @@ export const Glow: React.FC<{ a?: string; b?: string; intensity?: number; speed?
     <AbsoluteFill
       style={{
         opacity: intensity,
-        background: `radial-gradient(38% 46% at ${x1}% ${y1}%, ${a}3d 0%, transparent 70%), radial-gradient(42% 50% at ${x2}% ${y2}%, ${b}33 0%, transparent 72%)`,
+        background: `radial-gradient(38% 46% at ${x1}% ${y1}%, ${a}1c 0%, transparent 70%), radial-gradient(42% 50% at ${x2}% ${y2}%, ${b}26 0%, transparent 72%)`,
       }}
     />
   );
@@ -73,7 +73,7 @@ export const Particles: React.FC<{
       const r = p.s * (1 + depth * 7);
       const soft = depth > 0.55 ? 1 : 0.35; // far = crisp dots, near = bokeh
       const g = ctx.createRadialGradient(px, py, 0, px, py, r * 3);
-      const col = p.hue > 0.5 ? "16,163,127" : "127,224,191";
+      const col = p.hue > 0.5 ? "255,255,255" : "190,190,198";
       g.addColorStop(0, `rgba(${p.hue > 0.86 ? "255,255,255" : col},${(soft > 0.9 ? 0.16 : 0.75) * tw})`);
       g.addColorStop(soft > 0.9 ? 0.7 : 0.25, `rgba(${col},${(soft > 0.9 ? 0.09 : 0.2) * tw})`);
       g.addColorStop(1, `rgba(${col},0)`);

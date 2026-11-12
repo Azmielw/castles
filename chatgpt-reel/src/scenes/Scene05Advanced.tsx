@@ -26,7 +26,7 @@ const Receipt: React.FC = () => (
     <div style={{ borderTop: "3px dashed #8a8d8b", margin: "22px 0 18px" }} />
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <span style={{ height: 20, width: 110, borderRadius: 4, background: "#2a2d2b" }} />
-      <span style={{ height: 20, width: 80, borderRadius: 4, background: COLORS.green }} />
+      <span style={{ height: 20, width: 80, borderRadius: 4, background: "#111" }} />
     </div>
     <div style={{ marginTop: 30, display: "flex", gap: 4, justifyContent: "center" }}>
       {new Array(22).fill(0).map((_, i) => <span key={i} style={{ width: i % 3 ? 4 : 7, height: 46, background: "#2a2d2b" }} />)}
@@ -85,7 +85,7 @@ export const Scene05Advanced: React.FC = () => {
                 <Receipt />
                 {/* scan line */}
                 <div style={{ position: "absolute", left: -10, right: -10, top: 10 + scan * 360, height: 6, borderRadius: 6, background: COLORS.greenBright, boxShadow: `0 0 26px 8px ${COLORS.green}`, opacity: scan > 0 && scan < 1 ? 1 : 0 }} />
-                <div style={{ position: "absolute", inset: 0, borderRadius: 20, background: `linear-gradient(180deg, ${COLORS.green}33, transparent)`, height: `${scan * 100}%`, opacity: scan < 1 ? 1 : 0 }} />
+                <div style={{ position: "absolute", inset: 0, borderRadius: 20, background: "linear-gradient(180deg, rgba(255,255,255,0.22), transparent)", height: `${scan * 100}%`, opacity: scan < 1 ? 1 : 0 }} />
               </div>
             ) : null}
             {sent > 0 ? (
@@ -96,7 +96,7 @@ export const Scene05Advanced: React.FC = () => {
                 {COPY.advanced.found.map((t, i) => {
                   const on = prog(frame, SCAN + 10 + i * 9, SCAN + 22 + i * 9, EASE.back);
                   return (
-                    <span key={t} lang="ar" style={{ fontFamily: FONTS.body, fontWeight: 700, fontSize: 26, color: "#fff", padding: "6px 16px 9px", borderRadius: 14, border: `1.5px solid ${COLORS.green}`, background: `${COLORS.green}33`, opacity: on, transform: `scale(${on})` }}>
+                    <span key={t} lang="ar" style={{ fontFamily: FONTS.body, fontWeight: 700, fontSize: 26, color: "#fff", padding: "6px 16px 9px", borderRadius: 14, border: `1.5px solid ${COLORS.green}`, background: "rgba(255,255,255,0.12)", opacity: on, transform: `scale(${on})` }}>
                       {t}
                     </span>
                   );
@@ -112,7 +112,7 @@ export const Scene05Advanced: React.FC = () => {
           {/* + menu sheet */}
           <div dir="rtl" style={{ position: "absolute", left: 22, right: 22, bottom: 160, borderRadius: 34, background: "#262626", padding: "16px 0", opacity: menu, transform: `translateY(${(1 - menu) * 60}px)`, boxShadow: "0 20px 60px rgba(0,0,0,0.7)" }}>
             {COPY.advanced.menu.map((m, i) => (
-              <div key={m} lang="ar" style={{ display: "flex", alignItems: "center", gap: 22, padding: "20px 32px", fontFamily: FONTS.body, fontWeight: 500, fontSize: 32, color: "#fff", background: i === 0 && frame >= PICK - 10 ? `${COLORS.green}44` : "transparent" }}>
+              <div key={m} lang="ar" style={{ display: "flex", alignItems: "center", gap: 22, padding: "20px 32px", fontFamily: FONTS.body, fontWeight: 500, fontSize: 32, color: "#fff", background: i === 0 && frame >= PICK - 10 ? "rgba(255,255,255,0.16)" : "transparent" }}>
                 <Icon name={(["image", "idea", "data"] as const)[i]} size={40} stroke={7} />
                 {m}
               </div>
@@ -155,7 +155,7 @@ export const Scene05Advanced: React.FC = () => {
           const y = 330 + i * 190;
           return (
             <Glass key={name} style={{ left: 60, top: y, width: 420, height: 150, transform: `translateZ(${lerp(-600, 60 - i * 30, on)}px) rotateY(${lerp(40, 14, on) + Math.sin(frame / 25 + i) * 3}deg) translateY(${Math.sin(frame / 18 + i * 2) * 8}px)`, opacity: on, display: "flex", alignItems: "center", gap: 24, padding: "0 28px" }}>
-              <div style={{ width: 84, height: 96, borderRadius: 16, background: i === 1 ? COLORS.green : i === 0 ? COLORS.gray : COLORS.greenDeep, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: FONTS.latin, fontWeight: 700, fontSize: 22, color: i === 0 ? "#111" : "#fff" }}>
+              <div style={{ width: 84, height: 96, borderRadius: 16, background: i === 1 ? COLORS.green : i === 0 ? COLORS.gray : COLORS.greenDeep, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: FONTS.latin, fontWeight: 700, fontSize: 22, color: i === 2 ? "#fff" : "#111" }}>
                 {name.split(".")[1].toUpperCase()}
               </div>
               <div dir="rtl" lang="ar" style={{ flex: 1, fontFamily: FONTS.body, fontWeight: 700, fontSize: 32, color: "#fff" }}>

@@ -58,7 +58,7 @@ export const Scene02Intro: React.FC = () => {
             <BrandMark size={150} glow={0.4} />
           </div>
           <div style={{ position: "absolute", left: 0, right: 0, top: 520, textAlign: "center", fontFamily: FONTS.latin, fontWeight: 700, fontSize: 56, color: "#fff" }}>ChatGPT</div>
-          <div dir="rtl" lang="ar" style={{ position: "absolute", left: 50, right: 50, bottom: 140, height: 100, borderRadius: 100, background: frame >= LOGIN_TAP ? COLORS.green : "#fff", color: frame >= LOGIN_TAP ? "#fff" : "#000", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: FONTS.body, fontWeight: 700, fontSize: 36, transform: `scale(${frame >= LOGIN_TAP && frame < LOGIN_TAP + 8 ? 0.96 : 1})` }}>
+          <div dir="rtl" lang="ar" style={{ position: "absolute", left: 50, right: 50, bottom: 140, height: 100, borderRadius: 100, background: frame >= LOGIN_TAP ? COLORS.gray : "#fff", color: "#000", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: FONTS.body, fontWeight: 700, fontSize: 36, transform: `scale(${frame >= LOGIN_TAP && frame < LOGIN_TAP + 8 ? 0.96 : 1})` }}>
             {COPY.intro.login}
           </div>
           <Tap frame={frame} at={LOGIN_TAP} x={262} y={1104 - 190} />
