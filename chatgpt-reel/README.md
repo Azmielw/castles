@@ -38,7 +38,7 @@ npm run render:4k     # 2160×3840 (بطيء جدًا على جهاز من غي�
 الفيديو حاليًا بيعرض **شارة محايدة** (فقاعة شات خضرا + كلمة ChatGPT) بدل الشعار — مش تقليد ولا رسم للشعار. عشان تحط الشعار الرسمي:
 
 1. نزّل ملف الشعار من صفحة الهوية الرسمية لـ OpenAI واحفظه في `public/brand/chatgpt-logo.svg`.
-2. في `src/config/brand.ts` خلّي `OFFICIAL_LOGO: "brand/chatgpt-logo.svg"` (و`LOGO_TINT` حسب لون الملف).
+2. في `src/config/brand.ts` خلّي `OFFICIAL_LOGO: "brand/chatgpt-logo.svg"` (و`TILE`: `"black"` بلاطة سودا وشعار أبيض، أو `"white"` العكس).
 3. `npm run render`.
 
 الشعار ملك OpenAI؛ اتبع إرشادات استخدام العلامة التجارية بتاعتهم. سطر «فيديو تعليمي غير رسمي» في الخاتمة بيتغيّر أو يتشال من `DISCLAIMER` في نفس الملف.
