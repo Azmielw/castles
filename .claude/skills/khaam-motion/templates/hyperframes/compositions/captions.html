@@ -1,0 +1,81 @@
+<template>
+  <!--
+    Arabic word-highlight captions (adapted from HyperFrames' "caption-highlight" block, Apache-2.0):
+    dir="rtl" on each group (without it the words come out in reverse order), the highlight grows from the
+    right, whole words only. WORDS = the narration's word timings in seconds of the whole video, e.g. from
+    gen_tts_elevenlabs.py's .words.json. Groups break at pauses of 150 ms or more, at most MAX words each.
+  -->
+  <style>
+    @font-face { font-family: "Display"; src: url("assets/fonts/display.ttf"); font-weight: 100 900; }
+    #root { position: absolute; inset: 0; pointer-events: none; }
+    .c-group {
+      position: absolute; bottom: 560px; left: 0; width: 100%; padding: 0 70px;
+      display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 10px;
+      opacity: 0; visibility: hidden;
+    }
+    .c-word {
+      position: relative; isolation: isolate; display: inline-block; padding: 4px 16px 10px;
+      font-family: "Display", sans-serif; font-weight: 800; font-size: 76px; line-height: 1.25;
+      color: var(--ink, #f5f2ec); text-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    }
+    .c-bg {
+      position: absolute; inset: 0; z-index: 0; border-radius: 12px; background: var(--accent, #ff5a36);
+      opacity: 0; transform: scaleX(0); transform-origin: 100% 50%;
+    }
+    .c-text { position: relative; z-index: 1; }
+  </style>
+  <div id="root" data-composition-id="captions" data-width="1080" data-height="1920">
+    <div id="c-box"></div>
+  </div>
+  <script>
+    (function () {
+      // Words come from timing.js (scripts/cues.py) when it is loaded; these are the fallback.
+      var HARAKAT = /[ً-ْٰـ]/g;   // captions never show harakat added for the voice
+      var WORDS = (window.KHAAM_WORDS && window.KHAAM_WORDS.length) ? window.KHAAM_WORDS.map(function (w) {
+        return { text: w.text.replace(HARAKAT, ""), start: w.start, end: w.end };
+      }) : [
+        { text: "اكتب", start: 4.4, end: 4.75 },
+        { text: "فكرتك", start: 4.8, end: 5.25 },
+        { text: "بسطر", start: 5.3, end: 5.7 },
+        { text: "وكلود", start: 6.0, end: 6.4 },
+        { text: "يسوي", start: 6.45, end: 6.8 },
+        { text: "الباقي", start: 6.85, end: 7.4 },
+      ];
+      var MAX = 4, PAUSE = 0.15;
+      var groups = [], cur = [];
+      WORDS.forEach(function (w, i) {
+        if (cur.length && (cur.length >= MAX || w.start - WORDS[i - 1].end >= PAUSE)) { groups.push(cur); cur = []; }
+        cur.push(i);
+      });
+      if (cur.length) groups.push(cur);
+      var box = document.getElementById("c-box");
+      var tl = gsap.timeline({ paused: true });
+      groups.forEach(function (idx, gi) {
+        var first = WORDS[idx[0]], last = WORDS[idx[idx.length - 1]];
+        var nextOpen = gi + 1 < groups.length ? WORDS[groups[gi + 1][0]].start - 0.1 : Infinity;
+        var start = first.start - 0.1, end = Math.min(last.end + 0.5, nextOpen);
+        var grp = document.createElement("div");
+        grp.className = "c-group"; grp.dir = "rtl";
+        idx.forEach(function (wi) {
+          var word = document.createElement("span"); word.className = "c-word";
+          var bg = document.createElement("span"); bg.className = "c-bg"; bg.id = "c-bg-" + wi;
+          var text = document.createElement("span"); text.className = "c-text"; text.textContent = WORDS[wi].text;
+          word.appendChild(bg); word.appendChild(text); grp.appendChild(word);
+        });
+        box.appendChild(grp);
+        tl.set(grp, { visibility: "visible" }, start);
+        tl.fromTo(grp, { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power2.out" }, start);
+        idx.forEach(function (wi, k) {
+          var w = WORDS[wi], bg = document.getElementById("c-bg-" + wi);
+          var off = Math.max(w.end, k + 1 < idx.length ? WORDS[idx[k + 1]].start : w.end);
+          tl.to(bg, { opacity: 1, scaleX: 1, duration: 0.15, ease: "power2.out" }, w.start);
+          tl.to(bg, { opacity: 0, duration: 0.1, ease: "power2.in" }, off);
+          tl.set(bg, { scaleX: 0 }, off + 0.1);
+        });
+        tl.to(grp, { opacity: 0, duration: 0.1, ease: "power2.in" }, end - 0.1);
+        tl.set(grp, { visibility: "hidden" }, end);
+      });
+      window.__timelines["captions"] = tl;
+    })();
+  </script>
+</template>

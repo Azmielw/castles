@@ -1,0 +1,97 @@
+<template>
+  <!--
+    The ladder (Khaam Motion 1.7): a frosted-glass column on the right that holds the story's steps, bottom to top,
+    with a «؟» on the top step. Each step lights when the narration reaches it; the viewer always knows where
+    they are and that something is still hidden. At the turn, the «؟» gives way to the answer word.
+
+    STEPS go bottom -> top. "at" is a cue (a spoken word, see timing.js / cues.py) or seconds. The last step
+    carries reveal: the word that replaces «؟» at its own cue. Whole words only; dir="rtl" on every label.
+    Made for drawn scenes and dark grounds. On paper use ladder-paper.html instead: the ladder small in the margin as
+    the progress, and one big section per step that slides in while the one before slides out.
+  -->
+  <style>
+    @font-face { font-family: "Display"; src: url("assets/fonts/display.ttf"); font-weight: 100 900; }
+    @font-face { font-family: "Second"; src: url("assets/fonts/text.ttf"); font-weight: 100 900; }
+    #ld-root { position: absolute; inset: 0; pointer-events: none; }
+    .ld-panel {
+      position: absolute; right: 44px; width: 268px; padding: 22px 18px; border-radius: 30px;
+      background: rgba(255, 255, 255, 0.10); border: 1.5px solid rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      display: flex; flex-direction: column-reverse; gap: 14px; opacity: 0; visibility: hidden;
+    }
+    .ld-step {
+      position: relative; height: 86px; border-radius: 20px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.06);
+    }
+    .ld-fill { position: absolute; inset: 0; border-radius: 20px; background: var(--accent, #f2c46d); opacity: 0; }
+    .ld-ar { position: relative; font-family: "Display", serif; font-weight: 700; font-size: 44px; line-height: 1.2; color: var(--ink, #f4eee3); }
+    .ld-sec { position: relative; font-family: "Second", serif; font-weight: 600; font-size: 28px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink, #f4eee3); opacity: 0.75; }
+    .ld-reveal { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; }
+  </style>
+  <div id="ld-root" data-composition-id="ladder" data-width="1080" data-height="1920"></div>
+  <script>
+    (function () {
+      // ---- edit here ---------------------------------------------------------------------------------------
+      var T = function (x) { return typeof x === "number" ? x : window.cue(x); };   // cue names or seconds
+      var STEPS = [   // bottom -> top
+        { ar: "يحاول", second: "tries", at: 1.0 },
+        { ar: "يتعلّم", second: "learns", at: 2.0 },
+        { ar: "يتقن", second: "masters", at: 3.0 },
+        { ar: "؟", reveal: "يعلّم", revealSecond: "teaches", at: 4.0 },
+      ];
+      var SHOW = 0.6, HIDE = 7.5;   // when the ladder comes in and leaves (cue names or seconds)
+      var TOP = 560;                // y of the panel's top edge (safe area: 250-1540)
+      var DONE = 0.7;               // how lit a passed step stays
+      // ------------------------------------------------------------------------------------------------------
+      var ACCENT_INK = "#14100a";   // text colour on the lit step (dark on the accent)
+      var INK = (getComputedStyle(document.documentElement).getPropertyValue("--ink") || "").trim() || "#f4eee3";
+      var root = document.getElementById("ld-root");
+      var panel = document.createElement("div"); panel.className = "ld-panel"; panel.style.top = TOP + "px";
+      root.appendChild(panel);
+      function label(ar, second) {
+        var f = document.createDocumentFragment();
+        var a = document.createElement("div"); a.className = "ld-ar"; a.dir = "rtl"; a.textContent = ar; f.appendChild(a);
+        if (second) { var s = document.createElement("div"); s.className = "ld-sec"; s.dir = "ltr"; s.textContent = second; f.appendChild(s); }
+        return f;
+      }
+      var els = STEPS.map(function (st) {
+        var el = document.createElement("div"); el.className = "ld-step";
+        el.setAttribute("data-layout-allow-overlap", "");   // «؟» and its answer crossfade in the same place
+        var fill = document.createElement("div"); fill.className = "ld-fill"; el.appendChild(fill);
+        var face = document.createElement("div"); face.className = "ld-reveal"; face.style.opacity = 1;
+        face.appendChild(label(st.ar, st.second)); el.appendChild(face);
+        var rev = null;
+        if (st.reveal) {
+          rev = document.createElement("div"); rev.className = "ld-reveal";
+          rev.appendChild(label(st.reveal, st.revealSecond)); el.appendChild(rev);
+        }
+        el.style.opacity = 0.45;
+        panel.appendChild(el);
+        return { el: el, fill: fill, face: face, rev: rev, at: T(st.at) };
+      });
+      var tl = gsap.timeline({ paused: true });
+      var show = T(SHOW), hide = T(HIDE);
+      tl.set(panel, { visibility: "visible" }, show);
+      tl.fromTo(panel, { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, show);
+      els.forEach(function (s, i) {
+        tl.to(s.el, { opacity: 1, duration: 0.2 }, s.at);
+        tl.to(s.fill, { opacity: 0.95, duration: 0.25, ease: "power2.out" }, s.at);
+        tl.to(s.el.querySelectorAll(".ld-ar, .ld-sec"), { color: ACCENT_INK, duration: 0.25 }, s.at);
+        if (s.rev) {   // the «؟» gives way to the answer, whole words crossfading
+          tl.to(s.face, { opacity: 0, scale: 0.8, duration: 0.25, ease: "power2.in" }, s.at);
+          tl.fromTo(s.rev, { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, s.at + 0.05);
+        }
+        var next = els[i + 1];
+        if (next) {   // a passed step stays readable but steps back
+          tl.to(s.fill, { opacity: 0, duration: 0.25 }, next.at);
+          tl.to(s.el.querySelectorAll(".ld-ar, .ld-sec"), { color: INK, duration: 0.25 }, next.at);
+          tl.to(s.el, { opacity: DONE, duration: 0.25 }, next.at);
+        }
+      });
+      tl.to(panel, { opacity: 0, x: 60, duration: 0.35, ease: "power2.in" }, hide - 0.35);
+      tl.set(panel, { visibility: "hidden" }, hide);
+      window.__timelines["ladder"] = tl;
+    })();
+  </script>
+</template>

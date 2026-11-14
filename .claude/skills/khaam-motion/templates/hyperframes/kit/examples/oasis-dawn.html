@@ -1,0 +1,59 @@
+<template>
+  <!--
+    An oasis at night in rain; lightning at 1.1 s; at 2.6 s the rain stops, the clouds part and dawn rises behind
+    the dunes; the man raises his hands at 3.4 s; birds at 4.2 s. A slow push-in with depth the whole time.
+    Every picture here is a kit piece called by name.
+  -->
+  <style>
+    #root { position: absolute; inset: 0; }
+    #root svg { position: absolute; inset: 0; width: 1080px; height: 1920px; display: block; }
+  </style>
+  <div id="root" data-composition-id="scene" data-width="1080" data-height="1920">
+    <svg id="world" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+  <script>
+    (function () {
+      var tl = gsap.timeline({ paused: true });
+      var S = Khaam.stage("#world", { palette: "night", duration: 6, tl: tl, seed: 3, horizon: 1350,
+                                      light: { x: 720, y: 1290 }, wind: 0.55 });
+      // sky
+      S.sky({ glowW: 1100, glowH: 520 });
+      S.stars({ count: 110, bottom: 1080 });
+      S.moon({ x: 800, y: 470, r: 30, phase: "crescent" });
+      S.sun({ x: 720, y: 1290, r: 58, rise: { from: 150, at: 2.8, dur: 3.2 } });
+      S.clouds({ y: 900, count: 3, spread: 220, minW: 620, maxW: 900, drift: -30, part: { at: 2.6, dur: 3.0, dx: 520 } });
+      S.clouds({ y: 1110, count: 3, spread: 100, minW: 460, maxW: 700, drift: 40, alpha: 0.7, seed: 9, part: { at: 2.7, dur: 2.8, dx: 380 } });
+      S.rays({ x: 720, y: 1250, angle: -90, spread: 120, count: 9, length: 1300, width: 160, color: "sunGlow", alpha: 0.12, level: "sunLevel", layer: "sky" });
+      // land, far to near
+      S.dunes({ layer: "far", y: 1350, height: 120, count: 3, tone: 0.55, seed: 4 });
+      S.palm({ layer: "mid", x: 250, y: 1392, h: 200, lean: 6, tone: 0.5, fronds: 9, dates: false, seed: 2 });
+      S.palm({ layer: "mid", x: 300, y: 1396, h: 160, lean: -8, tone: 0.5, fronds: 8, dates: false, seed: 5 });
+      S.dunes({ layer: "mid", y: 1440, height: 150, count: 2, tone: 0.25, seed: 8 });
+      S.ground({ layer: "ground", y: 1430, texture: "sand", marks: 90 });
+      S.pool({ layer: "ground", x: 640, y: 1540, rx: 340, ry: 54 });
+      S.grass({ layer: "ground", y: 1500, x0: 300, x1: 1000, count: 14, h: 46, jitter: 18, seed: 3 });
+      S.palm({ layer: "near", x: 905, y: 1500, h: 560, lean: -7, fronds: 13, seed: 7 });
+      S.palm({ layer: "near", x: 1010, y: 1488, h: 430, lean: 9, fronds: 11, seed: 12 });
+      // the man
+      var man = S.figure({ who: "man", outfit: "thobe", head: "ghutra", skin: "tan", x: 370, y: 1700, h: 350, facing: "right", pose: "stand" });
+      man.pose("look_up", { at: 1.25, dur: 0.6, ease: "power2.out" });
+      man.pose("stand", { at: 2.1, dur: 0.8 });
+      man.pose("raise_hands", { at: 3.4, dur: 1.1 });
+      // foreground: a dark lip of sand and grass close to the lens
+      S.dunes({ layer: "front", y: 2010, height: 190, count: 2, tone: 0, seed: 14, rim: false, haze: 0 });
+      S.grass({ layer: "front", y: 1900, x0: -40, x1: 1120, count: 16, h: 120, jitter: 40, seed: 8 });
+      // weather and light
+      S.rain({ density: 1.1, angle: 9, stop: { at: 2.6, dur: 1.6 } });
+      S.lightning({ at: [1.1], x: 640, top: 760, bottom: 1250 });
+      S.wind({ dust: 0, streaks: 3 });
+      S.birds({ count: 4, x: 820, y: 980, dx: -560, dy: -140, at: 4.1, dur: 1.9, size: 1.1 });
+      // the turn: night → dawn
+      S.relight("dawn", { at: 2.6, dur: 2.6 });
+      // camera and film
+      S.push({ from: 1, to: 1.08, at: 0, dur: 6, origin: [560, 1450] });
+      S.film({ grain: 0.1, vignette: 0.5 });
+      S.fadeIn({ dur: 0.7 });
+      window.__timelines["scene"] = tl;
+    })();
+  </script>
+</template>

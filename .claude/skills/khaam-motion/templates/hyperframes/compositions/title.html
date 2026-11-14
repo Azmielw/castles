@@ -1,0 +1,47 @@
+<template>
+  <!--
+    Kinetic Arabic title: the line is already readable at frame 0 (the thumbnail on social players), each whole
+    word settles in turn from right to left, an accent line grows from the right, then the line leaves.
+    Change LINE, the font and the timing; keep dir="rtl" and whole words.
+  -->
+  <style>
+    @font-face { font-family: "Display"; src: url("assets/fonts/display.ttf"); font-weight: 100 900; }
+    #root { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+    .t-row {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 0 26px;
+      width: 960px; text-align: center;
+    }
+    .t-word {
+      font-family: "Display", sans-serif; font-weight: 800; font-size: 112px; line-height: 1.35;
+      color: var(--ink, #f5f2ec); display: inline-block; opacity: 0.55; transform: translateY(22px);
+    }
+    .t-line {
+      position: absolute; top: 1210px; right: 140px; width: 800px; height: 12px; border-radius: 6px;
+      background: var(--accent, #ff5a36); transform: scaleX(0); transform-origin: 100% 50%;
+    }
+  </style>
+  <div id="root" data-composition-id="title" data-width="1080" data-height="1920">
+    <div class="t-row" id="t-row" dir="rtl"></div>
+    <div class="t-line" id="t-line"></div>
+  </div>
+  <script>
+    (function () {
+      var LINE = "فيديو موشن عربي بأسلوبك";
+      var row = document.getElementById("t-row");
+      var words = LINE.split(/\s+/).map(function (w, i) {
+        var el = document.createElement("span");
+        el.className = "t-word"; el.id = "t-w-" + i; el.textContent = w;
+        row.appendChild(el);
+        return el;
+      });
+      var tl = gsap.timeline({ paused: true });
+      words.forEach(function (el, i) {
+        tl.to(el, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.15 + i * 0.14);
+      });
+      tl.to("#t-line", { scaleX: 1, duration: 0.6, ease: "power2.inOut" }, 0.15 + words.length * 0.14);
+      tl.to(words, { opacity: 0, y: -40, duration: 0.35, ease: "power2.in", stagger: 0.04 }, 3.6);
+      tl.to("#t-line", { scaleX: 0, transformOrigin: "0% 50%", duration: 0.35, ease: "power2.in" }, 3.6);
+      window.__timelines["title"] = tl;
+    })();
+  </script>
+</template>

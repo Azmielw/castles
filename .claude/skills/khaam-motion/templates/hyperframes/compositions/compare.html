@@ -1,0 +1,76 @@
+<template>
+  <!--
+    Comparison cards (Khaam Motion 1.7): two cards stacked, one idea against the next («مشي» / «سعي»,
+    «قبل» / «بعد», «يعرف» / «يطبّق»). Each card has a title, an optional second-language word, an optional
+    meter (0-1) that shows the difference without a drawing, and an optional short line. The card being talked
+    about is bright and the other steps back. "at" values are cues (spoken words) or seconds.
+  -->
+  <style>
+    @font-face { font-family: "Display"; src: url("assets/fonts/display.ttf"); font-weight: 100 900; }
+    @font-face { font-family: "Second"; src: url("assets/fonts/text.ttf"); font-weight: 100 900; }
+    #cp-root { position: absolute; inset: 0; pointer-events: none; }
+    .cp-card {
+      position: absolute; left: 90px; right: 90px; height: 300px; border-radius: 30px; padding: 30px 44px;
+      background: rgba(255, 255, 255, 0.10); border: 1.5px solid rgba(255, 255, 255, 0.24);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      display: flex; flex-direction: column; justify-content: center; gap: 14px; opacity: 0; visibility: hidden;
+    }
+    .cp-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; }
+    .cp-title { font-family: "Display", serif; font-weight: 700; font-size: 92px; line-height: 1.25; color: var(--ink, #f4eee3); }
+    .cp-sec { font-family: "Second", serif; font-weight: 600; font-size: 30px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent, #f2c46d); }
+    .cp-line { font-family: "Display", serif; font-weight: 400; font-size: 40px; line-height: 1.5; color: var(--ink, #f4eee3); opacity: 0.85; }
+    .cp-track { height: 14px; border-radius: 7px; background: rgba(255, 255, 255, 0.14); overflow: hidden; }
+    .cp-bar { height: 100%; border-radius: 7px; background: var(--accent, #f2c46d); transform: scaleX(0); transform-origin: 100% 50%; }
+  </style>
+  <div id="cp-root" data-composition-id="compare" data-width="1080" data-height="1920"></div>
+  <script>
+    (function () {
+      // ---- edit here ---------------------------------------------------------------------------------------
+      var T = function (x) { return typeof x === "number" ? x : window.cue(x); };
+      var CARDS = [   // top, then bottom
+        { title: "يعرف", second: "knows", meter: 0.35, line: "" },
+        { title: "يطبّق", second: "does", meter: 0.9, line: "" },
+      ];
+      var SHOW = 0.5, HIDE = 6.0;                         // the pair comes in and leaves
+      var FOCUS = [{ card: 0, at: 0.8 }, { card: 1, at: 2.6 }];   // which card is being talked about, from when
+      var TOP = 620, GAP = 40;                            // y of the top card, space between cards
+      // ------------------------------------------------------------------------------------------------------
+      var root = document.getElementById("cp-root");
+      var els = CARDS.map(function (c, i) {
+        var card = document.createElement("div"); card.className = "cp-card";
+        card.style.top = (TOP + i * (300 + GAP)) + "px";
+        var head = document.createElement("div"); head.className = "cp-head"; head.dir = "rtl";
+        var t = document.createElement("div"); t.className = "cp-title"; t.dir = "rtl"; t.textContent = c.title; head.appendChild(t);
+        if (c.second) { var s = document.createElement("div"); s.className = "cp-sec"; s.dir = "ltr"; s.textContent = c.second; head.appendChild(s); }
+        card.appendChild(head);
+        if (c.line) { var l = document.createElement("div"); l.className = "cp-line"; l.dir = "rtl"; l.textContent = c.line; card.appendChild(l); }
+        var bar = null;
+        if (typeof c.meter === "number") {
+          var tr = document.createElement("div"); tr.className = "cp-track";
+          bar = document.createElement("div"); bar.className = "cp-bar"; tr.appendChild(bar); card.appendChild(tr);
+        }
+        root.appendChild(card);
+        return { el: card, bar: bar, meter: c.meter };
+      });
+      var tl = gsap.timeline({ paused: true });
+      var show = T(SHOW), hide = T(HIDE);
+      els.forEach(function (c, i) {   // in from the right (reading direction), one after the other
+        tl.set(c.el, { visibility: "visible" }, show + i * 0.15);
+        tl.fromTo(c.el, { opacity: 0, x: 90 }, { opacity: 0.55, x: 0, duration: 0.5, ease: "power3.out" }, show + i * 0.15);
+      });
+      FOCUS.forEach(function (f) {
+        var at = T(f.at);
+        els.forEach(function (c, i) {
+          var on = i === f.card;
+          tl.to(c.el, { opacity: on ? 1 : 0.45, scale: on ? 1.02 : 0.98, duration: 0.3, ease: "power2.out" }, at);
+          if (on && c.bar) tl.to(c.bar, { scaleX: c.meter, duration: 0.7, ease: "power2.out" }, at + 0.05);
+        });
+      });
+      els.forEach(function (c, i) {
+        tl.to(c.el, { opacity: 0, x: -60, duration: 0.35, ease: "power2.in" }, hide - 0.35 + i * 0.05);
+        tl.set(c.el, { visibility: "hidden" }, hide + 0.1);
+      });
+      window.__timelines["compare"] = tl;
+    })();
+  </script>
+</template>
