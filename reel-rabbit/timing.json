@@ -1,0 +1,110 @@
+{
+ "audio": null,
+ "duration": null,
+ "lines": [
+  {
+   "id": "L1",
+   "text": "عارف ليه بتتعب كل يوم... ومبتوصلش لحاجة؟",
+   "start": 0.15,
+   "end": 3.1,
+   "method": "estimate (no voice yet)",
+   "reviewStatus": "provisional"
+  },
+  {
+   "id": "L2",
+   "text": "ده كريم. وكريم نفسه يمسك أرنب.",
+   "start": 3.45,
+   "end": 6.2,
+   "method": "estimate (no voice yet)",
+   "reviewStatus": "provisional"
+  },
+  {
+   "id": "L3",
+   "text": "شاف أرنب، وجري وراه.",
+   "start": 6.55,
+   "end": 8.6,
+   "method": "estimate (no voice yet)",
+   "reviewStatus": "provisional"
+  },
+  {
+   "id": "L4",
+   "text": "وقبل ما يمسكه بلحظة... شاف أرنب تاني، أسمن!",
+   "start": 8.95,
+   "end": 12.9,
+   "method": "estimate (no voice yet)",
+   "reviewStatus": "provisional"
+  },
+  {
+   "id": "L5",
+   "text": "ساب الأول، وجري ورا التاني.",
+   "start": 13.25,
+   "end": 15.6,
+   "method": "estimate (no voice yet)",
+   "reviewStatus": "provisional"
+  },
+  {
+   "id": "L6",
+   "text": "وبعدين تالت... ورابع... وخامس.",
+   "start": 15.95,
+   "end": 19.5,
+   "method": "estimate (no voice yet)",
+   "reviewStatus": "provisional"
+  },
+  {
+   "id": "L7",
+   "text": "آخر النهار؟ هدّه التعب... وإيده فاضية.",
+   "start": 19.85,
+   "end": 23.8,
+   "method": "estimate (no voice yet)",
+   "reviewStatus": "provisional"
+  },
+  {
+   "id": "L8",
+   "text": "تاني يوم، كريم غيّر حاجة واحدة بس.",
+   "start": 24.15,
+   "end": 27.3,
+   "method": "estimate (no voice yet)",
+   "reviewStatus": "provisional"
+  },
+  {
+   "id": "L9",
+   "text": "اختار أرنب واحد... ومبصّش لغيره.",
+   "start": 27.65,
+   "end": 30.9,
+   "method": "estimate (no voice yet)",
+   "reviewStatus": "provisional"
+  },
+  {
+   "id": "L10",
+   "text": "الأرنب لف، ونط، واستخبى... وكريم وراه.",
+   "start": 31.25,
+   "end": 35.7,
+   "method": "estimate (no voice yet)",
+   "reviewStatus": "provisional"
+  },
+  {
+   "id": "L11",
+   "text": "ومسكه!",
+   "start": 36.05,
+   "end": 37.6,
+   "method": "estimate (no voice yet)",
+   "reviewStatus": "provisional"
+  },
+  {
+   "id": "L12",
+   "text": "المشكلة عمرها ما كانت إنك مبتجريش... المشكلة إنك بتجري ورا كل حاجة.",
+   "start": 37.95,
+   "end": 43.8,
+   "method": "estimate (no voice yet)",
+   "reviewStatus": "provisional"
+  },
+  {
+   "id": "L13",
+   "text": "اختار أرنبك.",
+   "start": 44.15,
+   "end": 46.1,
+   "method": "estimate (no voice yet)",
+   "reviewStatus": "provisional"
+  }
+ ]
+}

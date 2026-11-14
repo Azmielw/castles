@@ -1,0 +1,5 @@
+file,owner,source_url,license,attribution,obtained
+assets/fonts/cairo-arabic-700-normal.woff2,The Cairo Project Authors,https://www.npmjs.com/package/@fontsource/cairo (v5.3.0),SIL OFL 1.1,license file kept,2026-11-14
+assets/fonts/lalezar-arabic-400-normal.woff2,The Lalezar Project Authors,https://www.npmjs.com/package/@fontsource/lalezar (v5.3.0),SIL OFL 1.1,license file kept,2026-11-14
+src/* (characters/rabbits/backgrounds/animation),project (original),-,original,-,2026-11-14
+music + sound effects (src/audio.py),project (original synthesized),-,original,-,2026-11-14
