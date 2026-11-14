@@ -1,0 +1,52 @@
+{
+ "mix": "../assets/mix.wav",
+ "seconds": 70.5,
+ "standard": "v2: real sounds (2026-11-12)",
+ "beds": [],
+ "effects": 5,
+ "spans": [
+  [
+   12.597,
+   12.738,
+   "button-click"
+  ],
+  [
+   18.997,
+   19.138,
+   "button-click"
+  ],
+  [
+   26.197,
+   26.338,
+   "button-click"
+  ],
+  [
+   37.178,
+   37.428,
+   "cup-set-down"
+  ],
+  [
+   50.997,
+   51.138,
+   "button-click"
+  ]
+ ],
+ "stems": {
+  "fx": "../assets/mix.stems/fx.wav"
+ },
+ "music_cleared": false,
+ "master": {
+  "integrated_lufs": -28.15,
+  "true_peak_dbtp": -2.91,
+  "lra": 5.19,
+  "momentary_max": -24.8
+ },
+ "levels": {
+  "effects_top_lufs": -24.0,
+  "bed_top_lufs": -34.0,
+  "beds": [],
+  "effects_turned_down": [],
+  "loudest_lufs": -24.8,
+  "voice_lufs": null
+ }
+}

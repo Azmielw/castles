@@ -1,0 +1,14 @@
+{
+ "duration": 70.5,
+ "pictures": [{"from": 0, "to": 36.5, "material": "interface"},
+              {"from": 36.5, "to": 42.5, "material": "wood"},
+              {"from": 42.5, "to": 70.5, "material": "interface"}],
+ "bed": [],
+ "effects": [
+  {"t": 12.6, "lib": "button-click", "align": "attack", "gain_db": -2, "why": "tap_code: the Code tab is tapped"},
+  {"t": 19.0, "lib": "button-click", "align": "attack", "gain_db": -2, "why": "pick_repo: the project is picked"},
+  {"t": 26.2, "lib": "button-click", "align": "attack", "gain_db": 0, "why": "send: the task is sent"},
+  {"t": 37.3, "lib": "cup-set-down", "align": "attack", "gain_db": 0, "why": "cup: the coffee cup lands on the table"},
+  {"t": 51.0, "lib": "button-click", "align": "attack", "gain_db": 0, "why": "pr_tap: Create pull request is pressed"}
+ ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "khaam-video",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "npx --yes hyperframes@0.8.225 check",
+    "snapshot": "npx --yes hyperframes@0.8.225 snapshot --at 0,1.5,3",
+    "render": "npx --yes hyperframes@0.8.225 render",
+    "dev": "npx --yes hyperframes@0.8.225 preview"
+  }
+}

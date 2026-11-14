@@ -1,1 +1,4 @@
 __pycache__/
+.khaam/projects/*/.hyperframes/
+.khaam/projects/*/assets/mix.stems/
+.khaam/projects/*/renders/previews/

@@ -1,0 +1,54 @@
+<template>
+  <!--
+    An old Najdi lane at dusk. A father and his son walk to the left; the camera tracks with them, so the near walls
+    slide by fast and the far skyline slowly (depth). The wall lanterns light one by one from 1.4 s, the mosque's
+    arches glow as it comes into view, and the sky slips from dusk toward night. Every picture is a kit piece.
+  -->
+  <style>
+    #root { position: absolute; inset: 0; }
+    #root svg { position: absolute; inset: 0; width: 1080px; height: 1920px; display: block; }
+  </style>
+  <div id="root" data-composition-id="scene" data-width="1080" data-height="1920">
+    <svg id="world" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+  <script>
+    (function () {
+      var D = 6, tl = gsap.timeline({ paused: true });
+      var S = Khaam.stage("#world", { palette: "dusk", duration: D, tl: tl, seed: 11, horizon: 1300,
+                                      span: [-1700, 1300], light: { x: 120, y: 1180 }, wind: 0.25 });
+      // the two walkers (built first so their speed sets the camera)
+      var father = S.figure({ who: "man", outfit: "thobe", head: "shemagh", skin: "tan", x: 520, y: 1735, h: 345, facing: "left" });
+      var son = S.figure({ who: "boy", outfit: "thobe", head: "kufi", skin: "tan", x: 380, y: 1742, h: 228, facing: "left" });
+      var speed = father.speedFor("walk", { cycle: 1.25 });
+      var sonCycle = son.speedFor("walk", { cycle: 1 }) / speed;     // the boy steps faster to keep up
+      father.walk({ at: 0, dur: D, cycle: 1.25 });
+      son.walk({ at: 0, dur: D, cycle: sonCycle, phase: 0.3 });
+      // sky
+      S.sky({ glowW: 1200, glowH: 560 });
+      S.stars({ count: 50, bottom: 900 });
+      S.sun({ x: 150, y: 1210, r: 52 });
+      S.clouds({ y: 820, count: 5, spread: 200, minW: 300, maxW: 520, alpha: 0.55, drift: 20 });
+      // far: the skyline with a minaret; mid: houses and palms over the walls
+      S.town({ layer: "far", y: 1330, detail: "silhouette", hmin: 50, hmax: 140, tone: 0.45, minarets: [-520, 820], minaretH: 260 });
+      S.palm({ layer: "mid", x: -620, y: 1390, h: 300, lean: 5, tone: 0.3, fronds: 11, seed: 3 });
+      S.palm({ layer: "mid", x: 640, y: 1400, h: 340, lean: -6, tone: 0.3, fronds: 12, seed: 9 });
+      S.ground({ layer: "mid", y: 1440, texture: "none", top: { role: "groundTop", mix: "haze", k: 0.3 } });
+      S.town({ layer: "mid", y: 1440, from: -1500, to: 1500, hmin: 150, hmax: 260, wmin: 140, wmax: 240, tone: 0.3, lit: 0.45, doors: 0, seed: 4 });
+      S.mosque({ layer: "mid", x: -260, y: 1455, w: 520, h: 190, tone: 0.2, side: "right", minaretH: 330 });
+      // near: the lane's own walls, doors, wall lanterns; the street
+      S.town({ layer: "ground", y: 1570, from: -1750, to: 1400, hmin: 230, hmax: 330, wmin: 240, wmax: 360, gap: 70, lit: 0.3, doors: 0.85, seed: 8 });
+      [-1400, -1020, -640, -260, 120, 520, 900].forEach(function (x, i) {
+        S.lamp({ layer: "ground", glowLayer: "ground", x: x, y: 1390, size: 0.85, reach: 260, on: { at: 1.4 + i * 0.32, dur: 0.35 } });
+      });
+      S.ground({ layer: "ground", y: 1570, texture: "stone", marks: 120, markAlpha: 0.4 });
+      S.haze({ layer: "mid", y: 1420, h: 120, alpha: 0.35 });
+      // light, camera, film
+      S.relight(Khaam.between("dusk", "night", 0.55), { at: 2.2, dur: 3.8 });
+      S.track({ speed: speed, dir: "right", at: 0, dur: D });
+      S.push({ from: 1, to: 1.05, at: 0, dur: D, origin: [460, 1600] });
+      S.film({ grain: 0.1, vignette: 0.5 });
+      S.fadeIn({ dur: 0.6 });
+      window.__timelines["scene"] = tl;
+    })();
+  </script>
+</template>

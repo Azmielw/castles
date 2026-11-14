@@ -1,0 +1,534 @@
+<template>
+  <!--
+    «كلود كود من موبايلك» — one composition, 70.5 s, 9:16. Every time comes from timing.js (plan/beats.json),
+    through cue("<name>"). Arabic: dir="rtl" on every row of words, whole words only, no letter-spacing.
+  -->
+  <style>
+    @font-face { font-family: "Display"; src: url("assets/fonts/display.ttf"); font-weight: 100 900; }
+    @font-face { font-family: "Mono"; src: url("assets/fonts/mono.ttf"); font-weight: 100 900; }
+    #film { position: absolute; inset: 0; overflow: hidden; background: #13100e; font-family: "Display", sans-serif; }
+    #bg { position: absolute; inset: 0; background: #13100e; }
+    #glow { position: absolute; left: -300px; top: 300px; width: 1700px; height: 1700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(226,119,78,0.30) 0%, rgba(226,119,78,0.10) 35%, rgba(226,119,78,0) 65%); }
+    #rain { position: absolute; inset: 0; opacity: 0.22; }
+    .col { position: absolute; top: 0; font-family: "Mono", monospace; font-size: 30px; line-height: 44px; color: #c9b8a6;
+      white-space: pre; width: 40px; text-align: center; }
+    #cam { position: absolute; inset: 0; transform-origin: 50% 55%; }
+
+    /* captions: top band y 250–560 */
+    .cap { position: absolute; left: 70px; right: 70px; top: 262px; display: flex; flex-wrap: wrap; justify-content: center;
+      align-content: flex-start; gap: 0 24px; text-align: center; }
+    .cap .w { display: inline-block; font-weight: 800; font-size: 96px; line-height: 1.38; color: #f4efe6;
+      text-shadow: 0 6px 30px rgba(0,0,0,0.55); }
+    .cap .w.k { color: #ef8a5e; }
+    .cap .w.lat { font-weight: 700; }
+    .cap.small .w { font-size: 74px; }
+    .sub { position: absolute; left: 70px; right: 70px; display: flex; justify-content: center; gap: 0 18px; flex-wrap: wrap; }
+    .sub .w { font-weight: 500; font-size: 50px; line-height: 1.4; color: #d9cfc2; display: inline-block; }
+    .sub .w.k { color: #ef8a5e; font-weight: 700; }
+
+    /* HUD */
+    #hud { position: absolute; inset: 0; }
+    #label { position: absolute; top: 196px; right: 150px; display: flex; gap: 14px; align-items: center; }
+    #label .num { font-family: "Mono", monospace; font-weight: 700; font-size: 30px; color: #13100e; background: #ef8a5e;
+      padding: 4px 14px; border-radius: 10px; }
+    #label .txt { font-weight: 600; font-size: 32px; color: #f4efe6; opacity: 0.85; }
+    #pips { position: absolute; top: 210px; left: 80px; display: flex; gap: 12px; direction: ltr; }
+    .pip { width: 46px; height: 12px; border-radius: 6px; background: rgba(244,239,230,0.18); overflow: hidden; position: relative; }
+    .pip i { position: absolute; inset: 0; background: #ef8a5e; transform: scaleX(0); transform-origin: 0 50%; }
+
+    /* phone */
+    #phoneWrap { position: absolute; left: 315px; top: 600px; width: 450px; height: 920px; }
+    #phone { position: absolute; inset: 0; border-radius: 72px; background: #050404;
+      box-shadow: 0 40px 90px rgba(0,0,0,0.6), 0 0 0 3px #3a322b inset; }
+    #screen { position: absolute; left: 16px; top: 16px; right: 16px; bottom: 16px; border-radius: 58px; overflow: hidden; background: #1b1714; }
+    #notch { position: absolute; left: 50%; top: 30px; width: 120px; height: 34px; margin-left: -60px; border-radius: 20px; background: #050404; z-index: 5; }
+    .scr { position: absolute; inset: 0; padding: 86px 26px 30px; color: #f4efe6; }
+    .mono { font-family: "Mono", monospace; }
+    .bar { display: flex; align-items: center; justify-content: space-between; direction: ltr; margin-bottom: 22px; }
+    .bar b { font-family: "Mono", monospace; font-weight: 700; font-size: 30px; }
+    .chip { font-family: "Mono", monospace; font-size: 24px; padding: 6px 12px; border-radius: 10px; background: #2c2520; color: #d9cfc2; }
+
+    .term { font-family: "Mono", monospace; font-size: 26px; line-height: 46px; direction: ltr; white-space: pre; }
+    .term .g { color: #8fd18f; } .term .o { color: #ef8a5e; } .term .d { color: #9b9086; }
+
+    .tabs { position: absolute; left: 0; right: 0; bottom: 0; height: 110px; display: flex; direction: ltr; border-top: 1px solid #2f2823; background: #171310; }
+    .tab { flex: 1; display: flex; align-items: center; justify-content: center; font-family: "Mono", monospace; font-size: 26px; color: #8d8379; }
+    .tab.on { color: #f4efe6; }
+    .row { background: #241e1a; border-radius: 22px; padding: 18px 20px; margin-bottom: 14px; }
+    .row .t { font-size: 24px; font-weight: 600; } .row .s { font-size: 18px; color: #9b9086; margin-top: 6px; }
+    .repo { direction: ltr; display: flex; align-items: center; gap: 14px; background: #241e1a; border-radius: 22px; padding: 22px 20px; margin-bottom: 16px;
+      border: 3px solid transparent; font-family: "Mono", monospace; font-size: 24px; }
+    .repo .ic { width: 38px; height: 38px; border-radius: 10px; background: #3a312a; }
+    .repo .ck { margin-left: auto; width: 40px; height: 40px; border-radius: 50%; background: #ef8a5e; color: #13100e; font-weight: 800;
+      display: flex; align-items: center; justify-content: center; font-size: 26px; }
+    .ar { font-family: "Display", sans-serif; direction: rtl; }
+    .bubble { position: absolute; border-radius: 26px; padding: 18px 22px; font-size: 26px; line-height: 1.5; }
+    .input { position: absolute; left: 22px; right: 22px; bottom: 34px; height: 120px; border-radius: 30px; background: #241e1a; border: 2px solid #3a312a; }
+    .input .txt { position: absolute; right: 24px; left: 96px; top: 18px; font-size: 27px; line-height: 1.45; text-align: right; }
+    .send { position: absolute; left: 18px; bottom: 18px; width: 64px; height: 64px; border-radius: 50%; background: #ef8a5e; }
+    .send:after { content: ""; position: absolute; left: 22px; top: 18px; border-left: 24px solid #13100e; border-top: 14px solid transparent; border-bottom: 14px solid transparent; }
+    .tapr { position: absolute; width: 90px; height: 90px; margin: -45px 0 0 -45px; border-radius: 50%; border: 6px solid #f4efe6; opacity: 0; }
+
+    .diff { font-family: "Mono", monospace; font-size: 22px; line-height: 40px; direction: ltr; }
+    .diff div { white-space: pre; }
+    .diff div { padding: 0 10px; border-radius: 6px; }
+    .diff .p { background: rgba(110,190,110,0.18); color: #a8e0a8; }
+    .diff .m { background: rgba(230,96,90,0.18); color: #f0a09b; }
+    .diff .n { color: #9b9086; }
+
+    /* outside devices */
+    .card { position: absolute; background: #201a16; border-radius: 34px; box-shadow: 0 30px 70px rgba(0,0,0,0.5); border: 2px solid #3a312a; }
+    .check { display: flex; align-items: center; gap: 18px; direction: rtl; margin: 0 0 26px; }
+    .check .bx { width: 54px; height: 54px; border-radius: 16px; border: 4px solid #5a4e44; position: relative; flex: none; }
+    .check .bx i { position: absolute; inset: -4px; border-radius: 16px; background: #8fd18f; transform: scale(0); }
+    .check .bx i:after { content: ""; position: absolute; left: 17px; top: 8px; width: 14px; height: 26px; border-right: 6px solid #13100e; border-bottom: 6px solid #13100e; transform: rotate(45deg); }
+    .check .l { font-size: 33px; font-weight: 600; color: #f4efe6; }
+    .check .l .lat { font-family: "Mono", monospace; font-size: 34px; }
+
+    #wipe { position: absolute; top: -40px; bottom: -40px; width: 1300px; left: 1100px; background: #ef8a5e; z-index: 50; }
+    #wipe2 { position: absolute; top: -40px; bottom: -40px; width: 1300px; left: 1100px; background: #f4efe6; z-index: 49; }
+  </style>
+
+  <div id="film" data-composition-id="film" data-width="1080" data-height="1920">
+    <div id="bg"></div>
+    <div id="glow" data-layout-allow-overflow></div>
+    <div id="rain" data-layout-allow-overflow></div>
+
+    <div id="cam" data-layout-allow-overflow>
+      <!-- devices outside the phone -->
+      <svg id="laptop" width="560" height="380" viewBox="0 0 560 380" style="position:absolute;left:260px;top:820px">
+        <rect x="70" y="20" width="420" height="270" rx="22" fill="#2a231e" stroke="#5a4e44" stroke-width="8"/>
+        <rect x="96" y="46" width="368" height="218" rx="8" fill="#171310"/>
+        <rect x="120" y="80" width="180" height="14" rx="7" fill="#ef8a5e" opacity="0.8"/>
+        <rect x="120" y="112" width="260" height="14" rx="7" fill="#5a4e44"/>
+        <rect x="120" y="144" width="220" height="14" rx="7" fill="#5a4e44"/>
+        <rect x="120" y="176" width="140" height="14" rx="7" fill="#8fd18f" opacity="0.7"/>
+        <path d="M20 300 H540 L510 350 H50 Z" fill="#3a312a" stroke="#5a4e44" stroke-width="6"/>
+      </svg>
+      <svg id="strike" width="700" height="460" viewBox="0 0 700 460" style="position:absolute;left:190px;top:780px">
+        <path id="strikeLine" d="M60 420 L640 40" stroke="#e5605a" stroke-width="34" stroke-linecap="round" fill="none" stroke-dasharray="700" stroke-dashoffset="700"/>
+      </svg>
+
+      <div id="checkCard" class="card" style="left:545px;top:690px;width:440px;height:540px;padding:44px 30px;">
+        <div class="ar" style="font-size:30px;color:#9b9086;margin-bottom:30px;font-weight:500">في السحابة دلوقتي</div>
+        <div class="check"><div class="bx"><i></i></div><div class="l">بيقرا الكود</div></div>
+        <div class="check"><div class="bx"><i></i></div><div class="l">بيعدّل الملفات</div></div>
+        <div class="check"><div class="bx"><i></i></div><div class="l">بيشغّل الاختبارات</div></div>
+        <div class="check"><div class="bx"><i></i></div><div class="l">وبيحفظ <span class="lat">commit</span></div></div>
+      </div>
+
+      <!-- coffee cup + clock -->
+      <svg id="cup" width="330" height="330" viewBox="0 0 330 330" style="position:absolute;left:640px;top:1110px">
+        <ellipse cx="150" cy="300" rx="140" ry="22" fill="#000" opacity="0.35"/>
+        <path d="M50 120 H250 L232 280 Q228 300 208 300 H92 Q72 300 68 280 Z" fill="#f4efe6"/>
+        <path d="M250 150 Q312 150 300 200 Q290 240 238 240" stroke="#f4efe6" stroke-width="20" fill="none"/>
+        <ellipse cx="150" cy="122" rx="100" ry="16" fill="#6b4630"/>
+        <path id="steam1" d="M110 95 Q95 70 112 48 Q128 26 112 4" stroke="#d9cfc2" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.7"/>
+        <path id="steam2" d="M175 95 Q160 70 177 48 Q193 26 177 4" stroke="#d9cfc2" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.7"/>
+      </svg>
+      <svg id="clock" width="240" height="240" viewBox="0 0 240 240" style="position:absolute;left:700px;top:800px">
+        <circle cx="120" cy="120" r="104" fill="#201a16" stroke="#f4efe6" stroke-width="12"/>
+        <g id="hourHand"><rect x="114" y="62" width="12" height="62" rx="6" fill="#f4efe6"/></g>
+        <g id="minHand"><rect x="116" y="32" width="8" height="92" rx="4" fill="#ef8a5e"/></g>
+        <circle cx="120" cy="120" r="12" fill="#f4efe6"/>
+      </svg>
+      <div id="notif" class="card" style="left:110px;top:590px;width:860px;height:170px;border-radius:40px;padding:30px 36px;direction:ltr;display:flex;gap:26px;align-items:center;">
+        <div style="width:96px;height:96px;border-radius:26px;background:#ef8a5e;flex:none;display:flex;align-items:center;justify-content:center;font-family:Mono;font-weight:800;font-size:54px;color:#13100e">C</div>
+        <div style="flex:1">
+          <div style="font-family:Mono;font-weight:700;font-size:30px;color:#f4efe6">Claude Code <span style="color:#9b9086;font-weight:400">· now</span></div>
+          <div class="ar" style="font-size:36px;color:#f4efe6;margin-top:6px;text-align:right">خلّصت المهمة · ٦ ملفات اتعدّلت</div>
+        </div>
+      </div>
+
+      <!-- laptop for remote control -->
+      <svg id="laptop2" width="430" height="300" viewBox="0 0 560 380" style="position:absolute;left:600px;top:930px">
+        <rect x="70" y="20" width="420" height="270" rx="22" fill="#2a231e" stroke="#5a4e44" stroke-width="8"/>
+        <rect x="96" y="46" width="368" height="218" rx="8" fill="#171310"/>
+        <text x="120" y="100" font-family="Mono" font-size="30" fill="#ef8a5e">$ claude</text>
+        <rect x="120" y="128" width="250" height="14" rx="7" fill="#5a4e44"/>
+        <rect x="120" y="160" width="190" height="14" rx="7" fill="#5a4e44"/>
+        <rect x="120" y="192" width="120" height="14" rx="7" fill="#8fd18f" opacity="0.7"/>
+        <path d="M20 300 H540 L510 350 H50 Z" fill="#3a312a" stroke="#5a4e44" stroke-width="6"/>
+      </svg>
+      <svg id="link" width="300" height="120" viewBox="0 0 300 120" style="position:absolute;left:470px;top:1000px">
+        <path id="linkLine" d="M10 60 C 90 0, 210 120, 290 60" stroke="#ef8a5e" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="14 18"/>
+      </svg>
+
+      <!-- phone -->
+      <div id="phoneWrap">
+        <div id="phone">
+          <div id="screen">
+            <div id="notch"></div>
+
+            <div class="scr" id="sc-term">
+              <div class="bar"><b>claude</b><span class="chip">my-store-app</span></div>
+              <div class="term" id="termA"></div>
+            </div>
+
+            <div class="scr" id="sc-home">
+              <div class="bar"><b>Claude</b><span class="chip">☰</span></div>
+              <div class="row"><div class="t ar">خطة الأسبوع</div><div class="s mono">Chat · 2h</div></div>
+              <div class="row"><div class="t ar">ترجمة الإيميل</div><div class="s mono">Chat · 1d</div></div>
+              <div class="row"><div class="t ar">أفكار للمشروع</div><div class="s mono">Chat · 3d</div></div>
+              <div class="tabs"><div class="tab on">Chat</div><div class="tab" id="tabCode">Code</div></div>
+              <div class="tapr" id="tap1" style="left:310px;top:735px"></div>
+            </div>
+
+            <div class="scr" id="sc-repos">
+              <div class="bar"><b>Code</b><span class="chip">GitHub ✓</span></div>
+              <div class="ar" style="font-size:30px;font-weight:700;margin:10px 4px 22px;text-align:right">اختار المشروع</div>
+              <div class="repo"><div class="ic"></div>portfolio</div>
+              <div class="repo" id="repoPick"><div class="ic"></div>my-store-app<div class="ck" id="repoCk">✓</div></div>
+              <div class="repo"><div class="ic"></div>api-server</div>
+              <div class="repo"><div class="ic"></div>landing-page</div>
+              <div class="tapr" id="tap2" style="left:200px;top:390px"></div>
+            </div>
+
+            <div class="scr" id="sc-chat">
+              <div class="bar"><b>Code</b><span class="chip">my-store-app · main</span></div>
+              <div class="bubble ar" id="bubMe" style="right:22px;top:200px;width:330px;background:#ef8a5e;color:#13100e;font-weight:600;text-align:right">ضيف صفحة تسجيل دخول وصلّح الأخطاء</div>
+              <div class="bubble ar" id="bubAi" style="left:22px;top:380px;width:320px;background:#2c2520;text-align:right">تمام، ببدأ دلوقتي<span id="dots" class="mono"> ...</span></div>
+              <div class="input" id="inputBox">
+                <div class="txt ar" id="typeTxt">ضيف صفحة تسجيل دخول وصلّح الأخطاء</div>
+                <div class="send" id="sendBtn"></div>
+              </div>
+              <div class="tapr" id="tap3" style="left:72px;top:686px"></div>
+            </div>
+
+            <div class="scr" id="sc-work">
+              <div class="bar"><b>Working</b><span class="chip">cloud ☁</span></div>
+              <div class="term" id="termB"></div>
+              <div style="position:absolute;left:26px;right:26px;bottom:50px;height:16px;border-radius:8px;background:#2c2520;overflow:hidden">
+                <div id="prog" style="position:absolute;inset:0;background:#8fd18f;transform:scaleX(0);transform-origin:0 50%"></div>
+              </div>
+            </div>
+
+            <div class="scr" id="sc-diff">
+              <div class="bar"><b>Changes</b><span class="chip"><span style="color:#a8e0a8" id="plusN">+0</span> <span style="color:#f0a09b" id="minusN">−0</span></span></div>
+              <div class="mono" style="font-size:20px;color:#9b9086;margin-bottom:12px;direction:ltr">src/auth/login.tsx</div>
+              <div class="diff">
+                <div class="n">  import { useState }</div>
+                <div class="m">- const user = null</div>
+                <div class="p">+ const [user, setUser]</div>
+                <div class="p">+   = useState(null)</div>
+                <div class="n">  export function Login() {</div>
+                <div class="p">+   const login = async () =&gt;</div>
+                <div class="p">+     setUser(await auth())</div>
+                <div class="m">-   return null</div>
+                <div class="p">+   return &lt;LoginForm /&gt;</div>
+                <div class="n">  }</div>
+                <div class="p">+ // 18 tests passed ✓</div>
+              </div>
+              <svg id="circ" width="420" height="120" viewBox="0 0 420 120" style="position:absolute;left:10px;top:228px">
+                <path id="circPath" d="M210 10 C 380 8, 412 60, 380 92 C 330 120, 70 118, 30 90 C -2 64, 40 14, 220 14" stroke="#ef8a5e" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="1100" stroke-dashoffset="1100"/>
+              </svg>
+            </div>
+
+            <div class="scr" id="sc-pr">
+              <div class="bar"><b>Pull request</b><span class="chip">#42</span></div>
+              <div class="row" style="padding:26px 22px">
+                <div class="mono" style="font-size:26px;font-weight:700;direction:ltr">Add login page &amp; fix bugs</div>
+                <div class="mono" style="font-size:19px;color:#9b9086;margin-top:12px;direction:ltr">claude/login → main</div>
+                <div class="mono" style="font-size:19px;color:#a8e0a8;margin-top:10px;direction:ltr">6 files · +128 −14 · ✓ checks</div>
+              </div>
+              <div id="prBtn" style="margin-top:30px;height:96px;border-radius:26px;background:#ef8a5e;color:#13100e;display:flex;align-items:center;justify-content:center;font-family:Mono;font-weight:800;font-size:28px">Create pull request</div>
+              <div id="prDone" style="margin-top:-96px;height:96px;border-radius:26px;background:#8fd18f;color:#13100e;display:flex;align-items:center;justify-content:center;font-family:Mono;font-weight:800;font-size:30px;opacity:0">✓ Opened</div>
+              <div class="tapr" id="tap4" style="left:209px;top:400px"></div>
+            </div>
+
+            <div class="scr" id="sc-remote">
+              <div class="bar"><b>Remote</b><span class="chip" style="color:#a8e0a8">● live</span></div>
+              <div class="ar" style="font-size:32px;font-weight:700;text-align:right;margin:20px 4px 18px">جلستك اللي على اللابتوب</div>
+              <div class="term" id="termC"></div>
+            </div>
+
+            <div class="scr" id="sc-play" style="padding:0;background:#13100e">
+              <div class="ar" style="position:absolute;top:260px;left:20px;right:20px;text-align:center;font-weight:800;font-size:54px;line-height:1.35">تبرمج من<br>موبايلك؟</div>
+              <div style="position:absolute;left:50%;top:520px;width:120px;height:120px;margin-left:-60px;border-radius:50%;background:#ef8a5e"></div>
+              <div style="position:absolute;left:50%;top:552px;margin-left:-14px;border-left:46px solid #13100e;border-top:28px solid transparent;border-bottom:28px solid transparent"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- captions -->
+    <div id="caps"></div>
+
+    <div id="hud">
+      <div id="label"><span class="txt" id="labelTxt" dir="rtl">افتح التطبيق</span><span class="num" id="labelNum">01</span></div>
+      <div id="pips"><div class="pip"><i></i></div><div class="pip"><i></i></div><div class="pip"><i></i></div><div class="pip"><i></i></div><div class="pip"><i></i></div></div>
+    </div>
+
+    <div id="wipe2"></div>
+    <div id="wipe"></div>
+  </div>
+
+  <script>
+    (function () {
+      var C = window.cue, D = 70.5;
+      var tl = gsap.timeline({ paused: true });
+      function $(s) { return document.querySelector(s); }
+      function rng(seed) { return function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; }
+      var R = rng(42);
+
+      // ---------- background: code rain (always moving), glow drift, phone float ----------
+      var glyphs = "{}()<>=;/+*#$01aelkcodfnrsx".split("");
+      var rain = $("#rain");
+      for (var c = 0; c < 18; c++) {
+        var col = document.createElement("div");
+        col.className = "col"; col.setAttribute("data-layout-ignore", ""); col.setAttribute("data-layout-allow-occlusion", "");
+        var s = ""; for (var k = 0; k < 90; k++) s += glyphs[Math.floor(R() * glyphs.length)] + "\n";
+        col.textContent = s;
+        col.style.left = (20 + c * 60 + R() * 18) + "px";
+        rain.appendChild(col);
+        var speed = 55 + R() * 70, y0 = -3200 + R() * 900;
+        gsap.set(col, { y: y0, opacity: 0.45 + R() * 0.55 });
+        tl.to(col, { y: y0 + speed * D, duration: D, ease: "none" }, 0);
+      }
+      tl.to("#glow", { x: 260, y: -420, duration: D / 2, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+      tl.to("#phone", { y: -16, rotation: 0.8, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: Math.floor(D / 1.6) - 1 }, 0);
+
+      // ---------- captions ----------
+      var caps = $("#caps"), capN = 0;
+      // text: words split by spaces; "_" joins Latin words into one span; *word* = accent
+      function caption(text, at, out, opts) {
+        opts = opts || {};
+        var box = document.createElement("div");
+        box.className = (opts.sub ? "sub" : "cap") + (opts.small ? " small" : "");
+        box.setAttribute("dir", "rtl");
+        box.id = "cap" + (capN++);
+        if (opts.top) box.style.top = opts.top + "px";
+        var words = text.split(/\s+/).map(function (w) {
+          var el = document.createElement("span"), key = /^\*[^*]+\*/.test(w);
+          w = w.replace(/\*/g, "");
+          el.className = "w" + (key ? " k" : "") + (/[A-Za-z]/.test(w) ? " lat" : "");
+          el.textContent = w.replace(/_/g, " ");
+          box.appendChild(el);
+          return el;
+        });
+        caps.appendChild(box);
+        if (opts.lit) { gsap.set(words, { opacity: 1, y: 0 }); }
+        else {
+          gsap.set(words, { opacity: 0, y: 40 });
+          words.forEach(function (el, i) {
+            tl.to(el, { opacity: 1, y: 0, duration: 0.32, ease: "power3.out" }, at + i * 0.09);
+          });
+        }
+        if (out != null) tl.to(words, { opacity: 0, y: -36, duration: 0.25, ease: "power2.in", stagger: 0.03 }, out);
+        return words;
+      }
+
+      // ---------- phone screens ----------
+      var screens = ["#sc-term", "#sc-home", "#sc-repos", "#sc-chat", "#sc-work", "#sc-diff", "#sc-pr", "#sc-remote", "#sc-play"];
+      screens.forEach(function (s, i) { gsap.set(s, { autoAlpha: i === 0 ? 1 : 0 }); });
+      function showScreen(from, to, at) {
+        tl.to(from, { x: -420, autoAlpha: 0, duration: 0.35, ease: "power2.in" }, at);
+        tl.fromTo(to, { x: 420, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "power3.out", immediateRender: false }, at + 0.12);
+      }
+      function tap(sel, at) {
+        tl.fromTo(sel, { scale: 0.4, opacity: 0.9 }, { scale: 1.5, opacity: 0, duration: 0.45, ease: "power2.out", immediateRender: false }, at);
+      }
+      // typed terminal lines (Latin per character)
+      function typeLines(sel, lines, at, gap) {
+        var host = $(sel);
+        lines.forEach(function (ln, i) {
+          var d = document.createElement("div");
+          d.innerHTML = '<span class="' + (ln[0] || "") + '"></span>';
+          host.appendChild(d);
+          var span = d.firstChild, o = { n: 0 }, txt = ln[1];
+          tl.to(o, { n: txt.length, duration: Math.max(0.25, txt.length * 0.028), ease: "none",
+            onUpdate: function () { span.textContent = txt.slice(0, Math.round(o.n)); } }, at + i * gap);
+        });
+      }
+      // a slow camera push on every scene, plus a faster one on a meaning beat
+      function push(at, dur, s0, s1, y1) {
+        tl.fromTo("#cam", { scale: s0, y: 0 }, { scale: s1, y: y1 || 0, duration: dur, ease: "sine.inOut", immediateRender: false }, at);
+      }
+      function wipe(at, sel) {
+        sel = sel || "#wipe";
+        tl.fromTo(sel, { x: 0 }, { x: -1240, duration: 0.42, ease: "power3.in", immediateRender: false }, at - 0.42);
+        tl.to(sel, { x: -2500, duration: 0.42, ease: "power3.out" }, at);
+      }
+      function hide(sel, at) { tl.to(sel, { autoAlpha: 0, duration: 0.3, ease: "power2.in" }, at); }
+
+      // hidden start states (outside the timeline)
+      gsap.set(["#laptop", "#checkCard", "#cup", "#clock", "#notif", "#laptop2", "#link", "#hud", "#bubMe", "#bubAi", "#prDone"], { autoAlpha: 0 });
+      gsap.set("#typeTxt", { clipPath: "inset(0% 0% 0% 100%)" });
+      gsap.set(".check .bx i", { scale: 0 });
+      gsap.set("#strike", { autoAlpha: 1 });
+
+      // ================= S1 · hook (0–5) =================
+      caption("تبرمج من *موبايلك؟*", 0, C("s2") - 0.5, { lit: true });
+      caption("أيوه… بـ *Claude_Code*", C("hook_sub"), C("s2") - 0.5, { sub: true, top: 410 });
+      document.getElementById("termA").innerHTML = '<div><span class="o">&gt; claude</span></div><div><span class="d">Reading src/app.tsx</span></div>';
+      typeLines("#termA", [["", "Editing auth.ts  +42"],
+        ["", "Editing login.tsx +86"], ["g", "✓ 18 tests passed"], ["g", "✓ committed"]], 0.1, 0.7);
+      tl.fromTo("#phoneWrap", { y: 160, rotation: -6 }, { y: 0, rotation: 0, duration: 0.9, ease: "power3.out", immediateRender: true }, 0);
+      push(0, 5, 1.0, 1.1, -20);
+
+      // ================= S2 · no laptop (5–10) =================
+      wipe(C("s2"));
+      caption("من غير *لابتوب*… ومن غير مكتب", C("s2") + 0.1, C("s3") - 0.5, { small: true });
+      tl.set("#phoneWrap", { x: 260, scale: 0.8 }, C("s2"));
+      tl.set("#laptop", { autoAlpha: 1, x: -150 }, C("s2"));
+      tl.from("#laptop", { y: 120, duration: 0.6, ease: "back.out(1.6)" }, C("s2"));
+      tl.to("#strikeLine", { strokeDashoffset: 0, duration: 0.35, ease: "power2.out" }, C("strike"));
+      tl.set("#strike", { x: -150 }, C("s2"));
+      tl.to(["#laptop", "#strike"], { x: -900, rotation: -12, duration: 0.7, ease: "power3.in" }, C("strike") + 0.8);
+      tl.to("#phoneWrap", { x: 0, scale: 1.08, duration: 0.8, ease: "power3.inOut" }, C("strike") + 1.0);
+      push(C("s2"), 5, 1.0, 1.05);
+
+      // ================= S3 · step 1 open the app (10–16) =================
+      wipe(C("s3"), "#wipe2");
+      tl.set("#phoneWrap", { scale: 1 }, C("s3"));
+      tl.set("#strike", { autoAlpha: 0 }, C("s3"));
+      tl.to("#hud", { autoAlpha: 1, duration: 0.3 }, C("s3"));
+      var pipEls = document.querySelectorAll(".pip i");
+      function step(n, txt, at) {
+        tl.to(pipEls[n - 1], { scaleX: 1, duration: 0.5, ease: "power2.out" }, at + 0.2);
+        tl.set("#labelNum", { textContent: "0" + n }, at);
+        tl.set("#labelTxt", { textContent: txt }, at);
+        tl.fromTo("#label", { x: 60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power3.out", immediateRender: false }, at);
+      }
+      step(1, "افتح التطبيق", C("s3"));
+      caption("افتح تطبيق *Claude* وادخل على *Code*", C("s3") + 0.15, C("s4") - 0.45, { small: true });
+      showScreen("#sc-term", "#sc-home", C("s3") - 0.1);
+      tap("#tap1", C("tap_code"));
+      tl.to("#tabCode", { color: "#ef8a5e", duration: 0.1 }, C("tap_code"));
+      push(C("s3"), 2.4, 1.0, 1.03);
+      push(C("tap_code") - 0.4, 1.4, 1.03, 1.12, -60);
+
+      // ================= S4 · step 2 GitHub + repo (16–22) =================
+      step(2, "اختار مشروعك", C("s4"));
+      caption("اربط *GitHub* واختار مشروعك", C("s4") + 0.15, C("s5") - 0.45, { small: true });
+      showScreen("#sc-home", "#sc-repos", C("s4") - 0.2);
+      gsap.set("#repoCk", { scale: 0 });
+      tl.from("#sc-repos .repo", { x: 300, opacity: 0, duration: 0.4, ease: "power3.out", stagger: 0.18 }, C("s4") + 0.3);
+      tap("#tap2", C("pick_repo"));
+      tl.to("#repoPick", { borderColor: "#ef8a5e", scale: 1.04, duration: 0.25, ease: "back.out(2)" }, C("pick_repo"));
+      tl.to("#repoCk", { scale: 1, duration: 0.3, ease: "back.out(2.5)" }, C("pick_repo") + 0.05);
+      push(C("s4"), 3, 1.12, 1.0, 0);
+      push(C("pick_repo") - 0.3, 2.6, 1.0, 1.08, -40);
+
+      // ================= S5 · step 3 type the task (22–29) =================
+      step(3, "اكتب المطلوب", C("s5"));
+      caption("اكتب المطلوب *بكلامك*… زي ما بتكلم صاحبك", C("s5") + 0.15, C("s6") - 0.5, { small: true });
+      showScreen("#sc-repos", "#sc-chat", C("s5") - 0.2);
+      tl.to("#typeTxt", { clipPath: "inset(0% 0% 0% 0%)", duration: 2.8, ease: "none" }, C("type"));
+      tl.fromTo("#phoneWrap", { scale: 1 }, { scale: 1.16, y: -60, duration: 3.2, ease: "sine.inOut", immediateRender: false }, C("type"));
+      tap("#tap3", C("send"));
+      tl.to("#sendBtn", { scale: 0.8, duration: 0.08, yoyo: true, repeat: 1 }, C("send"));
+      tl.to("#typeTxt", { opacity: 0, duration: 0.15 }, C("send") + 0.1);
+      tl.fromTo("#bubMe", { autoAlpha: 0, y: 380, scale: 0.8 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, C("send") + 0.12);
+      tl.fromTo("#bubAi", { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "power3.out", immediateRender: false }, C("send") + 0.9);
+      tl.to("#dots", { opacity: 0.2, duration: 0.3, yoyo: true, repeat: 5 }, C("send") + 1.2);
+      tl.to("#phoneWrap", { scale: 1, y: 0, duration: 0.6, ease: "power2.inOut" }, C("send") + 0.4);
+      push(C("s5"), 7, 1.0, 1.04);
+
+      // ================= S6 · step 4 it works in the cloud (29–36.5) =================
+      wipe(C("s6"));
+      step(4, "سيبه يشتغل", C("s6"));
+      caption("وهو *بيشتغل لوحده*… في السحابة", C("s6") + 0.1, C("s7") - 0.5, { small: true });
+      tl.set("#sc-chat", { autoAlpha: 0 }, C("s6"));
+      tl.set("#sc-work", { autoAlpha: 1, x: 0 }, C("s6"));
+      tl.set("#phoneWrap", { x: -205 }, C("s6"));
+      tl.set("#checkCard", { autoAlpha: 1 }, C("s6"));
+      tl.from("#checkCard", { x: 420, rotation: 6, duration: 0.6, ease: "back.out(1.4)" }, C("s6") + 0.1);
+      typeLines("#termB", [["o", "> task: login page"], ["d", "Reading 42 files"], ["", "src/auth/login.tsx"], ["", "src/api/session.ts"],
+        ["d", "Running npm test"], ["g", "✓ 18 passed"], ["", "git commit -m"], ["g", "✓ pushed claude/login"]], C("s6") + 0.3, 0.72);
+      tl.to("#prog", { scaleX: 1, duration: 6.2, ease: "power1.inOut" }, C("s6") + 0.3);
+      ["t1", "t2", "t3", "t4"].forEach(function (n, i) {
+        var box = document.querySelectorAll(".check .bx i")[i];
+        tl.to(box, { scale: 1, duration: 0.3, ease: "back.out(2.5)" }, C(n));
+        tl.fromTo(document.querySelectorAll(".check .l")[i], { x: 0 }, { x: -14, duration: 0.15, yoyo: true, repeat: 1, immediateRender: false }, C(n));
+      });
+      push(C("s6"), 2.5, 1.0, 1.06, -30);
+      push(C("t2"), 3.4, 1.06, 1.0, 0);
+
+      // ================= S7 · live your day + notification (36.5–42.5) =================
+      tl.to(["#checkCard"], { x: 520, autoAlpha: 0, duration: 0.45, ease: "power3.in" }, C("s7") - 0.4);
+      caption("وانت *عايش يومك*", C("s7") + 0.1, C("s8") - 0.5);
+      tl.to("#phoneWrap", { x: -230, y: 200, scale: 0.62, rotation: -8, duration: 0.7, ease: "power3.inOut" }, C("s7") - 0.3);
+      tl.set("#clock", { autoAlpha: 1 }, C("s7"));
+      tl.from("#clock", { scale: 0.3, duration: 0.5, ease: "back.out(1.8)" }, C("s7"));
+      tl.to("#minHand", { rotation: 720, svgOrigin: "120 120", duration: 5.5, ease: "power1.inOut" }, C("s7") + 0.2);
+      tl.to("#hourHand", { rotation: 60, svgOrigin: "120 120", duration: 5.5, ease: "power1.inOut" }, C("s7") + 0.2);
+      tl.set("#cup", { autoAlpha: 1 }, C("cup") - 0.45);
+      tl.from("#cup", { y: -700, duration: 0.45, ease: "power2.in" }, C("cup") - 0.45);
+      tl.to("#cup", { scaleY: 0.94, transformOrigin: "50% 100%", duration: 0.08, yoyo: true, repeat: 1 }, C("cup"));
+      tl.to(["#steam1", "#steam2"], { y: -26, opacity: 0.15, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.5 }, C("cup") + 0.2);
+      tl.set("#notif", { autoAlpha: 1 }, C("notif"));
+      tl.from("#notif", { y: -420, duration: 0.55, ease: "back.out(1.5)" }, C("notif"));
+      tl.to("#phoneWrap", { rotation: -2, duration: 0.08, yoyo: true, repeat: 5 }, C("notif"));
+      caption("ويبعتلك لما *يخلّص*", C("notif") + 0.4, C("s8") - 0.5, { sub: true, top: 430 });
+      push(C("s7"), 3, 1.0, 1.05);
+      push(C("notif") - 0.2, 2.2, 1.05, 1.1, -30);
+
+      // ================= S8 · step 5 review the diff (42.5–49) =================
+      wipe(C("s8"), "#wipe2");
+      step(5, "راجع وادمج", C("s8"));
+      tl.set(["#clock", "#cup", "#notif"], { autoAlpha: 0 }, C("s8"));
+      tl.set("#sc-work", { autoAlpha: 0 }, C("s8"));
+      tl.set("#sc-diff", { autoAlpha: 1, x: 0 }, C("s8"));
+      tl.set("#phoneWrap", { x: 0, y: 0, scale: 1, rotation: 0 }, C("s8"));
+      caption("راجع *التعديلات* سطر بسطر", C("s8") + 0.1, C("s9") - 0.5, { small: true });
+      tl.from("#sc-diff .diff div", { x: 80, opacity: 0, duration: 0.3, ease: "power2.out", stagger: 0.09 }, C("s8") + 0.2);
+      var cnt = { p: 0, m: 0 };
+      tl.to(cnt, { p: 128, m: 14, duration: 2, ease: "power2.out", onUpdate: function () {
+        $("#plusN").textContent = "+" + Math.round(cnt.p); $("#minusN").textContent = "−" + Math.round(cnt.m); } }, C("count"));
+      tl.to("#circPath", { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" }, C("circle"));
+      push(C("s8"), 3, 1.0, 1.06);
+      push(C("circle") - 0.4, 2.4, 1.06, 1.16, -120);
+
+      // ================= S9 · pull request (49–55) =================
+      caption("واعمل *Pull_Request* بضغطة", C("s9") + 0.1, C("s10") - 0.5, { small: true });
+      showScreen("#sc-diff", "#sc-pr", C("s9") - 0.2);
+      tap("#tap4", C("pr_tap"));
+      tl.to("#prBtn", { scale: 0.94, duration: 0.08, yoyo: true, repeat: 1 }, C("pr_tap"));
+      tl.to("#prDone", { opacity: 1, duration: 0.25 }, C("pr_tap") + 0.25);
+      tl.to("#prBtn", { opacity: 0, duration: 0.25 }, C("pr_tap") + 0.25);
+      tl.fromTo("#phoneWrap", { rotation: 0 }, { rotation: 3, duration: 0.12, yoyo: true, repeat: 1, immediateRender: false }, C("pr_tap") + 0.25);
+      push(C("s9"), 2, 1.16, 1.0, 0);
+      push(C("pr_tap"), 3.5, 1.0, 1.08, -40);
+
+      // ================= S10 · remote control (55–61) =================
+      wipe(C("s10"));
+      tl.set("#hud", { autoAlpha: 0 }, C("s10"));
+      tl.set("#sc-pr", { autoAlpha: 0 }, C("s10"));
+      tl.set("#sc-remote", { autoAlpha: 1, x: 0 }, C("s10"));
+      tl.set("#phoneWrap", { x: -200, scale: 0.86 }, C("s10"));
+      caption("وعندك جلسة على *اللابتوب*؟ كمّلها من موبايلك", C("s10") + 0.1, C("s11") - 0.5, { small: true });
+      tl.set("#laptop2", { autoAlpha: 1 }, C("s10"));
+      tl.from("#laptop2", { x: 420, duration: 0.6, ease: "power3.out" }, C("s10") + 0.15);
+      typeLines("#termC", [["o", "> fix the checkout"], ["d", "editing cart.ts"], ["g", "✓ done"], ["", "> now add tests"], ["d", "writing 6 tests…"]], C("s10") + 0.6, 0.85);
+      tl.set("#link", { autoAlpha: 1 }, C("link"));
+      tl.fromTo("#link", { scaleX: 0, transformOrigin: "100% 50%" }, { scaleX: 1, duration: 0.5, ease: "power2.out", immediateRender: false }, C("link"));
+      tl.to("#linkLine", { strokeDashoffset: -320, duration: 3.6, ease: "none" }, C("link"));
+      push(C("s10"), 6, 1.0, 1.06);
+
+      // ================= S11 · proof (61–66) =================
+      wipe(C("s11"), "#wipe2");
+      tl.set(["#laptop2", "#link"], { autoAlpha: 0 }, C("s11"));
+      tl.set("#sc-remote", { autoAlpha: 0 }, C("s11"));
+      tl.set("#sc-play", { autoAlpha: 1, x: 0 }, C("s11"));
+      tl.set("#phoneWrap", { x: 0, scale: 1 }, C("s11"));
+      caption("الفيديو ده نفسه… اتعمل بـ *Claude_Code*", C("s11") + 0.1, C("s12") - 0.45, { small: true });
+      tl.fromTo("#phoneWrap", { rotation: -10, y: 200 }, { rotation: 0, y: 0, duration: 0.8, ease: "back.out(1.4)", immediateRender: false }, C("s11"));
+      push(C("s11"), 4.5, 1.0, 1.12, -40);
+
+      // ================= S12 · end (66–70.5) =================
+      wipe(C("s12"));
+      tl.set("#phoneWrap", { scale: 0.7, y: 120 }, C("s12"));
+      tl.set("#sc-play", { autoAlpha: 0 }, C("s12"));
+      tl.set("#sc-term", { autoAlpha: 1, x: 0 }, C("s12"));
+      caption("موبايلك… فيه *مبرمج*", C("s12") + 0.1, null);
+      caption("جرّبه النهارده · وابعته لصاحبك المبرمج", C("s12") + 1.0, null, { sub: true, top: 560 });
+      tl.fromTo("#phoneWrap", { y: 220 }, { y: 120, duration: 4.4, ease: "sine.out", immediateRender: false }, C("s12"));
+      push(C("s12"), D - C("s12"), 1.0, 1.05);
+
+      window.__timelines["film"] = tl;
+    })();
+  </script>
+</template>

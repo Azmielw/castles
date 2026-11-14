@@ -1,0 +1,55 @@
+<template>
+  <!--
+    Cold open with a rewind (Khaam Motion 1.7). The video opens on its own climax (the last picture and the last
+    line, 1.5-2.5 s), then this overlay plays a short rewind (a dark tint, the ⏪ mark in a circle, scan lines
+    racing down, a white blink) and the story starts from its beginning on the cut.
+
+    How to build the open: in the scene composition, show the final state from 0 to AT (copy the last scene's look
+    there, or start the scene's timeline at its end state), put the final line in the word-lit block or a title
+    for those seconds, then register this overlay with data-start="0" over everything (highest track index) and
+    start the real story at AT + DUR. The narration for the open is the same last line, said once more or reused
+    from the take (cut on its pauses). Keep the open under 2.5 s: it is the hook.
+  -->
+  <style>
+    #rw-root { position: absolute; inset: 0; pointer-events: none; }
+    #rw-tint { position: absolute; inset: 0; background: #05070d; opacity: 0; }
+    #rw-lines {
+      position: absolute; inset: -40px 0; opacity: 0;
+      background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.10) 0 3px, rgba(255, 255, 255, 0) 3px 14px);
+    }
+    #rw-band { position: absolute; left: 0; width: 100%; height: 180px; top: -200px;
+      background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,0.22), rgba(255,255,255,0)); }
+    #rw-mark { position: absolute; left: 50%; top: 50%; width: 220px; height: 220px; margin: -110px 0 0 -110px; opacity: 0; }
+    #rw-flash { position: absolute; inset: 0; background: #ffffff; opacity: 0; }
+  </style>
+  <div id="rw-root" data-composition-id="rewind" data-width="1080" data-height="1920">
+    <div id="rw-tint"></div>
+    <div id="rw-lines"></div>
+    <div id="rw-band" data-layout-allow-overflow></div>
+    <svg id="rw-mark" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="110" cy="110" r="104" fill="rgba(5,7,13,0.78)" stroke="rgba(255,255,255,0.85)" stroke-width="4"/>
+      <path d="M118 70 L62 110 L118 150 Z" fill="#ffffff"/>
+      <path d="M170 70 L114 110 L170 150 Z" fill="#ffffff"/>
+    </svg>
+    <div id="rw-flash"></div>
+  </div>
+  <script>
+    (function () {
+      // ---- edit here ---------------------------------------------------------------------------------------
+      var AT = 2.0;    // when the rewind starts (seconds, or a spoken word / cue name): the end of the cold open
+      var DUR = 0.55;  // how long it lasts; the story starts at AT + DUR
+      AT = typeof AT === "number" ? AT : window.cue(AT);
+      // ------------------------------------------------------------------------------------------------------
+      var tl = gsap.timeline({ paused: true });
+      tl.to("#rw-tint", { opacity: 0.55, duration: 0.08 }, AT);
+      tl.to("#rw-lines", { opacity: 1, duration: 0.06 }, AT);
+      tl.fromTo("#rw-lines", { y: 0 }, { y: 140, duration: DUR, ease: "none" }, AT);
+      tl.fromTo("#rw-band", { y: 0 }, { y: 2300, duration: DUR * 0.8, ease: "none" }, AT);
+      tl.fromTo("#rw-mark", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.12, ease: "back.out(2)" }, AT + 0.04);
+      tl.to("#rw-flash", { opacity: 0.85, duration: 0.05 }, AT + DUR - 0.08);
+      tl.set(["#rw-tint", "#rw-lines", "#rw-mark", "#rw-band"], { opacity: 0 }, AT + DUR);
+      tl.to("#rw-flash", { opacity: 0, duration: 0.25, ease: "power2.out" }, AT + DUR);
+      window.__timelines["rewind"] = tl;
+    })();
+  </script>
+</template>

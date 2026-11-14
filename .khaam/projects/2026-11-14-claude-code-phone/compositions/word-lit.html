@@ -1,0 +1,276 @@
+<template>
+  <!--
+    Word-lit text block (Khaam Motion 1.7). The whole sentence is on screen, dim; each word lights the moment it is
+    spoken; two or three key words turn the accent colour and stay lit. Arabic alone by default; a second language
+    line is optional (static, under the Arabic). No harakat on screen by default (harakat: "none"), and the script's
+    «، . : ؛ !» never reach the screen (punctuation: "drop"); «…» and «؟» stay. Over a moving or bright scene, set
+    plate (0.5) for a soft dark ground under the words. On light paper with dark ink, set shadow: "none" and
+    keyGlow: "none" (no dark halo).
+
+    Timing comes from timing.js (made by <skill>/scripts/cues.py from the narration's .words.json): every word you
+    write here is matched, in order, to the spoken words. If a word is not in the narration the render stops with
+    an error that names it. Write the sentences as they are spoken; harakat, hamza forms and punctuation may differ
+    (matching ignores them).
+    A number the voice says in words is shown in digits with a token: ١٤٤٠{ألف_وأربعمية_وأربعين} shows «١٤٤٠» and
+    lights on those spoken words (the voice text keeps the words; "_" joins them).
+
+    Rules: dir="rtl" on each line, whole words only, never letter-spacing on Arabic, two lines at most per
+    sentence (break them yourself with " / " at a pause; a small "~" line under them does not count). Never use
+    this block for a Quran ayah or a hadith: quoted religious text goes on the still card (verified-card.html).
+  -->
+  <style>
+    @font-face { font-family: "Display"; src: url("assets/fonts/display.ttf"); font-weight: 100 900; }
+    /* "Second" (assets/fonts/text.ttf) is declared by the script only when a second language is used. */
+    #wl-root { position: absolute; inset: 0; pointer-events: none; }
+    .wl-plate { position: absolute; left: 0; width: 1080px; pointer-events: none; opacity: 0; visibility: hidden; }
+    .wl-block {
+      position: absolute; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center;
+      opacity: 0; visibility: hidden;
+    }
+    .wl-label { display: flex; align-items: center; gap: 16px; margin-bottom: 22px; color: var(--accent, #f2c46d); }
+    .wl-label .ar { font-family: "Display", serif; font-weight: 700; font-size: 34px; }
+    .wl-label .sec { font-family: "Display", serif; font-weight: 600; font-size: 28px; letter-spacing: 0.18em; text-transform: uppercase; }
+    .wl-keep { position: absolute; left: 0; width: 100%; justify-content: center; margin-bottom: 0; line-height: 1.2; opacity: 0; visibility: hidden; }
+    .wl-row { display: flex; flex-wrap: nowrap; justify-content: center; width: 980px; }   /* word gap set from CONFIG.wordGap */
+    .wl-word {
+      display: inline-block; font-family: "Display", serif; font-weight: 700; line-height: 1.6;
+      color: var(--ink, #f4eee3); text-shadow: 0 4px 24px rgba(0, 0, 0, 0.55);
+    }
+    .wl-second {
+      margin-top: 14px; width: 860px; text-align: center; font-family: "Display", serif; font-weight: 500;
+      line-height: 1.25; color: var(--ink, #f4eee3); opacity: 0.9; text-shadow: 0 3px 16px rgba(0, 0, 0, 0.6);
+    }
+  </style>
+  <div id="wl-root" data-composition-id="word-lit" data-width="1080" data-height="1920"></div>
+  <script>
+    (function () {
+      // ---- edit here -------------------------------------------------------------------------------------
+      var CONFIG = {
+        top: 320,            // y of the block: the profile grid shows only y 240-1680 of a 9:16 cover, so the hook sits below 300
+        size: 80,            // Arabic size in px (60-90; two lines must fit 980 px). A sentence can set its own size.
+        smallSize: 50,       // a line written with a leading "~" (a call to action under the question)
+        wordGap: 0.34,       // space between words, as a share of size (naskh faces like Amiri need 0.3 or more)
+        secondSize: 42,      // second-language size
+        dim: 0.32,           // unspoken words
+        lightIn: 0.2,        // seconds for a word to light
+        hold: "auto",        // the last sentence: "end" = stays to the video's end; seconds = leaves that long after its
+                             // last word (0.5 = the old timing); "auto" = 0.5 when index.html has the end card, else "end"
+        harakat: "none",     // "none" (the default since 1.7.0 of 11-12: no harakat on our own lines), "light" = shadda and
+                             // tanween only, or "as-written"
+        punctuation: "drop", // "drop" = «، . : ؛ !» (and , ; : . !) at a word's edges never reach the screen, «…» and «؟»
+                             // stay; "keep-bang" = the same but «!» stays; "keep" = everything as written
+        plate: 0,            // a soft dark ground under the words over a moving or bright scene (P12): 0 = none,
+                             // 0.4-0.6 = its darkness. It comes with the first sentence and leaves with the last.
+        plateColor: "#04070f",
+        keyGlow: "0 0 26px rgba(242,196,109,0.55), 0 4px 24px rgba(0,0,0,0.55)",
+        shadow: "0 4px 24px rgba(0,0,0,0.55)",  // the dark shadow under every word (and the second line). On light paper or a
+                             // pale page set shadow: "none" and keyGlow: "none": the shadow leaves a dark halo under dark ink.
+      };
+      var LABEL = null;      // e.g. { ar: "خاطرة", second: "A reflection" } - says what kind of text this is.
+                             // On every sentence, or only on the sentences with label: true. keep: true = one label that
+                             // stays on screen from the first sentence to the last, at y = top (default 266; never under 262,
+                             // the profile grid's crop): { ar: "خاطرة", keep: true }
+      var SENTENCES = [
+        // text: the words as spoken, " / " = line break. keys: 1-3 words to light in the accent colour.
+        //   ١٤٤٠{ألف_وأربعمية_وأربعين} = digits on screen for a number spoken as words (keys: ["١٤٤٠"]).
+        //   A line that starts with "~" is small (CONFIG.smallSize).
+        // second: optional second language (same " / " breaks), shown whole and still.
+        // size: optional, this sentence's size in px (the hook, a one-word answer).
+        // lit: true = the words start lit, not dim; key words still turn the accent colour when spoken. Use it on the
+        //   sentence on screen at frame 0 (the thumbnail).
+        // label: true = LABEL shows on this sentence (and on the others only if they say so too).
+        // from: optional, a spoken word (or seconds) where this sentence starts, when the words before it are not
+        //   shown in this block (e.g. a quoted text read aloud on the still card). Without it the next sentence must
+        //   start within 8 spoken words.
+        // until: optional, a spoken word (or seconds) where this sentence leaves. Give it to the sentence before a
+        //   verified card (until: the quote's first word): otherwise it stays on screen until the next sentence comes,
+        //   over the card for the whole quote. Added in 1.7.0 after the wisdom dry run of 11-12.
+        { text: "اكتب فكرتك بسطر / وكلود يسوي الباقي", keys: ["فكرتك", "الباقي"] },
+      ];
+      // ------------------------------------------------------------------------------------------------------
+
+      var HARAKAT_ALL = /[ً-ْٰـ]/g;            // harakat, superscript alef, tatweel
+      var HARAKAT_SHORT = /[َُِْٰـ]/g; // fatha, damma, kasra, sukun (light keeps shadda + tanween)
+      // punctuation the script carries for the voice, dropped at a word's edges (inside a word, e.g. 2.5 or ١٢:٣٠, it stays)
+      var DROP = "،.:؛!,;";   // «،» . : «؛» ! , ;
+      if (CONFIG.punctuation === "keep-bang") DROP = DROP.replace("!", "");
+      function dropPunct(w) {
+        if (CONFIG.punctuation === "keep") return w;
+        w = w.replace(/\.{3}/g, "…");   // "..." is an ellipsis: keep it as «…»
+        var a = 0, b = w.length;
+        while (a < b && DROP.indexOf(w.charAt(a)) >= 0) a++;
+        while (b > a && /[\p{P}]/u.test(w.charAt(b - 1))) {   // the trailing run: drop the listed marks, keep «…» «؟»
+          if (DROP.indexOf(w.charAt(b - 1)) >= 0) { w = w.slice(0, b - 1) + w.slice(b); b--; }
+          else b--;
+        }
+        return w.slice(a);
+      }
+      function shown(w) {
+        w = dropPunct(w);
+        if (CONFIG.harakat === "none") return w.replace(HARAKAT_ALL, "");
+        if (CONFIG.harakat === "light") return w.replace(HARAKAT_SHORT, "");
+        return w;
+      }
+      var MAP = { "أ": "ا", "إ": "ا", "آ": "ا", "ٱ": "ا", "ى": "ي", "ة": "ه", "ؤ": "و", "ئ": "ي", "ء": "" };
+      function norm(w) {
+        return String(w).normalize("NFC").replace(/[ؐ-ًؚ-ٰٟۖ-ۭـ]/g, "")
+          .replace(/[أإآٱىةؤئء]/g, function (c) { return MAP[c]; }).toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+      }
+      var ACCENT = (getComputedStyle(document.documentElement).getPropertyValue("--accent") || "").trim() || "#f2c46d";
+      var SPOKEN = window.KHAAM_WORDS;
+      if (!SPOKEN || !SPOKEN.length) throw new Error("word-lit: timing.js is missing or empty (run cues.py build).");
+
+      // The second font is loaded only when a second language is shown, so an Arabic-only video asks for no text.ttf.
+      var SECOND_FONT = '"Second", "Display", serif';
+      if ((LABEL && LABEL.second) || SENTENCES.some(function (s) { return s.second; })) {
+        var st = document.createElement("style");
+        st.textContent = '@font-face { font-family: "Second"; src: url("assets/fonts/text.ttf"); font-weight: 100 900; }';
+        document.head.appendChild(st);
+      }
+      function makeLabel() {
+        var lab = document.createElement("div"); lab.className = "wl-label"; lab.dir = "rtl";
+        var ar = document.createElement("span"); ar.className = "ar"; ar.textContent = LABEL.ar; lab.appendChild(ar);
+        if (LABEL.second) {
+          var se = document.createElement("span"); se.className = "sec"; se.style.fontFamily = SECOND_FONT;
+          se.textContent = LABEL.second; lab.appendChild(se);
+        }
+        return lab;
+      }
+      var LABEL_ONLY = SENTENCES.some(function (s) { return s.label; });   // some sentences ask: only those get it
+      var hold = CONFIG.hold;
+      if (hold == null || hold === "auto")   // the end card closes the video itself; without it the last line stays
+        hold = document.documentElement.querySelector(   // the whole page (HyperFrames scopes document.querySelector to this block)
+          '[data-composition-id="end-card"], [data-composition-src*="end-card"], [data-composition-file*="end-card"]') ? 0.5 : "end";
+      var SMALL = CONFIG.smallSize || 50;
+
+      var root = document.getElementById("wl-root");
+      var plate = null;
+      if (CONFIG.plate > 0) {   // a soft dark ground under the text band (P12), under every sentence
+        var pc = String(CONFIG.plateColor || "#04070f").replace("#", ""), pa = Math.min(0.9, CONFIG.plate);
+        if (pc.length === 3) pc = pc.replace(/(.)/g, "$1$1");
+        var rgb = [0, 2, 4].map(function (i) { return parseInt(pc.substr(i, 2), 16); }).join(",");
+        plate = document.createElement("div"); plate.className = "wl-plate";
+        plate.setAttribute("data-layout-allow-overlap", "");
+        plate.style.top = (CONFIG.top - 170) + "px"; plate.style.height = "640px";
+        plate.style.background = "radial-gradient(ellipse 620px 270px at 540px 300px, rgba(" + rgb + "," + pa + "), rgba(" + rgb + "," +
+          (pa * 0.56).toFixed(3) + ") 55%, rgba(" + rgb + ",0) 100%)";
+        root.appendChild(plate);
+      }
+      var kept = null;
+      if (LABEL && LABEL.keep) {
+        kept = makeLabel(); kept.classList.add("wl-keep");
+        kept.style.top = Math.max(262, LABEL.top || 266) + "px";
+        root.appendChild(kept);
+      }
+      var tl = gsap.timeline({ paused: true });
+      var cursor = 0, blocks = [];
+      function match(sp, si) {   // the next spoken word that is sp, within 8 words of the cursor
+        var n = norm(sp);
+        if (!n) return -1;
+        for (var j = cursor; j < Math.min(SPOKEN.length, cursor + 8); j++) if (norm(SPOKEN[j].text) === n) { cursor = j + 1; return j; }
+        throw new Error("word-lit: sentence " + (si + 1) + ": «" + sp + "» is not in the narration timings " +
+          "where expected (after «" + (cursor > 0 ? SPOKEN[cursor - 1].text : "the start") + "»). Write it as it is spoken, " +
+          "or give the sentence from: \"<its first spoken word>\" when words before it are not shown.");
+      }
+      SENTENCES.forEach(function (s, si) {
+        var block = document.createElement("div");
+        block.className = "wl-block"; block.style.top = CONFIG.top + "px";
+        if (LABEL && !LABEL.keep && (!LABEL_ONLY || s.label)) block.appendChild(makeLabel());
+        var keys = (s.keys || []).map(norm), timed = [];
+        if (s.from != null) {   // skip spoken words no sentence here shows (a text read on the still card, a long aside)
+          var t0 = typeof s.from === "number" ? s.from : window.cue(s.from);
+          while (cursor < SPOKEN.length && SPOKEN[cursor].start < t0 - 0.001) cursor++;
+        }
+        s.text.split(" / ").forEach(function (line) {
+          var small = /^\s*~/.test(line);
+          var px = small ? SMALL : (s.size || CONFIG.size);
+          var row = document.createElement("div"); row.className = "wl-row"; row.dir = "rtl";
+          row.style.columnGap = Math.round(px * CONFIG.wordGap) + "px";
+          if (small) row.style.marginTop = "18px";
+          line.replace(/^\s*~/, "").trim().split(/\s+/).forEach(function (raw) {
+            // "١٤٤٠{ألف_وأربعمية_وأربعين}": show the text outside the braces, light on the spoken words inside
+            var m = /^(.*?)\{(.+)\}(.*)$/.exec(raw), text = raw, said = [raw];
+            if (m) { text = m[1] + m[3]; said = m[2].split("_"); }
+            var first = -1, last = -1;
+            said.forEach(function (sp) {
+              var hit = match(sp, si);
+              if (hit < 0) return;
+              if (first < 0) first = hit;
+              last = hit;
+            });
+            if (first < 0) return;
+            var el = document.createElement("span"); el.className = "wl-word"; el.textContent = shown(text);
+            el.style.fontSize = px + "px"; el.style.opacity = s.lit ? 1 : CONFIG.dim;
+            // only a changed shadow is set here, so a project's own CSS (".wl-word { text-shadow: none }") keeps working
+            if (CONFIG.shadow != null && CONFIG.shadow !== "0 4px 24px rgba(0,0,0,0.55)") el.style.textShadow = CONFIG.shadow;
+            row.appendChild(el);
+            var key = keys.indexOf(norm(text)) >= 0 || said.some(function (sp) { return m && keys.indexOf(norm(sp)) >= 0; });
+            timed.push({ el: el, start: SPOKEN[first].start, end: SPOKEN[last].end, key: key });
+          });
+          block.appendChild(row);
+        });
+        if (s.second) {
+          var sec = document.createElement("div"); sec.className = "wl-second"; sec.dir = "ltr";
+          sec.style.fontSize = CONFIG.secondSize + "px"; sec.style.fontFamily = SECOND_FONT;
+          if (CONFIG.shadow === "none") sec.style.textShadow = "none";
+          s.second.split(" / ").forEach(function (part, k) {
+            if (k) sec.appendChild(document.createElement("br"));
+            sec.appendChild(document.createTextNode(part.trim()));
+          });
+          block.appendChild(sec);
+        }
+        root.appendChild(block);
+        blocks.push({ el: block, words: timed,
+          until: s.until == null ? null : (typeof s.until === "number" ? s.until : window.cue(s.until)) });
+      });
+
+      // Each sentence leaves before the next one comes in (two sentences never share the frame).
+      var ons = blocks.map(function (b, bi) {
+        var s = b.words[0].start;
+        return bi === 0 && s < 1.5 ? 0 : Math.max(0, s - 0.2);   // frame 0 is the cover
+      });
+      var lastOff = null, lastFade = 0.3;
+      blocks.forEach(function (b, bi) {
+        var last = b.words[b.words.length - 1];
+        var on = ons[bi], fade, off;
+        if (b.until != null) {   // until: it leaves where it was told to (before a verified card), whatever comes next
+          fade = 0.25; off = Math.max(last.end + 0.05, b.until - fade);
+          if (bi + 1 === blocks.length) { lastOff = off; lastFade = fade; }
+        } else if (bi + 1 < blocks.length) {
+          off = Math.max(last.end + 0.05, ons[bi + 1] - 0.3);
+          fade = Math.max(0.1, Math.min(0.3, ons[bi + 1] - off));
+          if (off + fade > ons[bi + 1]) ons[bi + 1] = off + fade;   // no gap in the voice: the next waits for the fade
+        } else {
+          off = hold === "end" ? null : last.end + hold; fade = 0.3;   // null: stays to the end of the composition
+          lastOff = off; lastFade = fade;
+        }
+        if (on === 0) tl.set(b.el, { visibility: "visible", opacity: 1 }, 0);   // readable on frame 0 (the cover)
+        else {
+          tl.set(b.el, { visibility: "visible" }, on);
+          tl.fromTo(b.el, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" }, on);
+        }
+        b.words.forEach(function (w) {
+          var to = { opacity: 1, duration: CONFIG.lightIn, ease: "power2.out" };
+          if (w.key) { to.color = ACCENT; if (CONFIG.keyGlow && CONFIG.keyGlow !== "none") to.textShadow = CONFIG.keyGlow; }
+          tl.to(w.el, to, Math.max(on, w.start));
+        });
+        if (off === null) return;
+        tl.to(b.el, { opacity: 0, duration: fade, ease: "power2.in" }, off);
+        tl.set(b.el, { visibility: "hidden" }, off + fade);
+      });
+      [kept, plate].forEach(function (ke) {   // the kept label and the plate come with the first sentence, leave with the last
+        if (!ke || !blocks.length) return;
+        if (ons[0] === 0) tl.set(ke, { visibility: "visible", opacity: 1 }, 0);
+        else {
+          tl.set(ke, { visibility: "visible" }, ons[0]);
+          tl.fromTo(ke, { opacity: 0 }, { opacity: 1, duration: ke === plate ? 0.35 : 0.2, ease: "power2.out" }, ons[0]);
+        }
+        if (lastOff !== null) {
+          tl.to(ke, { opacity: 0, duration: lastFade, ease: "power2.in" }, lastOff);
+          tl.set(ke, { visibility: "hidden" }, lastOff + lastFade);
+        }
+      });
+      window.__timelines["word-lit"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,43 @@
+<template>
+  <!--
+    The paper world: on a ruled page, a ground line draws itself, a man kneels and plants a seed, a sprout grows,
+    the sprout becomes a tree that fills with hatching and a wash, the man stands and looks up at it, a sun is drawn,
+    two birds, and a hand underline. Every line is a kit piece (paper.js) and the man is the figure kit in ink.
+  -->
+  <style>
+    #root { position: absolute; inset: 0; }
+    #root svg { position: absolute; inset: 0; width: 1080px; height: 1920px; display: block; }
+  </style>
+  <div id="root" data-composition-id="scene" data-width="1080" data-height="1920">
+    <svg id="world" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+  <script>
+    (function () {
+      var tl = gsap.timeline({ paused: true });
+      var S = Khaam.stage("#world", { palette: "paper", duration: 6, tl: tl, seed: 5, horizon: 1580, light: { x: 900, y: 900 } });
+      var G = 1590;   // the ground line
+      S.paper({ kind: "ruled", margin: true, top: 236, step: 64 });
+      S.sketch({ name: "ground", x: 560, y: G, size: 0.95, at: 0.15, dur: 0.8, pencil: true });
+      // the man, drawn in ink, on one knee to plant, his back upright (never kneeling forward: that reads as prayer)
+      var man = S.figure({ who: "man", outfit: "thobe", head: "kufi", style: "ink", x: 290, y: G, h: 320, facing: "right", pose: "half_kneel" });
+      S.reveal({ el: man.el, at: 0.55, dur: 0.8, dir: "up", box: [120, G - 330, 360, 350] });
+      var seed = S.sketch({ name: "seed", x: 470, y: G, size: 0.9, at: 1.2, dur: 0.3, fillAt: 1.45 });
+      var sprout = S.sketch({ name: "sprout", x: 560, y: G, size: 1, at: 1.7, dur: 0.6, fillAt: 2.2 });
+      tl.to([seed.g, sprout.g], { opacity: 0, duration: 0.4, ease: "power1.in" }, 2.55);
+      man.pose("stand", { at: 1.6, dur: 0.6 });
+      // the tree grows in its place
+      S.sketch({ name: "tree", x: 610, y: G, size: 1.6, at: 2.5, dur: 1.5, fillAt: 3.8, width: 4.6 });
+      man.pose("stand", { at: 3.1, dur: 0.7 });
+      man.pose("look_up", { at: 3.9, dur: 0.8 });
+      // the sky of the page
+      S.sketch({ name: "sun", x: 880, y: 960, size: 0.85, at: 4.0, dur: 0.9, fillAt: 4.7 });
+      S.sketch({ name: "bird", x: 300, y: 980, size: 1.1, at: 4.6, dur: 0.25 });
+      S.sketch({ name: "bird", x: 370, y: 1030, size: 0.8, at: 4.75, dur: 0.25 });
+      S.mark({ kind: "underline", x: 620, y: G + 38, w: 430, at: 5.15, dur: 0.5 });
+      // camera and film
+      S.push({ from: 1, to: 1.045, at: 0, dur: 6, origin: [560, 1300] });
+      S.film({ grain: 0.07, vignette: 0.22 });
+      window.__timelines["scene"] = tl;
+    })();
+  </script>
+</template>
