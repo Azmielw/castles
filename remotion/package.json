@@ -1,0 +1,25 @@
+{
+  "name": "castles-remotion",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render LowerThird out/lower.mov --codec=prores --prores-profile=4444 --pixel-format=yuva444p10le"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/space-grotesk": "^5.3.0",
+    "@remotion/cli": "^4.0.543",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.543"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "typescript": "^7.0.2"
+  },
+  "private": true
+}
