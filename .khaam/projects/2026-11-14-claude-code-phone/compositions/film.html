@@ -290,6 +290,17 @@
       tl.to("#glow", { x: 260, y: -420, duration: D / 2, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
       tl.to("#phone", { y: -16, rotation: 0.8, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: Math.floor(D / 1.6) - 1 }, 0);
 
+      // ---------- colour worlds: the ground changes hue on every section and every key moment (P4/P5) ----------
+      var HUES = ["#1e120b", "#0d2f2c", "#121b3d", "#2e1235", "#0f2b1a", "#33190c"];
+      var WORLD = [0, "hook_sub", "s2", "strike", "s3", "tap_code", "s4", "pick_repo", "s5", 24.4, "send", "s6", "t2", "t4",
+                   "s7", 38.8, "notif", "s8", 44.6, "circle", "s9", "pr_tap", 53.0, "s10", "link", 59.0, "s11", 63.5, "s12", 68.2];
+      gsap.set("#bg", { backgroundColor: HUES[0] });
+      WORLD.forEach(function (w, i) {
+        if (i === 0) return;
+        var t = typeof w === "number" ? w : C(w);
+        tl.to("#bg", { backgroundColor: HUES[i % HUES.length], duration: 0.3, ease: "power2.out" }, t);
+      });
+
       // ---------- captions ----------
       var caps = $("#caps"), capN = 0;
       // text: words split by spaces; "_" joins Latin words into one span; *word* = accent
@@ -401,6 +412,7 @@
       push(C("tap_code") - 0.4, 1.4, 1.03, 1.12, -60);
 
       // ================= S4 · step 2 GitHub + repo (16–22) =================
+      wipe(C("s4"), "#wipe2");
       step(2, "اختار مشروعك", C("s4"));
       caption("اربط *GitHub* واختار مشروعك", C("s4") + 0.15, C("s5") - 0.45, { small: true });
       showScreen("#sc-home", "#sc-repos", C("s4") - 0.2);
@@ -413,6 +425,7 @@
       push(C("pick_repo") - 0.3, 2.6, 1.0, 1.08, -40);
 
       // ================= S5 · step 3 type the task (22–29) =================
+      wipe(C("s5"));
       step(3, "اكتب المطلوب", C("s5"));
       caption("اكتب المطلوب *بكلامك*… زي ما بتكلم صاحبك", C("s5") + 0.15, C("s6") - 0.5, { small: true });
       showScreen("#sc-repos", "#sc-chat", C("s5") - 0.2);
@@ -483,6 +496,7 @@
       push(C("circle") - 0.4, 2.4, 1.06, 1.16, -120);
 
       // ================= S9 · pull request (49–55) =================
+      wipe(C("s9"), "#wipe2");
       caption("واعمل *Pull_Request* بضغطة", C("s9") + 0.1, C("s10") - 0.5, { small: true });
       showScreen("#sc-diff", "#sc-pr", C("s9") - 0.2);
       tap("#tap4", C("pr_tap"));

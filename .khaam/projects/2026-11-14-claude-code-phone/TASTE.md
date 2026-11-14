@@ -17,6 +17,8 @@ Status of this file: draft (Claude's choices; the user asked for no questions)
 
 ## 4. Motion
 - Entrances: power3.out 0.32–0.6 s, words stagger 0.09 s. Section changes: accent or cream wipe right→left (0.84 s).
+- Colour worlds: #bg changes hue (6 deep hues) on every section and key moment, 0.3 s: this is what makes P4/P5 pass on a dark UI.
+- Pace (check_pace on the final): first motion 0.1 s · 27 changes ≥12%, mean gap 2.5 s, longest 5.5 s · 30% longest gap 5.4 s · 7.16% in motion · 2/70 dead seconds, longest run 1 s · end hold 0.4 s: PASS. Camera: composition pushes in every scene (not probed: no OpenCV).
 - Camera: #cam push in every scene (1.0→1.05–1.16), faster pushes on taps and the diff circle.
 
 ## 5. Sound
