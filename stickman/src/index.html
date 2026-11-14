@@ -1,0 +1,18 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:'Cairo';src:url('../assets/fonts/cairo-arabic-700-normal.woff2') format('woff2');font-weight:700}
+@font-face{font-family:'Cairo';src:url('../assets/fonts/cairo-arabic-700-normal.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'Lalezar';src:url('../assets/fonts/lalezar-arabic-400-normal.woff2') format('woff2')}
+html,body{margin:0;background:#222}canvas{display:block}
+</style></head><body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script src="rig.js"></script><script src="scene.js"></script>
+<script>
+window.boot = async (timing) => {
+  await Promise.all([document.fonts.load("100px Lalezar","ادفع"), document.fonts.load("700 20px Cairo","ادفع")]);
+  initCanvas(document.getElementById('c'));
+  const d = setTiming(timing.lines, timing.duration);
+  return { dur: d, fonts: document.fonts.check("100px Lalezar","ادفع"), cues: sfxCues() };
+};
+window.frame = (t, type='image/png', q) => { render(t); return document.getElementById('c').toDataURL(type, q); };
+</script></body></html>

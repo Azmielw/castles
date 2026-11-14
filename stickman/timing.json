@@ -1,0 +1,12 @@
+{"audio": null, "method": "provisional-estimate", "duration": null, "lines": [
+{"id":"L1","text":"طَارَتْ طَائِرَةُ نَادِرٍ الوَرَقِيَّةُ... وَسَقَطَتْ خَلْفَ جِدَارٍ عِمْلَاقٍ.","start":0.2,"end":4.4,"method":"estimate","reviewStatus":"provisional"},
+{"id":"L2","text":"قَفَزَ... لَمْ يَصِلْ.","start":5.0,"end":7.2,"method":"estimate","reviewStatus":"provisional"},
+{"id":"L3","text":"أَحْضَرَ سُلَّمًا... كَانَ قَصِيرًا.","start":7.8,"end":10.2,"method":"estimate","reviewStatus":"provisional"},
+{"id":"L4","text":"ضَرَبَ الجِدَارَ بِمِطْرَقَةٍ... فَانْكَسَرَتِ المِطْرَقَةُ.","start":10.8,"end":14.4,"method":"estimate","reviewStatus":"provisional"},
+{"id":"L5","text":"جَلَسَ نَادِرٌ مُتْعَبًا، وَاسْتَنَدَ إِلَى الجِدَارِ...","start":15.0,"end":18.4,"method":"estimate","reviewStatus":"provisional"},
+{"id":"L6","text":"فَانْفَتَحَ!","start":18.8,"end":19.6,"method":"estimate","reviewStatus":"provisional"},
+{"id":"L7","text":"لَمْ يَكُنْ جِدَارًا أَبَدًا... كَانَ بَابًا، وَعَلَيْهِ كَلِمَةٌ صَغِيرَةٌ لَمْ يَقْرَأْهَا: ادْفَعْ.","start":20.4,"end":27.0,"method":"estimate","reviewStatus":"provisional"},
+{"id":"L8","text":"أَحْيَانًا لَا نَحْتَاجُ قُوَّةً أَكْبَرَ... بَلْ نَظْرَةً أَقْرَبَ.","start":27.8,"end":32.0,"method":"estimate","reviewStatus":"provisional"},
+{"id":"L9","text":"عَادَ نَادِرٌ بِطَائِرَتِهِ، فَوَجَدَ جِدَارًا آخَرَ.","start":32.8,"end":35.8,"method":"estimate","reviewStatus":"provisional"},
+{"id":"L10","text":"لَكِنَّهُ هَذِهِ المَرَّةَ... قَرَأَ أَوَّلًا.","start":36.4,"end":38.8,"method":"estimate","reviewStatus":"provisional"}
+]}
