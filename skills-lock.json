@@ -1,11 +1,242 @@
 {
   "version": 2,
   "skills": {
+    "3d-asset-generation": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/3d-asset-generation/SKILL.md",
+      "computedHash": "9049e87b5ce3dc0cc147001ee4283755fa1b653382ee2be07f8c69c01989a502",
+      "installMode": "copy"
+    },
+    "acestep": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/acestep/SKILL.md",
+      "computedHash": "39380fc99029fd6a3bfeee43cf8fdd8c5ddb12528ad2312d49e29f0763cf12eb",
+      "installMode": "copy"
+    },
+    "agents": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/agents/SKILL.md",
+      "computedHash": "549f47191ec3fa652b12c28fb3d972a9841686cc78324c51eab3688b2379f647",
+      "installMode": "copy"
+    },
+    "ai-video-gen": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/ai-video-gen/SKILL.md",
+      "computedHash": "f2b97421c835349b7257b0cb2a5b419fc72e3fdde41f29e46e254553989510a5",
+      "installMode": "copy"
+    },
+    "atlas-cloud": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/atlas-cloud/SKILL.md",
+      "computedHash": "ad8f2dbc26c578c0fe717d2527f5a176583ea2adf47ae35c54d813b08314d250",
+      "installMode": "copy"
+    },
+    "avatar-video": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/avatar-video/SKILL.md",
+      "computedHash": "53dc3bd3bd8fa8f19bcfc7f887531e06b7a4107d81c76a9fe225372ee8da8a3a",
+      "installMode": "copy"
+    },
+    "azure-speech-to-text": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/azure-speech-to-text/SKILL.md",
+      "computedHash": "1d21095132de0556a02dc163d3b781c2d9bdf3912ab87adf194ceb5eb19689b7",
+      "installMode": "copy"
+    },
+    "azure-text-to-speech": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/azure-text-to-speech/SKILL.md",
+      "computedHash": "f26e3a8f6aaaa161cc41ef8b6e0d26a46e84d400ec890fe3cc71fc9312b01aa3",
+      "installMode": "copy"
+    },
+    "beautiful-mermaid": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/beautiful-mermaid/SKILL.md",
+      "computedHash": "b7e9c24ed5f7e883d78fb82d36416e4f0bb89642efb60a18a6aadb91c59aaec6",
+      "installMode": "copy"
+    },
+    "bfl-api": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/bfl-api/SKILL.md",
+      "computedHash": "fd864392758872eef54859a67a8a5ddef7ca2da6d0ef093bf05c15e4d43050bc",
+      "installMode": "copy"
+    },
+    "character-animation-qa": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/character-animation-qa/SKILL.md",
+      "computedHash": "ad8a6916adb55b21341e150a02373cfbd3007845b2e8b5026d70037dee493297",
+      "installMode": "copy"
+    },
+    "comfyui": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/comfyui/SKILL.md",
+      "computedHash": "603b45dae2bab9b101efe430b6163abc6d7b73a5816a8234926bfd9339b7cd8d",
+      "installMode": "copy"
+    },
+    "create-video": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/create-video/SKILL.md",
+      "computedHash": "e20827b9511ccd3d2582e083731100df1e9bcf19a336a6a6a2e131f439f85b64",
+      "installMode": "copy"
+    },
+    "d3-viz": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/d3-viz/SKILL.md",
+      "computedHash": "e12719f580339913bbfcd7f00bf0324286afc045920e3079e6698283c07ce79c",
+      "installMode": "copy"
+    },
+    "dashscope": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/dashscope/SKILL.md",
+      "computedHash": "7b0d85cb8827432079bed39cee502935efdb46c3ca0d137e3ed607361e999a66",
+      "installMode": "copy"
+    },
+    "doubao-tts": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/doubao-tts/SKILL.md",
+      "computedHash": "4919d41357b506a85c60c5e95cc686c02398b9bbd77109a1a535bcf02fb2e73f",
+      "installMode": "copy"
+    },
+    "elevenlabs": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/elevenlabs/SKILL.md",
+      "computedHash": "99d3e999702ecd13bbf24466c3e36cd3fb5e9c09a028c0086e7128aeaa5a977e",
+      "installMode": "copy"
+    },
+    "faceswap": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/faceswap/SKILL.md",
+      "computedHash": "3e5e613fe3316084d7dc4ca99d989b80e2b847c7e59b6c55e4a9e2d412db9ee3",
+      "installMode": "copy"
+    },
+    "ffmpeg": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/ffmpeg/SKILL.md",
+      "computedHash": "ff8e85c81bac9a0bc655b94893f06e60e34c42f3faa98ee60e2cdd51a0215013",
+      "installMode": "copy"
+    },
     "figma": {
       "source": "heygen-com/hyperframes",
       "sourceType": "github",
       "skillPath": "skills/figma/SKILL.md",
       "computedHash": "0e6398ef34b30dec730d4225a20bdb20e7ed2309ece8abea95949549fe19f3ac",
+      "installMode": "copy"
+    },
+    "fish-audio-tts": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/fish-audio-tts/SKILL.md",
+      "computedHash": "48ab733095c9a39064aefa539f144421ad474a25a178ff88d40d8622e3ca4c9e",
+      "installMode": "copy"
+    },
+    "flux-best-practices": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/flux-best-practices/SKILL.md",
+      "computedHash": "9aaa5c4b20c5d02b329f46d83c6e8f88e286a3c32e8830326a5d4a31616a1be6",
+      "installMode": "copy"
+    },
+    "framer-motion": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/framer-motion/SKILL.md",
+      "computedHash": "f648969009711faec1ea01664cabf749655b4ed5f53b6359343e8548adc4bc08",
+      "installMode": "copy"
+    },
+    "gemini-omni": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/gemini-omni/SKILL.md",
+      "computedHash": "3f24245987d6c9464a91b3d44b18243940b5d8fda89b2982a60417f6aefc7175",
+      "installMode": "copy"
+    },
+    "grok-media": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/grok-media/SKILL.md",
+      "computedHash": "3c43943f6ee0c37fc3f02ac1ae95a665f6859fc66dd6bb34a3d50cc32f25a1e0",
+      "installMode": "copy"
+    },
+    "gsap-core": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/gsap-core/SKILL.md",
+      "computedHash": "dfc8ba849fa8b81c8cc60964ee2a5fa8db4b2a2611801cf549a5b267b8284fa5",
+      "installMode": "copy"
+    },
+    "gsap-frameworks": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/gsap-frameworks/SKILL.md",
+      "computedHash": "67f75464e631435d1ecd7e8526b50012f6eff3e73d803c8ae806166541648bfa",
+      "installMode": "copy"
+    },
+    "gsap-performance": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/gsap-performance/SKILL.md",
+      "computedHash": "4dd4382cad329927a248fbe55c426901f2bf4f5c598db6ef5ec38c19861b829f",
+      "installMode": "copy"
+    },
+    "gsap-plugins": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/gsap-plugins/SKILL.md",
+      "computedHash": "f0a123d7b5477f81ee2290035daf1e2c53e337789abb01d5caad65e6fe57883e",
+      "installMode": "copy"
+    },
+    "gsap-react": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/gsap-react/SKILL.md",
+      "computedHash": "35fd08f2cbfc945f1a8cdd39e232882a19e27781a4043ee1bc71f65432f03389",
+      "installMode": "copy"
+    },
+    "gsap-scrolltrigger": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/gsap-scrolltrigger/SKILL.md",
+      "computedHash": "c29c5a0fb1506a7f577fe68282eafc6df14b8d2b8ecd24f1f05836f5a0957b67",
+      "installMode": "copy"
+    },
+    "gsap-timeline": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/gsap-timeline/SKILL.md",
+      "computedHash": "622140f48b7aa6bcf2f4d4c050b8fa20effa533688a1650854f5ffc1be169a0b",
+      "installMode": "copy"
+    },
+    "gsap-utils": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/gsap-utils/SKILL.md",
+      "computedHash": "d05b56284eea0118d481b8c673aff27cae66199282995bfe78315785f561002d",
+      "installMode": "copy"
+    },
+    "heygen": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/heygen/SKILL.md",
+      "computedHash": "805d0cf1910a2addc5b2528cf7bd5bc593660a5e8c6c0ab07770ba631e57ab34",
       "installMode": "copy"
     },
     "hyperframes": {
@@ -15,11 +246,39 @@
       "computedHash": "373b4b19ec8564cbf23f7f3b8399ee9fb4d92609d66948d4b98c13ebe63bbcbc",
       "installMode": "copy"
     },
+    "hyperframes-animation": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/hyperframes-animation/SKILL.md",
+      "computedHash": "f46d291d82c4879628e97b64e410cd28cf5723105788e7477b822ebb4d338c1b",
+      "installMode": "copy"
+    },
     "hyperframes-cli": {
       "source": "heygen-com/hyperframes",
       "sourceType": "github",
       "skillPath": "skills/hyperframes-cli/SKILL.md",
       "computedHash": "3014a0c974196c14dbc285a489c25852aeb330fa9b37020c21e1916ca7660af3",
+      "installMode": "copy"
+    },
+    "hyperframes-core": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/hyperframes-core/SKILL.md",
+      "computedHash": "0d8ecc2d692c50d64f85f0131b145886edf7d85364048b895d9c786339b38ed9",
+      "installMode": "copy"
+    },
+    "hyperframes-creative": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/hyperframes-creative/SKILL.md",
+      "computedHash": "6a609632a6baed0d418f80f0f79de6c5730e8028f78b8e10b860b11774e84a36",
+      "installMode": "copy"
+    },
+    "hyperframes-media": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/hyperframes-media/SKILL.md",
+      "computedHash": "37a22f13233dbf6ad49df39bfdd39138fab17a8068dd6724078152b1626ce6ad",
       "installMode": "copy"
     },
     "hyperframes-registry": {
@@ -29,11 +288,214 @@
       "computedHash": "6ac664d7d7f2ffdf299136cffb1a9bbebe21fd2b9afa8e6f44cf0c7a2d3df3b6",
       "installMode": "copy"
     },
+    "kling-official": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/kling-official/SKILL.md",
+      "computedHash": "79e68e06a7d5be5ff33e7cd9e134daad83687bbd1664a2d38954d12fc88be36d",
+      "installMode": "copy"
+    },
+    "lottie-bodymovin": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/lottie-bodymovin/SKILL.md",
+      "computedHash": "243554ba9d9ab3601e2ae7fa42300fa54ba3c5147c90b894b7b059189720ef4c",
+      "installMode": "copy"
+    },
+    "ltx2": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/ltx2/SKILL.md",
+      "computedHash": "31723f16cc144820d8b2dd78c40e4cfc98862d59617c780b6c44394def0d6e4d",
+      "installMode": "copy"
+    },
+    "lyria": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/lyria/SKILL.md",
+      "computedHash": "217d147716f054246aa3a2c666ab0608c938ebe5ea6c1a684c8d219f5c7b0545",
+      "installMode": "copy"
+    },
+    "manim-composer": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/manim-composer/SKILL.md",
+      "computedHash": "e6d151341a7be977e3fd41234bf75f7521da4dd2d9029f7a47de645ca94b3669",
+      "installMode": "copy"
+    },
+    "manimce-best-practices": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/manimce-best-practices/SKILL.md",
+      "computedHash": "72d195ae744e610814cc951fd3475a392d9c2dd47e0cc6d0af97874cf9bd85bc",
+      "installMode": "copy"
+    },
+    "manimgl-best-practices": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/manimgl-best-practices/SKILL.md",
+      "computedHash": "4b8d5305f1450f6f2a736acee491ac308af451d88cb430aa4b773011b13064cb",
+      "installMode": "copy"
+    },
     "media-use": {
       "source": "heygen-com/hyperframes",
       "sourceType": "github",
       "skillPath": "skills/media-use/SKILL.md",
       "computedHash": "d6673d9e46691709e1a2e6a30b0d7adbd6f176165648a719dafbe19e6d004674",
+      "installMode": "copy"
+    },
+    "minimax-h3": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/minimax-h3/SKILL.md",
+      "computedHash": "68609b52453c91bff2d22778e873d9cb1d207a22a868d59b86444d7a1b0d076e",
+      "installMode": "copy"
+    },
+    "motion-graphics": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/motion-graphics/SKILL.md",
+      "computedHash": "b18a15cc55ebd461058b7985078252c19ce15e8a1ae163653ee9ad44fbd2e312",
+      "installMode": "copy"
+    },
+    "music": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/music/SKILL.md",
+      "computedHash": "15e44ca1cf8db20b3e37823e05c664e42a2e18f5916626c5152208e34546c6be",
+      "installMode": "copy"
+    },
+    "music-to-video": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/music-to-video/SKILL.md",
+      "computedHash": "a92845f3a51a11d3792f8c08780c02411bc035bcd34d597db37951a078fa2af1",
+      "installMode": "copy"
+    },
+    "pika-h3-flex": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/pika-h3-flex/SKILL.md",
+      "computedHash": "18e9517db8305199a8dca865639d13ee8089c5f4082d296f85b6c7670a5ca119",
+      "installMode": "copy"
+    },
+    "playwright-recording": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/playwright-recording/SKILL.md",
+      "computedHash": "c3c91dcf435e40fe7594007e5294a0ea7f60e442262761d8c19ddec98e3b7612",
+      "installMode": "copy"
+    },
+    "pose-library-design": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/pose-library-design/SKILL.md",
+      "computedHash": "9079fcdf432ed4ebdf4288c79abc3b5a296322a3c00cf7dc6f0aa078d6e7cf7b",
+      "installMode": "copy"
+    },
+    "provider-model-refresh": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/provider-model-refresh/SKILL.md",
+      "computedHash": "4a5d282405b94c7b1a429fe0ce3210dec2aa07db450729603928690355e3b67b",
+      "installMode": "copy"
+    },
+    "provider-refresh-oct23": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/provider-refresh-oct23/SKILL.md",
+      "computedHash": "ed930cf1681e2e4e31b32be03498b2acdb9a9bb06ca428dba03b766060513d18",
+      "installMode": "copy"
+    },
+    "remotion": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/remotion/SKILL.md",
+      "computedHash": "ea2ff25f24a10ee89a8c13d2fb107fec8eeec0430a6e68bb75857b6c395a3671",
+      "installMode": "copy"
+    },
+    "remotion-best-practices": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-best-practices/SKILL.md",
+      "computedHash": "55e6029eeafb7f64bfcaef013f7b9f569dfcc4db6554c6d6fb833ad141ec1494",
+      "installMode": "copy"
+    },
+    "remotion-captions": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-captions/SKILL.md",
+      "computedHash": "07bc117cc06fb9090aad2948ebc0eb913914759cc805d50ffb8894454840e4ba",
+      "installMode": "copy"
+    },
+    "remotion-create": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-create/SKILL.md",
+      "computedHash": "f81a5c7addd97fd553274c78ec93b274cf48df4d58e071b74158c8b6e547f348",
+      "installMode": "copy"
+    },
+    "remotion-docs": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-docs/SKILL.md",
+      "computedHash": "6c0e9b3dec3441fd54712e5377ed6094c51a2228b8d8934aaae75a0dc425777f",
+      "installMode": "copy"
+    },
+    "remotion-interactivity": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-interactivity/SKILL.md",
+      "computedHash": "3c588b415e7e86be30b26057f9751ef21a36c42807bcfc0d2252d4fa5e34e489",
+      "installMode": "copy"
+    },
+    "remotion-license": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-license/SKILL.md",
+      "computedHash": "36b400fca48ac80dfa85889f270b6d03a9854be690810f0b692dd4fb17e21e8f",
+      "installMode": "copy"
+    },
+    "remotion-maps": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-maps/SKILL.md",
+      "computedHash": "cf29c124697a2a058dd7c2de0442f95c41c6ce22354e98c8faa94ceab2f63c10",
+      "installMode": "copy"
+    },
+    "remotion-markup": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-markup/SKILL.md",
+      "computedHash": "29b795d29bc3692b4c480cff0682f7eb39b1be1264186b9914359db451eef8d0",
+      "installMode": "copy"
+    },
+    "remotion-multimedia": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-multimedia/SKILL.md",
+      "computedHash": "5d0d2d40329e899b854db1eebb462faa8e5ce26b7a13436973699c4a7ff79846",
+      "installMode": "copy"
+    },
+    "remotion-render": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-render/SKILL.md",
+      "computedHash": "266306e064e8be13d93c85fac3a9bbd6ef542acac5c1961cfbd3c51b84e02827",
+      "installMode": "copy"
+    },
+    "remotion-saas": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-saas/SKILL.md",
+      "computedHash": "a708e7ab01c9c6ff22947e5f942d16f627c39fe2eb7b0403b5e6123011123403",
+      "installMode": "copy"
+    },
+    "remotion-studio": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-studio/SKILL.md",
+      "computedHash": "e9dd94324fceb56ecd1cd466ff2371f8dcf6d7daeceb1d94f74cce7784d861be",
       "installMode": "copy"
     },
     "remotion-to-hyperframes": {
@@ -43,11 +505,39 @@
       "computedHash": "2e8210b6f9df473ab0c8028350c3a0f193430b37fdab917725a0d655674da512",
       "installMode": "copy"
     },
+    "remotion-upgrade": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-upgrade/SKILL.md",
+      "computedHash": "27e2c87253c65d0a8d5b8878a871c9d86814fa89bc4f962b2fbe3f8ad450928c",
+      "installMode": "copy"
+    },
     "reverse-any-video": {
       "source": "heygen-com/hyperframes",
       "sourceType": "github",
       "skillPath": "skills/reverse-any-video/SKILL.md",
       "computedHash": "2cefe479a595e0bdaaeae6a23c297992ac133c1dfd49dd64b01b3e28eee591f0",
+      "installMode": "copy"
+    },
+    "seedance-2-0": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/seedance-2-0/SKILL.md",
+      "computedHash": "137e877a0077bb84f7ed5adbaff62df88b1ae417e95127062ef64a64187adca8",
+      "installMode": "copy"
+    },
+    "seedance-2-5": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/seedance-2-5/SKILL.md",
+      "computedHash": "bb663d081f164a3e02b8fba94aaf3c22815cc3359c9744af04aaf7483aa3a915",
+      "installMode": "copy"
+    },
+    "setup-api-key": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/setup-api-key/SKILL.md",
+      "computedHash": "aae820d1e863adbc7c024de7744af36197dffe6cef8fea06c989d7ae643b3bb2",
       "installMode": "copy"
     },
     "slideshow": {
@@ -57,11 +547,200 @@
       "computedHash": "9e0fe437b47e9edf4f1c6c9aa48b5c1d7c3a1b896d9a83a11934c7aa8e76d345",
       "installMode": "copy"
     },
+    "sound-effects": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/sound-effects/SKILL.md",
+      "computedHash": "bde70ef2a9c8711c3acf7d64e06a63385a85f6b5e458de4c743ebb99ee9765f8",
+      "installMode": "copy"
+    },
+    "speech-to-text": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/speech-to-text/SKILL.md",
+      "computedHash": "05f65ca2de85ab025ee1d0e182f9c5103dc522bab580dbef47767a332aa042d0",
+      "installMode": "copy"
+    },
     "style-sampling": {
       "source": "heygen-com/hyperframes",
       "sourceType": "github",
       "skillPath": "skills/style-sampling/SKILL.md",
       "computedHash": "cb49372a8bfd06f5478802f56febf2d25371fd3401e83957139ecf12e80e490b",
+      "installMode": "copy"
+    },
+    "svg-character-animation": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/svg-character-animation/SKILL.md",
+      "computedHash": "f97194f882d070bb45b0f75730944ed166a885c143883d595e433da81f1ccf69",
+      "installMode": "copy"
+    },
+    "synthetic-screen-recording": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/synthetic-screen-recording/SKILL.md",
+      "computedHash": "304ffd259c3480306f99bfd15613a68841dc35b0d1aa08c55b731e1f9045672e",
+      "installMode": "copy"
+    },
+    "tailwind-design-system": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/tailwind-design-system/SKILL.md",
+      "computedHash": "ed12e3f057d4210b19e9053c5e487991d1e2c60af51ebb712a09b00cfbee64ef",
+      "installMode": "copy"
+    },
+    "text-to-speech": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/text-to-speech/SKILL.md",
+      "computedHash": "bb6f3b3629fc653843eaf0c096a3b862a3ea6f0be4736c469859f3f23f0f304f",
+      "installMode": "copy"
+    },
+    "threejs-animation": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/threejs-animation/SKILL.md",
+      "computedHash": "5087875aaba232e030801eb0e218bf258b7237ab121cb6bd74fe473efce05500",
+      "installMode": "copy"
+    },
+    "threejs-fundamentals": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/threejs-fundamentals/SKILL.md",
+      "computedHash": "8adc51050433d120a784e6421281cdad3b3d83de0b16823de655c8acfbbfb6ff",
+      "installMode": "copy"
+    },
+    "threejs-geometry": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/threejs-geometry/SKILL.md",
+      "computedHash": "59674f3b106390008952b1d5df17e821a37bb265decfc2c9fd495ba521e81fd5",
+      "installMode": "copy"
+    },
+    "threejs-interaction": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/threejs-interaction/SKILL.md",
+      "computedHash": "3b8abb07adfe5a1e4763cec8e1ce3dc438637e4bd72341bfe523fe9ba066db7e",
+      "installMode": "copy"
+    },
+    "threejs-lighting": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/threejs-lighting/SKILL.md",
+      "computedHash": "d660e713407a0f5502b447ebed190d729c45928590915dec2f50ae2756d558e1",
+      "installMode": "copy"
+    },
+    "threejs-loaders": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/threejs-loaders/SKILL.md",
+      "computedHash": "7d88d87264974c91cb6ea0abec0ee769986fc59d0eb08488a23cbf83c31c7413",
+      "installMode": "copy"
+    },
+    "threejs-materials": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/threejs-materials/SKILL.md",
+      "computedHash": "05645b76bde334e9101597aab782dd620a6f171b2ba9bc15e6af69e314a7615e",
+      "installMode": "copy"
+    },
+    "threejs-postprocessing": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/threejs-postprocessing/SKILL.md",
+      "computedHash": "97337a096e9d7e6aba7d42aeff3790166fc3ba457132b98aadf9e387a4d6e27d",
+      "installMode": "copy"
+    },
+    "threejs-shaders": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/threejs-shaders/SKILL.md",
+      "computedHash": "c44d0e32fc15efff9e8fe44e1707bbd63eda161da95c1a942d6a6c64c03dc0b8",
+      "installMode": "copy"
+    },
+    "threejs-textures": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/threejs-textures/SKILL.md",
+      "computedHash": "0eef19cc1e500c796a0ecb8ed76a520d960069a173eb191a66ef0e20a722f6cf",
+      "installMode": "copy"
+    },
+    "threejs-world-generation": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/threejs-world-generation/SKILL.md",
+      "computedHash": "384d885a715702be92294ef87dbb9dcfbc547663a42fa6d7e182681e49007cf8",
+      "installMode": "copy"
+    },
+    "vercel-composition-patterns": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/vercel-composition-patterns/SKILL.md",
+      "computedHash": "2ba2062785661b85ef7ffa75c90c39aab8e1c2b38952f68294958cd36e84f557",
+      "installMode": "copy"
+    },
+    "vercel-react-best-practices": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/vercel-react-best-practices/SKILL.md",
+      "computedHash": "c5435279c2df2b92defc3a29beb56c660bbe0aa163e0357eb80ca01f81898d85",
+      "installMode": "copy"
+    },
+    "video-download": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/video-download/SKILL.md",
+      "computedHash": "80af196de8c8d1037a457a492ed85c9a6abd79dda597039336f611a7919268fb",
+      "installMode": "copy"
+    },
+    "video-edit": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/video-edit/SKILL.md",
+      "computedHash": "505895d8fa45a0325eacb0d577193664e2716887dc50627f489a7420d33fc509",
+      "installMode": "copy"
+    },
+    "video-toolkit": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/video-toolkit/SKILL.md",
+      "computedHash": "95a9160e2bcabc31d7e7e46154bb9848e4a53c08b06f8685f898167d54066df1",
+      "installMode": "copy"
+    },
+    "video-translate": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/video-translate/SKILL.md",
+      "computedHash": "a50ca351de788711110ef9c5ffa3c856e31cc110fb585dfc0ddf1529b6c6f0f1",
+      "installMode": "copy"
+    },
+    "video-understand": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/video-understand/SKILL.md",
+      "computedHash": "1c6959becb79774805c94c2e3660b27139c9dc6ff501a0975a3ee395fc4a8c9f",
+      "installMode": "copy"
+    },
+    "visual-style": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/visual-style/SKILL.md",
+      "computedHash": "cb2ff9eeadd7f1b8a83740bb391c9472046a2a1512f3df9939de52784ede7f24",
+      "installMode": "copy"
+    },
+    "web-design-guidelines": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/web-design-guidelines/SKILL.md",
+      "computedHash": "4f68ae07187fb0d1fb78c88b503d089da4cf5a9d9625d1f2e425b1590bf96d92",
+      "installMode": "copy"
+    },
+    "website-to-video": {
+      "source": "calesthio/OpenMontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/website-to-video/SKILL.md",
+      "computedHash": "8407cd2481ee0437f8116fd65a9449f69d6083e6b18745f3066fba595feb8d1f",
       "installMode": "copy"
     }
   }
