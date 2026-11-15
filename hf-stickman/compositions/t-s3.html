@@ -1,0 +1,35 @@
+<template>
+  <style>
+    @font-face { font-family: 'Lalezar'; src: url('assets/fonts/lalezar-arabic-400-normal.woff2') format('woff2'); }
+    #root { position: absolute; inset: 0; }
+    .line { position: absolute; left: 110px; width: 770px; text-align: center; direction: rtl; font-family: 'Lalezar'; line-height: 1.15; color: #1F1E24; -webkit-text-stroke: 20px #FFF8EA; paint-order: stroke fill; }
+    .line .w { display: inline-block; white-space: nowrap; }
+    .line b { font-weight: 400; }
+    .line.sad { color: #6B6B76; }
+    .line.chip { -webkit-text-stroke: 0; }
+    .line.chip .w { background: #FFF8EA; border: 5px solid #1F1E24; border-radius: 60px; padding: 14px 44px 8px; }
+  </style>
+  <div id="root" data-composition-id="t-s3" data-width="1080" data-height="1920">
+    <div id="t-s3-l1" class="clip line " data-start="0.05" data-duration="1.35" data-track-index="1" style="top: 360px; font-size: 104px"><span id="t-s3-l1s" class="w">استنى... <b style="color:#D23A22">بُص كويس</b></span></div>
+    <div id="t-s3-l2" class="clip line " data-start="1.85" data-duration="1.7" data-track-index="2" style="top: 340px; font-size: 104px"><span id="t-s3-l2s" class="w">هو كمان <b style="color:#1F63C4">وقع كتير</b></span></div>
+    <div id="t-s3-l3" class="clip line tilt" data-start="4.6" data-duration="1.8" data-track-index="3" style="top: 340px; font-size: 96px"><span id="t-s3-l3s" class="w">وقعد <b style="color:#1F63C4">نفس قعدتك</b> دي</span></div>
+    <div id="t-s3-l4" class="clip line " data-start="7.8" data-duration="2.5" data-track-index="4" style="top: 590px; font-size: 104px"><span id="t-s3-l4s" class="w">وهو نفسه...</span></div>
+    <div id="t-s3-l5" class="clip line tilt" data-start="8.6" data-duration="1.7" data-track-index="5" style="top: 725px; font-size: 104px"><span id="t-s3-l5s" class="w">لسه <b style="color:#6D3FE0">باصص لفوق</b></span></div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#t-s3-l1s", { scale: 0.55, opacity: 0, rotation: -5 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.3, ease: "back.out(1.9)" }, 0.05);
+      tl.to("#t-s3-l1s", { scale: 0.86, opacity: 0, duration: 0.14, ease: "power2.in" }, 1.23);
+      tl.fromTo("#t-s3-l2s", { scale: 0.55, opacity: 0, rotation: -5 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.3, ease: "back.out(1.9)" }, 1.85);
+      tl.to("#t-s3-l2s", { scale: 0.86, opacity: 0, duration: 0.14, ease: "power2.in" }, 3.38);
+      tl.fromTo("#t-s3-l3s", { scale: 0.55, opacity: 0, rotation: -7.5 }, { scale: 1, opacity: 1, rotation: -2.5, duration: 0.3, ease: "back.out(1.9)" }, 4.6);
+      tl.to("#t-s3-l3s", { scale: 0.86, opacity: 0, duration: 0.14, ease: "power2.in" }, 6.23);
+      tl.fromTo("#t-s3-l4s", { scale: 0.55, opacity: 0, rotation: -5 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.3, ease: "back.out(1.9)" }, 7.8);
+      tl.to("#t-s3-l4s", { scale: 0.86, opacity: 0, duration: 0.14, ease: "power2.in" }, 10.13);
+      tl.fromTo("#t-s3-l5s", { scale: 0.55, opacity: 0, rotation: -7.5 }, { scale: 1, opacity: 1, rotation: -2.5, duration: 0.3, ease: "back.out(1.9)" }, 8.6);
+      tl.to("#t-s3-l5s", { scale: 0.86, opacity: 0, duration: 0.14, ease: "power2.in" }, 10.13);
+      window.__timelines["t-s3"] = tl;
+    })();
+  </script>
+</template>

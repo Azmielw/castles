@@ -1,0 +1,24 @@
+<template>
+  <style>
+    @font-face { font-family: 'Lalezar'; src: url('assets/fonts/lalezar-arabic-400-normal.woff2') format('woff2'); }
+    #root { position: absolute; inset: 0; }
+    .line { position: absolute; left: 110px; width: 770px; text-align: center; direction: rtl; font-family: 'Lalezar'; line-height: 1.15; color: #1F1E24; -webkit-text-stroke: 20px #FFF8EA; paint-order: stroke fill; }
+    .line .w { display: inline-block; white-space: nowrap; }
+    .line b { font-weight: 400; }
+    .line.sad { color: #6B6B76; }
+    .line.chip { -webkit-text-stroke: 0; }
+    .line.chip .w { background: #FFF8EA; border: 5px solid #1F1E24; border-radius: 60px; padding: 14px 44px 8px; }
+  </style>
+  <div id="root" data-composition-id="t-end" data-width="1080" data-height="1920">
+    <div id="t-end-l1" class="clip line " data-start="1.4" data-duration="3.7" data-track-index="1" style="top: 600px; font-size: 96px"><span id="t-end-l1s" class="w">درجتك النهارده <b style="color:#A8230F">كام؟</b></span></div>
+    <div id="t-end-l2" class="clip line chip" data-start="2.4" data-duration="2.7" data-track-index="2" style="top: 770px; font-size: 62px"><span id="t-end-l2s" class="w">اكتبها في التعليقات</span></div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#t-end-l1s", { scale: 0.55, opacity: 0, rotation: -5 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.3, ease: "back.out(1.9)" }, 1.4);
+      tl.fromTo("#t-end-l2s", { scale: 0.55, opacity: 0, rotation: -5 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.3, ease: "back.out(1.9)" }, 2.4);
+      window.__timelines["t-end"] = tl;
+    })();
+  </script>
+</template>

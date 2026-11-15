@@ -1,0 +1,259 @@
+// ===== عالم «السلّم»: كل إطار دالة في الزمن فقط =====
+const W = 1080, H = 1920, RS = 62, LX = 540, LW = 170, S = 1.25, GROUND = 40;
+const INK = '#1F1E24', CREAM = '#FFF8EA';
+const COL = { hero: '#E8553D', top: '#2F7FE0', kid: '#2FA862', high: '#8B5CF6' };
+const DEF = c => ({ headR: 36, torso: 118, upperArm: 62, foreArm: 58, thigh: 74, shin: 72, line: 13, ink: INK, scarf: c });
+const PL = { 0: '٠', 1: '١', 2: '٢', 3: '٣', 4: '٤', 5: '٥', 6: '٦', 7: '٧', 21: '١٩', 22: '٢٠', 23: '٢١', 42: '٥٤', 43: '٥٥', 44: '٥٦', 63: '٩٦', 64: '٩٧', 65: '٩٨', 83: '٢٩٩', 84: '٣٠٠', 85: '٣٠١' };
+const ry = i => -i * RS;
+const cv = document.getElementById('world-canvas'), g = cv.getContext('2d');
+let CAM = { y: 0, z: 1 };
+const sy = wy => (wy - CAM.y) * CAM.z + 960, sx = wx => (wx - LX) * CAM.z + 540;
+const E = { lin: u => u, io: ease.io, io3: u => u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2 };
+const CK = [[0, -1413, .22], [2.5, -1430, .232, 'lin'], [3.5, -430, 1, 'io3'], [8.0, -450, 1.08, 'lin'], [8.45, -405, 1.06, 'io'],
+[9.6, -1694, 1, 'io3'], [11.4, -1728, 1, 'lin'], [12.3, -2996, 1, 'io3'], [14.3, -3030, 1, 'lin'], [15.2, -4308, 1, 'io3'], [15.7, -4318, 1, 'lin'], [17.0, -4572, .72, 'io'], [18.4, -4590, .72, 'lin'],
+[19.9, -150, 1, 'io3'], [23.2, -170, 1.04, 'lin'], [24.4, -430, 1, 'io'], [27.6, -450, 1.08, 'lin'], [28.5, -500, 1.14, 'io'], [31.5, -510, 1.14, 'lin'], [33.2, -1413, .22, 'io3'], [36.6, -1430, .232, 'lin']];
+function camAt(t) {
+  let k = 0; while (k < CK.length - 2 && t >= CK[k + 1][0]) k++;
+  const a = CK[k], b = CK[k + 1], u = clamp((t - a[0]) / (b[0] - a[0])), e = E[b[3] || 'lin'](u);
+  return { y: lerp(a[1], b[1], e), z: Math.exp(lerp(Math.log(a[2]), Math.log(b[2]), e)) };
+}
+function wt() { g.setTransform(CAM.z, 0, 0, CAM.z, 540 - LX * CAM.z, 960 - CAM.y * CAM.z); }
+function st() { g.setTransform(1, 0, 0, 1, 0, 0); }
+function rr(x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+const rgb = h => { const n = parseInt(h.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+const mixc = (a, b, u) => { const A = rgb(a), B = rgb(b); return `rgb(${A.map((v, i) => Math.round(lerp(v, B[i], clamp(u)))).join(',')})`; };
+// لون السماء حسب الارتفاع
+const SKY = [[200, '#FFE9CC'], [-700, '#CFEBF7'], [-2200, '#9AD2F2'], [-3900, '#5FAEE8'], [-5600, '#3B82D6']];
+function skyAt(y) { let k = 0; while (k < SKY.length - 2 && y < SKY[k + 1][0]) k++; const a = SKY[k], b = SKY[k + 1]; return mixc(a[1], b[1], (y - a[0]) / (b[0] - a[0])); }
+
+function background(t) {
+  st();
+  const yt = CAM.y - 960 / CAM.z, yb = CAM.y + 960 / CAM.z, gr = g.createLinearGradient(0, 0, 0, H);
+  for (let i = 0; i <= 6; i++) gr.addColorStop(i / 6, skyAt(lerp(yt, yb, i / 6)));
+  g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  // الشمس (بعيدة: تتحرك قليلًا)
+  const sunY = 420 - CAM.y * 0.035, glow = g.createRadialGradient(860, sunY, 30, 860, sunY, 380);
+  glow.addColorStop(0, 'rgba(255,236,170,0.9)'); glow.addColorStop(1, 'rgba(255,236,170,0)');
+  g.fillStyle = glow; g.beginPath(); g.arc(860, sunY, 380, 0, 7); g.fill();
+  g.fillStyle = '#FFE38A'; g.beginPath(); g.arc(860, sunY, 92, 0, 7); g.fill();
+  // سحب بعيدة ومتوسطة
+  clouds(t, 0.35, 0.75, 21, 0.7, 22); clouds(t, 0.62, 1.0, 22, 0.85, 16);
+  // منطاد وطيور
+  const by = (-2350 - CAM.y) * 0.6 * CAM.z + 960, bx = 170 + Math.sin(t * 0.4) * 20;
+  if (by > -300 && by < H + 300) balloon(bx, by, 1.1 * Math.min(1, CAM.z + 0.3));
+  for (let k = 0; k < 5; k++) { const yy = (-1250 - k * 60 - CAM.y) * 0.8 * CAM.z + 960, xx = ((t * 60 + k * 170) % 1400) - 160; if (yy > -50 && yy < H + 50) bird(xx, yy + Math.sin(t * 3 + k) * 10, t + k); }
+}
+function clouds(t, par, sc, seed, alpha, n) {
+  const r = rng(seed); g.fillStyle = `rgba(255,255,255,${alpha})`;
+  for (let k = 0; k < n; k++) {
+    const wy = -520 - r() * 5600, x0 = r() * 1500 - 200, s = (0.7 + r() * 0.9) * sc * Math.min(1.15, 0.45 + CAM.z * 0.6), sp = 6 + r() * 10;
+    const y = (wy - CAM.y) * par * CAM.z + 960; if (y < -160 || y > H + 160) continue;
+    const x = ((x0 + t * sp) % 1500 + 1500) % 1500 - 210;
+    g.beginPath(); g.ellipse(x, y, 120 * s, 40 * s, 0, 0, 7); g.ellipse(x + 70 * s, y - 28 * s, 76 * s, 46 * s, 0, 0, 7); g.ellipse(x - 64 * s, y - 14 * s, 62 * s, 36 * s, 0, 0, 7); g.fill();
+  }
+}
+function balloon(x, y, s) {
+  g.save(); g.translate(x, y); g.scale(s, s);
+  g.strokeStyle = INK; g.lineWidth = 3; g.beginPath(); g.moveTo(-34, 70); g.lineTo(-16, 132); g.moveTo(34, 70); g.lineTo(16, 132); g.stroke();
+  g.fillStyle = '#F6C445'; g.beginPath(); g.ellipse(0, 0, 80, 92, 0, 0, 7); g.fill();
+  g.fillStyle = '#EF7F45'; g.beginPath(); g.ellipse(0, 0, 40, 92, 0, 0, 7); g.fill();
+  g.fillStyle = '#F6C445'; g.beginPath(); g.ellipse(0, 0, 12, 92, 0, 0, 7); g.fill();
+  g.strokeStyle = INK; g.lineWidth = 5; g.beginPath(); g.ellipse(0, 0, 80, 92, 0, 0, 7); g.stroke();
+  g.fillStyle = '#8A5A3C'; rr(-20, 130, 40, 30, 6); g.fill(); g.stroke(); g.restore();
+}
+function bird(x, y, t) { const f = Math.sin(t * 9) * 9; g.strokeStyle = INK; g.lineWidth = 5; g.lineCap = 'round'; g.beginPath(); g.moveTo(x - 18, y - f); g.quadraticCurveTo(x - 8, y - 12, x, y); g.quadraticCurveTo(x + 8, y - 12, x + 18, y - f); g.stroke(); }
+
+function ground(t) {
+  wt();
+  // تلال بعيدة
+  g.fillStyle = '#BFE3B0'; g.beginPath(); g.moveTo(-3000, GROUND + 20);
+  for (let x = -3000; x <= 4000; x += 60) g.lineTo(x, GROUND - 190 - 130 * Math.sin(x * 0.0021 + 1) - 60 * Math.sin(x * 0.0063)); g.lineTo(4000, 4000); g.lineTo(-3000, 4000); g.fill();
+  g.fillStyle = '#9DD28E'; g.beginPath(); g.moveTo(-3000, GROUND + 20);
+  for (let x = -3000; x <= 4000; x += 60) g.lineTo(x, GROUND - 60 - 70 * Math.sin(x * 0.0034 + 3)); g.lineTo(4000, 4000); g.lineTo(-3000, 4000); g.fill();
+  // بيوت صغيرة
+  [[-900, '#F4B183'], [-560, '#F7D08A'], [1500, '#F4B183'], [1900, '#C9E4F5']].forEach(([x, c]) => { const y = GROUND - 78 - 70 * Math.sin(x * 0.0034 + 3); g.fillStyle = c; g.fillRect(x, y, 150, 110); g.fillStyle = '#B5523B'; g.beginPath(); g.moveTo(x - 20, y); g.lineTo(x + 75, y - 80); g.lineTo(x + 170, y); g.fill(); g.fillStyle = '#6B4A3A'; g.fillRect(x + 56, y + 50, 38, 60); });
+  const gr = g.createLinearGradient(0, GROUND, 0, GROUND + 900); gr.addColorStop(0, '#8ACB73'); gr.addColorStop(1, '#5FA654');
+  g.fillStyle = gr; g.fillRect(-3000, GROUND, 7000, 6000);
+  const r = rng(5); g.strokeStyle = '#4F9447'; g.lineWidth = 5; g.lineCap = 'round';
+  for (let k = 0; k < 160; k++) { const x = -2200 + r() * 5500, y = GROUND + 30 + r() * 2600, s = 1 + r(); g.beginPath(); g.moveTo(x, y); g.lineTo(x - 8 * s, y - 20 * s); g.moveTo(x, y); g.lineTo(x + 3 * s, y - 26 * s); g.moveTo(x, y); g.lineTo(x + 11 * s, y - 18 * s); g.stroke(); if (k % 4 === 0) { g.fillStyle = k % 8 ? '#FFFFFF' : '#FFE27A'; g.beginPath(); g.arc(x + 36, y - 20, 9, 0, 7); g.fill(); } }
+  // لافتة البداية
+  g.fillStyle = '#8A5A3C'; g.fillRect(LX - 398, GROUND - 150, 16, 160);
+  g.fillStyle = '#E9C58C'; g.strokeStyle = INK; g.lineWidth = 5; rr(LX - 490, GROUND - 236, 200, 92, 12); g.fill(); g.stroke();
+  txt('البداية', LX - 390, GROUND - 188, 54, INK);
+  g.fillStyle = '#7A6548'; g.beginPath(); g.ellipse(LX, GROUND + 6, 150, 20, 0, 0, 7); g.fill();
+}
+function txt(s, x, y, size, col, o = {}) {
+  g.save(); g.font = `${size}px Lalezar`; g.textAlign = o.align || 'center'; g.textBaseline = 'middle'; g.direction = 'rtl'; g.lineJoin = 'round';
+  if (o.stroke) { g.strokeStyle = o.strokeCol || CREAM; g.lineWidth = o.stroke; g.strokeText(s, x, y); }
+  g.fillStyle = col; g.fillText(s, x, y); g.restore();
+}
+function ladder(t, lit) {
+  wt();
+  const yt = CAM.y - 1100 / CAM.z, yb = Math.min(GROUND + 6, CAM.y + 1100 / CAM.z), topEnd = ry(96);
+  const y0 = Math.max(yt, topEnd);
+  g.lineCap = 'round';
+  const railW = Math.max(16, 4.4 / CAM.z), rungW = Math.max(11, 3 / CAM.z);
+  // درجات
+  const i0 = Math.max(0, Math.floor(-yb / RS)), i1 = Math.min(96, Math.ceil(-y0 / RS));
+  for (let i = i0; i <= i1; i++) {
+    const y = ry(i), fade = clamp((96 - i) / 8);
+    g.globalAlpha = fade; g.strokeStyle = '#B07A4E'; g.lineWidth = rungW; g.beginPath(); g.moveTo(LX - LW / 2, y); g.lineTo(LX + LW / 2, y); g.stroke();
+    g.strokeStyle = 'rgba(255,255,255,0.25)'; g.lineWidth = rungW * 0.3; g.beginPath(); g.moveTo(LX - LW / 2 + 12, y - rungW * 0.22); g.lineTo(LX + LW / 2 - 12, y - rungW * 0.22); g.stroke();
+  }
+  g.globalAlpha = 1;
+  [-1, 1].forEach(sd => { const grd = g.createLinearGradient(0, topEnd, 0, topEnd + 600); grd.addColorStop(0, 'rgba(138,90,60,0)'); grd.addColorStop(1, '#8A5A3C'); g.strokeStyle = y0 < topEnd + 600 ? grd : '#8A5A3C'; g.lineWidth = railW; g.beginPath(); g.moveTo(LX + sd * LW / 2, y0); g.lineTo(LX + sd * LW / 2, yb); g.stroke(); });
+  // لوحات الأرقام
+  if (CAM.z > 0.45) for (let i = i0; i <= i1; i++) if (PL[i] !== undefined) {
+    const y = ry(i), c = lit(i), x = LX - LW / 2 - 104;
+    g.strokeStyle = '#8A5A3C'; g.lineWidth = 7; g.beginPath(); g.moveTo(LX - LW / 2, y); g.lineTo(x + 40, y); g.stroke();
+    g.save(); g.translate(x, y); const pk = c.pop || 0; g.scale(1 + 0.35 * pk, 1 + 0.35 * pk);
+    g.fillStyle = c.col || '#EAD9B8'; g.strokeStyle = INK; g.lineWidth = 5; rr(-58, -27, 116, 54, 14); g.fill(); g.stroke();
+    txt(PL[i], 0, 3, 46, c.col ? '#FFFFFF' : '#6B5A45'); g.restore();
+  }
+}
+function tag(i, s, k, t) { // ورقة معلّقة على طرف الدرجة
+  if (k <= 0) return; wt(); const x = LX + LW / 2 + 14, y = ry(i);
+  g.save(); g.translate(x, y); g.rotate(Math.sin(t * 2.2 + i) * 0.035 + (1 - ease.back(clamp(k))) * -0.5);
+  g.strokeStyle = INK; g.lineWidth = 4; g.beginPath(); g.moveTo(0, 0); g.lineTo(40, 46); g.stroke();
+  g.font = '52px Lalezar'; const w = g.measureText(s).width + 56;
+  g.globalAlpha = clamp(k * 2); g.fillStyle = CREAM; g.strokeStyle = INK; g.lineWidth = 5; rr(22, 40, w, 92, 16); g.fill(); g.stroke();
+  g.fillStyle = COL.top; g.beginPath(); g.arc(40, 58, 7, 0, 7); g.fill();
+  txt(s, 22 + w / 2, 90, 52, INK); g.restore();
+}
+
+// ---------- الشخصيات ----------
+function base(sc) { const p = basePose(LX, 0, 1); p.scale = sc; return p; }
+function pClimb(fi, sc) {
+  const p = base(sc), stp = Math.floor(fi), f = fi - stp, e = ease.io(f), alt = stp % 2 ? 1 : -1, R = RS / sc;
+  p.turn = 1; p.back = true; p.y = ry(stp) - e * RS - 140 * sc; p.x = LX + Math.sin(f * Math.PI) * 7 * alt * sc;
+  const lift = ease.io(clamp(f / 0.4)), tl = ease.io(clamp((f - 0.5) / 0.5));
+  const lead = 140 - (lift - e) * R, trail = 140 - (tl - e) * R, hl = 248 - (6 + lift - e) * R, ht = 248 - (6 + tl - e) * R;
+  p.fL = { x: -34, y: alt > 0 ? lead : trail }; p.fR = { x: 34, y: alt > 0 ? trail : lead };
+  p.hL = { x: -42, y: (alt > 0 ? ht : hl) - 108 - 30 }; p.hR = { x: 42, y: (alt > 0 ? hl : ht) - 108 - 30 };
+  return p;
+}
+function pLook(i, sc, t, up, pant) { // واقف على الدرجة بالجنب، يظلل عينيه وينظر لفوق
+  const p = base(sc); p.x = LX - 26 * sc; p.y = ry(i) - 140 * sc + Math.sin(t * (pant ? 6 : 2.2)) * (pant ? 4 : 2) * sc;
+  p.fL = { x: -6, y: 140 }; p.fR = { x: 20, y: 140 }; p.lean = -0.06 - 0.06 * up;
+  p.hL = { x: 66, y: 2 }; p.hR = lp({ x: 62, y: 30 }, { x: 44, y: -78 }, up);
+  p.headTilt = -0.42 * up; p.look = { x: 4, y: -8 * up }; if (pant) p.mouth = 'o';
+  const bt = t % 3.3; if (bt < 0.12) p.blink = 1; return p;
+}
+function pSlump(i, sc, t, lift = 0) { // قاعد على الدرجة ومنكّس راسه
+  const p = base(sc), sw = Math.sin(t * 1.6) * 6; p.turn = 1; p.x = LX; p.y = ry(i) - 16 * sc + Math.sin(t * 1.8) * 1.5;
+  p.fL = { x: -24 + sw * 0.5, y: 134 }; p.fR = { x: 24 + sw * 0.4, y: 128 }; p.hL = { x: -56, y: 110 }; p.hR = { x: 56, y: 110 };
+  p.look = { x: 0, y: lerp(9, 0, lift) }; p.blink = lerp(0.65, 0, lift); p.mouth = lerp(-0.85, 0, lift); p.brow = 1 - lift; p.headDrop = lerp(16, 0, lift);
+  return p;
+}
+function pDangle(i, sc, t) { // متعلق بإيد واحدة
+  const p = base(sc), sw = Math.sin(t * 5.2); p.turn = 1; p.x = LX + 10; p.y = ry(i) + 232 * sc; p.rot = sw * 0.13;
+  p.hR = { x: 14, y: -119 }; p.hL = { x: -84, y: -30 + Math.sin(t * 9) * 26 }; p.fL = { x: -26 + sw * 16, y: 138 }; p.fR = { x: 22 + sw * 22, y: 130 };
+  p.mouth = 'o'; p.brow = 1; p.look = { x: 0, y: 6 }; return p;
+}
+function pStand(x, sc, t, up) { // واقف على الأرض جنب السلّم
+  const p = base(sc); p.x = x; p.y = GROUND - 140 * sc + Math.sin(t * 2.2) * 2; p.face = -1; p.hR = lp({ x: 20, y: 110 }, { x: 44, y: -78 }, up); p.hL = { x: 74, y: -6 };
+  p.headTilt = -0.42 * up; p.look = { x: 4, y: -8 * up }; p.lean = -0.06 * up; p.mouth = up > 0.5 ? 'o' : 0; const bt = (t + 1) % 3.1; if (bt < 0.12) p.blink = 1; return p;
+}
+function blend(a, b, u) {
+  const o = { ...b }; ['x', 'y', 'turn', 'lean', 'headTilt', 'rot', 'blink', 'brow', 'headDrop'].forEach(k => o[k] = lerp(a[k] || 0, b[k] || 0, u));
+  ['hL', 'hR', 'fL', 'fR', 'look'].forEach(k => o[k] = lp(a[k], b[k], u)); o.back = u < 0.5 ? a.back : b.back; o.mouth = u < 0.5 ? a.mouth : b.mouth; return o;
+}
+function person(p, col, t, alpha = 1) {
+  wt(); if (p.headDrop) { p.y += 0; }
+  p.alpha = alpha; g.save(); drawChar(g, p, DEF(col), t); g.restore();
+}
+function sweat(x, y, t, sc) { wt(); for (let i = 0; i < 3; i++) { const k = ((t * 1.3 + i / 3) % 1), a = -0.5 - i * 1.0, px = x + Math.cos(a) * (50 + 70 * k) * sc, py = y + (Math.sin(a) * (40 + 30 * k) + 90 * k * k) * sc; g.fillStyle = `rgba(110,185,240,${1 - k})`; g.beginPath(); g.moveTo(px, py - 15 * sc); g.quadraticCurveTo(px + 10 * sc, py + 2, px, py + 9 * sc); g.quadraticCurveTo(px - 10 * sc, py + 2, px, py - 15 * sc); g.fill(); } }
+function sight(x, y, col, k, t) { if (k <= 0) return; wt(); g.save(); g.globalAlpha = 0.85 * clamp(k); g.strokeStyle = col; g.lineWidth = 7; g.setLineDash([20, 18]); g.lineDashOffset = t * 110; g.lineCap = 'round'; g.beginPath(); g.moveTo(x, y); g.lineTo(x + 70, y - 1500 * ease.out(clamp(k))); g.stroke(); g.restore(); }
+function badge(s, wx, wy, col, k, size = 74, dx = 0) { // ملصق بحجم ثابت على الشاشة
+  if (k <= 0) return; st(); const x = sx(wx) + dx, y = sy(wy); g.save(); g.translate(x, y); const sc = ease.back(clamp(k)); g.scale(sc, sc); g.globalAlpha = clamp(k * 3);
+  g.font = `${size}px Lalezar`; const w = g.measureText(s).width + size * 0.9; g.fillStyle = col; g.strokeStyle = INK; g.lineWidth = 6; rr(-w / 2, -size * 0.72, w, size * 1.44, size * 0.5); g.fill(); g.stroke();
+  txt(s, 0, 4, size, '#FFFFFF'); g.restore();
+}
+function plusOne(wx, wy, col, k, size = 190) {
+  if (k <= 0 || k >= 1) return; st(); const x = sx(wx), y = sy(wy) - 150 * ease.out(k);
+  g.save(); g.translate(x, y); const sc = ease.back(clamp(k * 4)); g.scale(sc, sc); g.globalAlpha = clamp((1 - k) * 4);
+  g.font = `${size}px Lalezar`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.direction = 'ltr'; g.lineJoin = 'round'; g.strokeStyle = CREAM; g.lineWidth = size * 0.2; g.strokeText('+١', 0, 0); g.fillStyle = col; g.fillText('+١', 0, 0); g.restore();
+}
+function burst(wx, wy, k, col) { if (k <= 0 || k >= 1) return; st(); const x = sx(wx), y = sy(wy); g.save(); g.strokeStyle = col; g.lineCap = 'round'; g.lineWidth = 14 * (1 - k); for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2 + 0.2, r1 = 70 + k * 120, r2 = 110 + k * 300; g.beginPath(); g.moveTo(x + Math.cos(a) * r1, y + Math.sin(a) * r1); g.lineTo(x + Math.cos(a) * r2, y + Math.sin(a) * r2); g.stroke(); } g.restore(); }
+function confetti(wx, wy, age) {
+  if (age < 0 || age > 2.4) return; st(); const x = sx(wx), y = sy(wy), r = rng(4242), cols = [COL.hero, COL.top, COL.kid, COL.high, '#F6C445', '#FFFFFF'];
+  for (let i = 0; i < 60; i++) { const a = -Math.PI * (0.1 + 0.8 * r()), sp = 420 + r() * 760, px = x + Math.cos(a) * sp * age * (1 - 0.16 * age), py = y + Math.sin(a) * sp * age + 620 * age * age; g.save(); g.translate(px, py); g.rotate(age * 12 * (r() - .5) + i); g.fillStyle = cols[i % 6]; g.globalAlpha = clamp(2.4 - age * 1.1); g.fillRect(-13, -7, 26, 14); g.restore(); }
+}
+function bubble(wx, wy, k, t) { // فكرة الولد اللي تحت: كريم «فوق»
+  if (k <= 0) return; wt(); g.save(); g.fillStyle = '#FFFFFF'; g.strokeStyle = INK; g.lineWidth = 6;
+  [[330, 150, 15], [250, 100, 24]].forEach(([dx, dy, r]) => { g.beginPath(); g.arc(wx + dx, wy + dy, r * clamp(k), 0, 7); g.fill(); g.stroke(); });
+  g.translate(wx, wy); const s = ease.back(clamp(k)); g.scale(s, s); g.beginPath(); g.ellipse(0, 0, 170, 130, 0, 0, 7); g.fill(); g.stroke();
+  // سلّم صغير وعليه البطل
+  g.strokeStyle = '#8A5A3C'; g.lineWidth = 7; g.beginPath(); g.moveTo(-34, -100); g.lineTo(-34, 100); g.moveTo(34, -100); g.lineTo(34, 100); g.stroke();
+  g.lineWidth = 5; for (let i = -3; i <= 3; i++) { g.beginPath(); g.moveTo(-34, i * 30); g.lineTo(34, i * 30); g.stroke(); }
+  g.strokeStyle = INK; g.lineWidth = 8; g.lineCap = 'round'; const hy = -44 + Math.sin(t * 3) * 3;
+  g.fillStyle = '#FFFDF8'; g.beginPath(); g.arc(0, hy - 30, 17, 0, 7); g.fill(); g.stroke();
+  g.beginPath(); g.moveTo(0, hy - 12); g.lineTo(0, hy + 30); g.moveTo(0, hy + 30); g.lineTo(-16, hy + 62); g.moveTo(0, hy + 30); g.lineTo(16, hy + 62); g.moveTo(0, hy); g.lineTo(-22, hy - 24); g.moveTo(0, hy); g.lineTo(22, hy - 24); g.stroke();
+  g.strokeStyle = COL.hero; g.beginPath(); g.moveTo(-9, hy - 10); g.lineTo(9, hy - 10); g.stroke();
+  g.fillStyle = '#F6C445'; [[-110, -50], [104, -66], [112, 30]].forEach(([dx, dy], i) => star(dx, dy, 15 + 4 * Math.sin(t * 6 + i)));
+  g.restore();
+}
+function star(x, y, s) { g.beginPath(); for (let k = 0; k < 8; k++) { const a = k * Math.PI / 4, rad = k % 2 ? s * 0.4 : s; g.lineTo(x + Math.cos(a) * rad, y + Math.sin(a) * rad); } g.closePath(); g.fill(); }
+function streaks(v, t) { // خطوط سرعة رأسية أثناء سفر الكاميرا
+  const a = clamp((Math.abs(v) - 500) / 2600); if (a <= 0) return; st(); const r = rng(77); g.lineCap = 'round';
+  for (let i = 0; i < 40; i++) { const x = r() * W, len = 240 + r() * 620, y = ((r() * 2600 - t * 4200 * Math.sign(v)) % 2600 + 2600) % 2600 - 400; g.strokeStyle = `rgba(255,255,255,${a * (0.3 + r() * 0.5)})`; g.lineWidth = 4 + r() * 10; g.beginPath(); g.moveTo(x, y); g.lineTo(x, y + len); g.stroke(); }
+}
+
+// ---------- الإطار ----------
+function renderAt(t) {
+  CAM = camAt(t); const v = (camAt(t + 1 / 60).y - camAt(t - 1 / 60).y) * 30 * CAM.z;
+  const boost = Math.max(1, 0.5 / CAM.z), sc = S * boost;
+  background(t); ground(t);
+  // البطل: درجاته المكتسبة
+  const heroRung = t < 3.6 ? 3 : t < 4.5 ? 3 + ease.io(seg(t, 3.6, 4.5)) : t < 27.6 ? 4 : t < 28.5 ? 4 + ease.io(seg(t, 27.6, 28.5)) : t < 33.7 ? 5 : t < 34.5 ? 5 + ease.io(seg(t, 33.7, 34.5)) : 6;
+  const tick = t > 26.5 && t < 27.5 ? 1 + Math.floor((t - 26.5) / 0.22) : 0;
+  ladder(t, i => {
+    if (i >= 1 && i <= Math.floor(heroRung + 0.02)) { let pop = 0; if (i === 4) pop = Math.sin(seg(t, 4.45, 4.85) * Math.PI); if (i === 5) pop = Math.sin(seg(t, 28.45, 29.0) * Math.PI); if (tick === i) pop = Math.max(pop, 0.8 * Math.sin(seg(t, 26.5 + (i - 1) * 0.22, 26.5 + i * 0.22) * Math.PI)); return { col: COL.hero, pop }; }
+    if (i >= 21 && i <= 64) return { col: COL.top };
+    return {};
+  });
+  // لافتات الماضي (تظهر عند وصول الكاميرا)
+  tag(23, 'أول يوم: وقع', seg(t, 9.75, 10.05), t);
+  tag(45, 'سنة ٢: كان هيبطّل', seg(t, 12.45, 12.75), t);
+  // أشباح ماضي «اللي فوق»
+  if (t > 8.6 && t < 12.6) { const tau = t - 9.55; let p; if (tau < 0.45) p = pClimb(20.2 + clamp(tau / 0.45) * 0.8 + 0.001, sc); else { p = pDangle(23, sc, t); p.y += lerp(-RS * 1.3, 0, ease.out(seg(tau, 0.45, 0.72))) * 0; p.y -= (1 - ease.out(seg(tau, 0.45, 0.72))) * 150; } person(p, COL.top, t, 0.62); }
+  if (t > 11.4 && t < 15.4) person(pSlump(45, sc, t), COL.top, t, 0.62);
+  // «اللي فوق» الحقيقي
+  { let p; const up = ease.io(seg(t, 15.75, 16.2)); if (t < 14) p = pClimb(64 + 0.0001, sc); else if (t < 33.9) p = pLook(64, sc, t, t < 18.6 ? up : 0, t > 14 && t < 19); else p = pClimb(64 + ease.io(seg(t, 33.9, 34.7)) * 0.999, sc);
+    person(p, COL.top, t); if (t > 14.6 && t < 18.8) sweat(p.x + 40 * sc, p.y - 190 * sc, t, 1); sight(p.x + 30, p.y - 160 * sc, COL.top, seg(t, 16.1, 16.7) * (1 - seg(t, 18.2, 18.5)), t); }
+  // الأعلى
+  if (t > 14.4) { const k = seg(t, 15.4, 16.2); const p = t < 34.1 ? pClimb(84 + 0.0001, sc) : pClimb(84 + ease.io(seg(t, 34.1, 34.9)) * 0.999, sc); person(p, COL.high, t, t < 30 ? k : 1); badge('٣٠٠', LX + 250, ry(84) - 220, COL.high, seg(t, 16.5, 16.9) * (1 - seg(t, 18.3, 18.5)), 84); }
+  // الولد اللي تحت
+  { const up = ease.io(seg(t, 20.2, 20.7)) * (1 - seg(t, 31, 32)); let p = t < 34.3 ? pStand(LX + 190 * boost, sc, t, up) : null; if (!p) { const k = seg(t, 34.3, 35.1); p = k < 1 ? blend(pStand(LX + 190 * boost, sc, t, 0), pClimb(0.0001 + ease.io(k) * 0.999, sc), ease.io(seg(k, 0, 0.3))) : pClimb(1.0001, sc); }
+    if (t > 18.6 || t < 3.6) person(p, COL.kid, t, t < 3.6 ? 0 : 1); if (t > 18.6) { sight(p.x - 100, p.y - 160 * sc, COL.kid, seg(t, 20.6, 21.2) * (1 - seg(t, 23.0, 23.4)), t); badge('فوق!', LX, ry(6) - 40, COL.kid, seg(t, 21.5, 21.8) * (1 - seg(t, 23.6, 23.9)), 84, -250); } }
+  // البطل
+  { let p; const A = () => pLook(heroRung, sc, t, 0, false);
+    if (t < 3.6) p = pLook(3, sc, t, t < 2.6 ? 1 : 1 - seg(t, 2.6, 3.4), false);
+    else if (t < 4.5) p = blend(pLook(3, sc, t, 0, false), pClimb(heroRung + 0.0001, sc), clamp(seg(t, 3.6, 3.8)));
+    else if (t < 6.4) p = blend(pClimb(4.0001, sc), pLook(4, sc, t, ease.io(seg(t, 4.9, 5.3)), true), ease.io(seg(t, 4.5, 4.85)));
+    else if (t < 25.9) { const sit = ease.io(seg(t, 6.4, 7.0)); const lift = ease.io(seg(t, 25.3, 25.8)); const sl = pSlump(6, sc, t, lift); if (t > 24.7 && t < 25.3) sl.look = { x: -3, y: 12 }; p = sit < 1 ? blend(pLook(4, sc, t, 1, true), sl, sit) : sl; }
+    else if (t < 27.6) { const up = ease.io(seg(t, 25.9, 26.5)); p = blend(pSlump(6, sc, t, 1), pLook(4, sc, t, 0, false), up); if (up >= 1) { p.look = { x: -6, y: 9 }; p.headTilt = 0.25; p.mouth = 0.6; } }
+    else if (t < 28.5) p = pClimb(heroRung + 0.0001, sc);
+    else if (t < 33.7) { const ch = ease.io(seg(t, 28.5, 28.8)), dn = ease.io(seg(t, 30.0, 30.5)); p = blend(pClimb(5.0001, sc), pLook(5, sc, t, 0, false), ch); p.mouth = 1; if (dn < 1 && ch >= 1) { p.turn = lerp(1, 0, dn) * 0 + (1 - dn); p.hR = lp({ x: 50, y: -116 }, p.hR, dn); p.hL = lp({ x: -60, y: 20 }, p.hL, dn); p.y -= Math.abs(Math.sin(seg(t, 28.8, 30) * Math.PI * 3)) * 14 * (1 - dn); } }
+    else if (t < 34.5) p = pClimb(heroRung + 0.0001, sc);
+    else { p = pLook(6, sc, t, 0, false); p.mouth = 1; }
+    if (p.headDrop) { p.headTilt = 0; }
+    person(p, COL.hero, t);
+    if (t > 4.5 && t < 7.4) sweat(p.x + 40 * sc, p.y - 190 * sc, t, 1);
+    sight(p.x + 30, p.y - 160 * sc, COL.hero, seg(t, 5.2, 5.8) * (1 - seg(t, 6.3, 6.6)), t);
+    // ملصقات الافتتاح والخاتمة
+    const hk = (1 - seg(t, 2.4, 2.8));
+    badge('أنا', LX, ry(3) - 150 * sc, COL.hero, hk, 86, 190);
+    badge('هو', LX, ry(64) - 150 * sc, COL.top, hk, 86, 190);
+    plusOne(LX - 260, ry(5) - 60, COL.hero, seg(t, 28.45, 30.2)); burst(LX - LW / 2 - 104, ry(5), seg(t, 28.45, 29.0), COL.hero); confetti(LX, ry(5) - 300, t - 28.5);
+    // الخاتمة: كل واحد يطلع درجة
+    plusOne(LX - 760, ry(6) - 150 * sc, COL.hero, seg(t, 34.4, 35.7), 130); plusOne(LX - 760, ry(65) - 150 * sc, COL.top, seg(t, 34.6, 35.9), 130); plusOne(LX + 760, ry(1) - 150 * sc, COL.kid, seg(t, 35.0, 36.3), 130);
+  }
+  // سحب قريبة أمام السلّم
+  st(); clouds(t, 1.25, 1.5, 23, 0.45, 9);
+  streaks(v, t);
+  // بهتان الألوان وقت الإحباط
+  const sad = 0.5 * ease.io(seg(t, 6.4, 7.0)) * (1 - seg(t, 8.0, 8.5)) + 0.4 * (1 - seg(t, 24.4, 25.8)) * seg(t, 24.2, 24.5);
+  if (sad > 0.01) { st(); g.save(); g.globalCompositeOperation = 'saturation'; g.globalAlpha = sad; g.fillStyle = 'hsl(0,0%,50%)'; g.fillRect(0, 0, W, H); g.restore(); }
+  st(); const vg = g.createRadialGradient(W / 2, H / 2, H * 0.36, W / 2, H / 2, H * 0.8); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(30,40,70,0.22)'); g.fillStyle = vg; g.fillRect(0, 0, W, H);
+}

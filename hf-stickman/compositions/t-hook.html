@@ -1,0 +1,26 @@
+<template>
+  <style>
+    @font-face { font-family: 'Lalezar'; src: url('assets/fonts/lalezar-arabic-400-normal.woff2') format('woff2'); }
+    #root { position: absolute; inset: 0; }
+    .line { position: absolute; left: 110px; width: 770px; text-align: center; direction: rtl; font-family: 'Lalezar'; line-height: 1.15; color: #1F1E24; -webkit-text-stroke: 20px #FFF8EA; paint-order: stroke fill; }
+    .line .w { display: inline-block; white-space: nowrap; }
+    .line b { font-weight: 400; }
+    .line.sad { color: #6B6B76; }
+    .line.chip { -webkit-text-stroke: 0; }
+    .line.chip .w { background: #FFF8EA; border: 5px solid #1F1E24; border-radius: 60px; padding: 14px 44px 8px; }
+  </style>
+  <div id="root" data-composition-id="t-hook" data-width="1080" data-height="1920">
+    <div id="t-hook-l1" class="clip line " data-start="0" data-duration="3.3" data-track-index="1" style="top: 640px; font-size: 104px"><span id="t-hook-l1s" class="w">هو وصل <b style="color:#1F63C4">لفوق</b>...</span></div>
+    <div id="t-hook-l2" class="clip line tilt" data-start="0.9" data-duration="2.4" data-track-index="2" style="top: 780px; font-size: 104px"><span id="t-hook-l2s" class="w">وأنا لسه <b style="color:#D23A22">هنا؟</b></span></div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#t-hook-l1s", { scale: 1.08, opacity: 1 }, { scale: 1, opacity: 1, duration: 0.6, ease: "power3.out" }, 0);
+      tl.to("#t-hook-l1s", { scale: 0.86, opacity: 0, duration: 0.14, ease: "power2.in" }, 3.13);
+      tl.fromTo("#t-hook-l2s", { scale: 0.55, opacity: 0, rotation: -7.5 }, { scale: 1, opacity: 1, rotation: -2.5, duration: 0.3, ease: "back.out(1.9)" }, 0.9);
+      tl.to("#t-hook-l2s", { scale: 0.86, opacity: 0, duration: 0.14, ease: "power2.in" }, 3.13);
+      window.__timelines["t-hook"] = tl;
+    })();
+  </script>
+</template>
