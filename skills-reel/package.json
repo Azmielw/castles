@@ -1,0 +1,25 @@
+{
+  "name": "skills-reel",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "audio": "node scripts/gen-audio.mjs",
+    "studio": "npm run audio && remotion studio",
+    "render": "npm run audio && remotion render SkillsReel out/skills-reel-raw.mp4 --codec=h264 --crf=16 && ffmpeg -y -i out/skills-reel-raw.mp4 -c:v copy -af loudnorm=I=-14:TP=-1.5:LRA=11 -c:a aac -b:a 192k -movflags +faststart out/skills-reel.mp4",
+    "cover": "remotion still SkillsReel out/cover.png --frame=240",
+    "check": "node scripts/check.mjs"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-sans-arabic": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/readex-pro": "^5.3.0",
+    "@remotion/cli": "^4.0.543",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.543"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "typescript": "^7.0.2"
+  }
+}
