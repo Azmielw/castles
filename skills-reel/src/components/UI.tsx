@@ -17,7 +17,7 @@ export const Stage: React.FC<{ y?: number; children: React.ReactNode }> = ({ y =
 
 export const h1: React.CSSProperties = {
   fontFamily: theme.fonts.display, fontWeight: 700, fontSize: S.h1, lineHeight: 1.18,
-  color: theme.colors.ink, letterSpacing: "-0.01em", textAlign: "center",
+  color: theme.colors.ink, letterSpacing: "-0.01em", textAlign: "center", direction: "rtl",
 };
 export const h2: React.CSSProperties = { ...h1, fontSize: S.h2, lineHeight: 1.25 };
 export const body: React.CSSProperties = {

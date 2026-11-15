@@ -6,7 +6,7 @@
     "audio": "node scripts/gen-audio.mjs",
     "studio": "npm run audio && remotion studio",
     "render": "npm run audio && remotion render SkillsReel out/skills-reel-raw.mp4 --codec=h264 --crf=16 && ffmpeg -y -i out/skills-reel-raw.mp4 -c:v copy -af loudnorm=I=-14:TP=-1.5:LRA=11 -c:a aac -b:a 192k -movflags +faststart out/skills-reel.mp4",
-    "cover": "remotion still SkillsReel out/cover.png --frame=240",
+    "cover": "remotion still SkillsReel out/cover.png --frame=300",
     "check": "node scripts/check.mjs"
   },
   "dependencies": {
