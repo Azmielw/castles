@@ -1,7 +1,11 @@
 {
   "enabledPlugins": {
     "superpowers@claude-plugins-official": true,
-    "youtube-agent@youtube-agent-skill": true
+    "youtube-agent@youtube-agent-skill": true,
+    "ponytail@ponytail": true,
+    "understand-anything@understand-anything": true,
+    "last30days@last30days-skill": true,
+    "ppt-master@ppt-master": true
   },
   "extraKnownMarketplaces": {
     "claude-plugins-official": {
@@ -14,6 +18,30 @@
       "source": {
         "source": "github",
         "repo": "Jakeschincariol/youtube-agent-skill"
+      }
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
+    },
+    "understand-anything": {
+      "source": {
+        "source": "github",
+        "repo": "Egonex-AI/Understand-Anything"
+      }
+    },
+    "last30days-skill": {
+      "source": {
+        "source": "github",
+        "repo": "mvanhorn/last30days-skill"
+      }
+    },
+    "ppt-master": {
+      "source": {
+        "source": "github",
+        "repo": "hugohe3/ppt-master"
       }
     }
   }
