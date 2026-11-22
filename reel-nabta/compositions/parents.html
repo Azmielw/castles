@@ -1,0 +1,48 @@
+<template>
+<style>@font-face{font-family:'Baloo';font-weight:600;src:url('assets/fonts/baloo-bhaijaan-2-arabic-600-normal.woff2') format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F}@font-face{font-family:'Baloo';font-weight:600;src:url('assets/fonts/baloo-bhaijaan-2-latin-600-normal.woff2') format('woff2');unicode-range:U+0000-05FF,U+2010-2027,U+2605}@font-face{font-family:'Baloo';font-weight:800;src:url('assets/fonts/baloo-bhaijaan-2-arabic-800-normal.woff2') format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F}@font-face{font-family:'Baloo';font-weight:800;src:url('assets/fonts/baloo-bhaijaan-2-latin-800-normal.woff2') format('woff2');unicode-range:U+0000-05FF,U+2010-2027,U+2605}@font-face{font-family:'Readex Pro';font-weight:400;src:url('assets/fonts/readex-pro-arabic-400-normal.woff2') format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F}@font-face{font-family:'Readex Pro';font-weight:400;src:url('assets/fonts/readex-pro-latin-400-normal.woff2') format('woff2');unicode-range:U+0000-05FF,U+2010-2027,U+2605}@font-face{font-family:'Readex Pro';font-weight:700;src:url('assets/fonts/readex-pro-arabic-700-normal.woff2') format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F}@font-face{font-family:'Readex Pro';font-weight:700;src:url('assets/fonts/readex-pro-latin-700-normal.woff2') format('woff2');unicode-range:U+0000-05FF,U+2010-2027,U+2605}
+#root{position:absolute;inset:0;overflow:hidden;direction:rtl;font-family:'Baloo'}
+.bg{position:absolute;inset:0}
+.cap{position:absolute;left:60px;width:960px;text-align:center;line-height:1.15}
+.in{display:inline-block;white-space:nowrap}
+.cap .in{line-height:1.3 !important}
+.k1{font:600 62px 'Baloo';color:#2A2340;opacity:.75}
+.k2{font:800 104px 'Baloo';color:#2A2340}
+.pill{display:inline-block;white-space:nowrap;border-radius:999px;padding:6px 44px}
+
+.bg{background:linear-gradient(180deg,#E3FAF2 0%,#F4FFFB 100%)}
+#p-l1{top:300px}
+#p-card{position:absolute;left:150px;top:556px;width:780px;height:520px;background:#fff;border-radius:44px;box-shadow:0 40px 70px -40px rgba(42,35,64,.5);border:3px solid #d8f3e9}
+#p-hd{position:absolute;right:44px;top:30px;font:800 50px 'Baloo';color:#2A2340}
+#p-hd small{font:600 34px 'Baloo';color:#8a86a0;margin-right:12px}
+.rw{position:absolute;right:44px;left:44px;height:80px;display:flex;align-items:center;gap:20px}
+.rw b{width:70px;height:70px;border-radius:18px;background:#F3EEFF;display:grid;place-items:center;font:800 46px 'Baloo';color:#8E5CF6}
+.tr{flex:1;height:24px;border-radius:12px;background:#eef1f6;overflow:hidden;direction:rtl}
+.tr i{display:block;height:100%;border-radius:12px}
+.rw span{width:210px;font:800 36px 'Baloo';text-align:left}
+#p-row{position:absolute;left:0;top:1106px;width:1080px;display:flex;flex-wrap:wrap;justify-content:center;gap:16px 18px;padding:0 110px}
+.bd{font:800 44px 'Baloo';color:#2A2340;background:#fff;border:4px solid #4FD1A5;border-radius:999px;padding:0 34px}
+</style>
+<div id="root" data-composition-id="parents" data-width="1080" data-height="1920">
+
+<div class="bg"></div>
+<div id="p-l1" class="clip cap" data-start="0" data-duration="5.45" style=""><span id="p-l1a" class="in k1">وإلِك…</span><br><span id="p-l1b" class="in k2" style="color:#2f9e7a">تقرير بالحروف</span></div>
+<div id="p-card" class="clip" data-start="0" data-duration="5.45"><div id="p-hd">تقرير ليان<small>(مثال)</small></div><div class="rw" style="top:120px"><b>أ</b><div class="tr"><i id="p-bar0" style="background:#4FD1A5;width:95%"></i></div><span style="color:#2f9e7a">ممتاز</span></div><div class="rw" style="top:216px"><b>ب</b><div class="tr"><i id="p-bar1" style="background:#4FD1A5;width:82%"></i></div><span style="color:#2f9e7a">ممتاز</span></div><div class="rw" style="top:312px"><b>ث</b><div class="tr"><i id="p-bar2" style="background:#FF9F43;width:34%"></i></div><span style="color:#E8701A">بدها تدريب</span></div><div class="rw" style="top:408px"><b>ج</b><div class="tr"><i id="p-bar3" style="background:#4FD1A5;width:70%"></i></div><span style="color:#2f9e7a">منيح</span></div></div>
+<div id="p-roww" class="clip" data-start="3.0" data-duration="2.45" style="position:absolute;inset:0"><div id="p-row"><span id="p-b0" class="bd">بدون ولا إعلان</span><span id="p-b1" class="bd">بدون اشتراك</span><span id="p-b2" class="bd">بتشتغل بدون إنترنت</span></div></div>
+
+</div>
+<script>
+(function () {
+const tl = gsap.timeline({ paused: true });
+const pop = (s, t, o = {}) => tl.fromTo(s, { opacity: 0, y: o.y ?? 70, scale: o.s ?? 0.8 }, { opacity: 1, y: 0, scale: 1, duration: o.d ?? 0.42, ease: o.e ?? "back.out(1.7)" }, t);
+const bye = (s, t) => tl.to(s, { opacity: 0, y: -50, scale: 0.94, duration: 0.2, ease: "power2.in" }, t);
+
+pop("#p-l1a", 0.05, { y: 30, d: 0.3 }); pop("#p-l1b", 0.2, { s: 0.6, d: 0.45 });
+tl.fromTo("#p-card", { opacity: 0, y: 160, rotation: 4 }, { opacity: 1, y: 0, rotation: 0, duration: 0.55, ease: "back.out(1.5)" }, 0.25);
+[0, 1, 2, 3].forEach(i => tl.fromTo("#p-bar" + i, { scaleX: 0, transformOrigin: "100% 50%" }, { scaleX: 1, duration: 0.55, ease: "power2.out" }, 0.75 + 0.18 * i));
+tl.fromTo("#p-bar2", { opacity: 1 }, { opacity: 0.35, duration: 0.2, repeat: 3, yoyo: true }, 1.7);
+[0, 1, 2].forEach(i => pop("#p-b" + i, 3.0 + 0.15 * i, { y: 30, s: 0.6, d: 0.3 }));
+
+window.__timelines["parents"] = tl;
+})();
+</script>
+</template>

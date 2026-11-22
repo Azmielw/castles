@@ -1,0 +1,10 @@
+{
+  "name": "reel-nabta",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "python3 tools/build.py",
+    "check": "npx --yes hyperframes@0.9.52 check",
+    "render": "npx --yes hyperframes@0.9.52 render"
+  }
+}

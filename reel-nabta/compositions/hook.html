@@ -1,0 +1,66 @@
+<template>
+<style>@font-face{font-family:'Baloo';font-weight:600;src:url('assets/fonts/baloo-bhaijaan-2-arabic-600-normal.woff2') format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F}@font-face{font-family:'Baloo';font-weight:600;src:url('assets/fonts/baloo-bhaijaan-2-latin-600-normal.woff2') format('woff2');unicode-range:U+0000-05FF,U+2010-2027,U+2605}@font-face{font-family:'Baloo';font-weight:800;src:url('assets/fonts/baloo-bhaijaan-2-arabic-800-normal.woff2') format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F}@font-face{font-family:'Baloo';font-weight:800;src:url('assets/fonts/baloo-bhaijaan-2-latin-800-normal.woff2') format('woff2');unicode-range:U+0000-05FF,U+2010-2027,U+2605}@font-face{font-family:'Readex Pro';font-weight:400;src:url('assets/fonts/readex-pro-arabic-400-normal.woff2') format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F}@font-face{font-family:'Readex Pro';font-weight:400;src:url('assets/fonts/readex-pro-latin-400-normal.woff2') format('woff2');unicode-range:U+0000-05FF,U+2010-2027,U+2605}@font-face{font-family:'Readex Pro';font-weight:700;src:url('assets/fonts/readex-pro-arabic-700-normal.woff2') format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F}@font-face{font-family:'Readex Pro';font-weight:700;src:url('assets/fonts/readex-pro-latin-700-normal.woff2') format('woff2');unicode-range:U+0000-05FF,U+2010-2027,U+2605}
+#root{position:absolute;inset:0;overflow:hidden;direction:rtl;font-family:'Baloo'}
+.bg{position:absolute;inset:0}
+.cap{position:absolute;left:60px;width:960px;text-align:center;line-height:1.15}
+.in{display:inline-block;white-space:nowrap}
+.cap .in{line-height:1.3 !important}
+.k1{font:600 62px 'Baloo';color:#2A2340;opacity:.75}
+.k2{font:800 104px 'Baloo';color:#2A2340}
+.pill{display:inline-block;white-space:nowrap;border-radius:999px;padding:6px 44px}
+
+.bg{background:linear-gradient(180deg,#7FD3FF 0%,#BDEBFF 55%,#E9F8FF 100%)}
+#h-ph{position:absolute;left:370px;top:590px;width:340px;height:520px;border:14px solid #2A2340;border-radius:56px;overflow:hidden;background:#1d1b2b;box-shadow:0 40px 70px -30px rgba(42,35,64,.6)}
+#h-tv{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px}
+#h-play{width:150px;height:110px;border-radius:30px;background:#ff3b3b;display:grid;place-items:center}
+#h-lbl{font:600 34px 'Baloo';color:#b9b6cc}
+#h-cnt{font:800 120px 'Baloo';color:#fff;direction:ltr;line-height:1}
+#h-game{position:absolute;inset:0;background:linear-gradient(180deg,#7FD3FF 0%,#BDEBFF 55%,#E9F8FF 100%);display:grid;place-items:center}
+#h-l3{top:1132px}
+#h-l3i{font:800 70px 'Baloo';color:#2A2340;background:#FFD23F;box-shadow:0 18px 30px -16px rgba(42,35,64,.5)}
+</style>
+<div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+
+<div class="bg"></div><div id="cl0" style="position:absolute;left:70px;top:200px;width:150px;height:63px;border-radius:999px;background:#fff;opacity:.8;box-shadow:45px 12px 0 -9px #fff,-42px 15px 0 -15px #fff"></div><div id="cl1" style="position:absolute;left:820px;top:330px;width:130px;height:55px;border-radius:999px;background:#fff;opacity:.8;box-shadow:39px 10px 0 -8px #fff,-36px 13px 0 -13px #fff"></div><div id="cl2" style="position:absolute;left:120px;top:1480px;width:170px;height:71px;border-radius:999px;background:#fff;opacity:.8;box-shadow:51px 14px 0 -10px #fff,-48px 17px 0 -17px #fff"></div><div id="cl3" style="position:absolute;left:800px;top:1600px;width:150px;height:63px;border-radius:999px;background:#fff;opacity:.8;box-shadow:45px 12px 0 -9px #fff,-42px 15px 0 -15px #fff"></div>
+<div id="h-l1" class="clip cap" data-start="0" data-duration="5.86" style="top:300px"><span id="h-l1i" class="in k1" style="font-size:76px;opacity:1">طفلك ماسك الجوال</span><br><span id="h-l2i" class="in k2" style="font-size:116px;color:#C2185B">طول اليوم؟</span></div>
+<div id="h-ph" class="clip" data-start="0" data-duration="5.86">
+  <div id="h-tv"><div id="h-play"><svg viewBox="0 0 24 24" width="60" height="60"><path d="M8 5v14l11-7z" fill="#fff"/></svg></div><span id="h-lbl">وقت الشاشة اليوم</span><span id="h-cnt">0:00</span></div>
+  <div id="h-game"><svg id="h-ch" viewBox="0 0 120 140" width="200" height="233" style="overflow:visible">
+  <g id="h-ch-hat" opacity="0"><path d="M30 34 C34 8 86 8 90 34Z" fill="#8E5CF6"/><rect x="22" y="30" width="76" height="9" rx="4.5" fill="#6A3FE0"/><circle cx="60" cy="9" r="6" fill="#FFD23F"/></g>
+  <rect id="h-ch-lg1" x="40" y="104" width="14" height="30" rx="7" fill="#2f9e7a"/>
+  <rect id="h-ch-lg2" x="66" y="104" width="14" height="30" rx="7" fill="#2f9e7a"/>
+  <path d="M60 30 C60 20 58 14 60 6" stroke="#3a9a4a" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M60 16 C46 14 38 4 40 -6 C54 -4 60 6 60 16Z" fill="#55b85c"/><path d="M60 12 C72 8 80 -2 78 -12 C66 -8 60 2 60 12Z" fill="#6fd06f"/>
+  <circle cx="60" cy="72" r="44" fill="#4FD1A5"/><ellipse cx="60" cy="86" rx="26" ry="20" fill="#9eeccf"/>
+  <circle cx="45" cy="64" r="7" fill="#2A2340"/><circle cx="75" cy="64" r="7" fill="#2A2340"/><circle cx="47" cy="62" r="2.4" fill="#fff"/><circle cx="77" cy="62" r="2.4" fill="#fff"/>
+  <circle cx="36" cy="78" r="6" fill="#FF7BAC" opacity=".55"/><circle cx="84" cy="78" r="6" fill="#FF7BAC" opacity=".55"/>
+  <path d="M50 80 Q60 90 70 80" stroke="#2A2340" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <g id="h-ch-gl" opacity="0"><circle cx="45" cy="64" r="12" fill="none" stroke="#2A2340" stroke-width="4"/><circle cx="75" cy="64" r="12" fill="none" stroke="#2A2340" stroke-width="4"/><path d="M57 64h6" stroke="#2A2340" stroke-width="4"/></g>
+</svg></div>
+</div>
+<div id="h-l3" class="clip cap" data-start="1.9" data-duration="3.96" style=""><span id="h-l3i" class="in pill">خلّيه يتعلّم وهو بيلعب!</span></div>
+
+</div>
+<script>
+(function () {
+const tl = gsap.timeline({ paused: true });
+const pop = (s, t, o = {}) => tl.fromTo(s, { opacity: 0, y: o.y ?? 70, scale: o.s ?? 0.8 }, { opacity: 1, y: 0, scale: 1, duration: o.d ?? 0.42, ease: o.e ?? "back.out(1.7)" }, t);
+const bye = (s, t) => tl.to(s, { opacity: 0, y: -50, scale: 0.94, duration: 0.2, ease: "power2.in" }, t);
+
+tl.fromTo("#h-l1i", { scale: 1.12 }, { scale: 1, duration: 0.6, ease: "power3.out" }, 0);
+pop("#h-l2i", 0.35, { s: 0.5, d: 0.45 });
+tl.fromTo("#h-ph", { y: 60, rotation: -4 }, { y: 0, rotation: 0, duration: 0.6, ease: "power3.out" }, 0);
+const cnt = { m: 0 }, el = document.getElementById("h-cnt");
+tl.fromTo(cnt, { m: 0 }, { m: 270, duration: 1.9 - 0.2, ease: "power1.in", onUpdate: () => { const m = Math.round(cnt.m); el.textContent = Math.floor(m / 60) + ":" + String(m % 60).padStart(2, "0"); } }, 0.1);
+tl.to("#h-cnt", { color: "#ff5c5c", duration: 0.3 }, 1.9 - 0.6);
+tl.fromTo("#h-ph", { x: 0 }, { x: 10, duration: 0.05, repeat: 5, yoyo: true }, 1.9 - 0.45);
+tl.set("#h-game", { opacity: 0 }, 0); tl.set("#h-game", { opacity: 1 }, 1.9); tl.set("#h-tv", { opacity: 0 }, 1.9 + 0.45);
+tl.fromTo("#h-game", { clipPath: "circle(0% at 50% 50%)" }, { clipPath: "circle(75% at 50% 50%)", duration: 0.45, ease: "power2.inOut" }, 1.9);
+tl.fromTo("#h-ch", { scale: 0.3, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2)", transformOrigin: "50% 90%" }, 1.9 + 0.2);
+tl.fromTo("#h-ch", { y: 0 }, { y: -26, duration: 0.22, repeat: 3, yoyo: true, ease: "power1.out" }, 1.9 + 0.75);
+pop("#h-l3i", 1.9, { s: 0.55, d: 0.45 });
+
+window.__timelines["hook"] = tl;
+})();
+</script>
+</template>
