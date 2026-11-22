@@ -114,7 +114,7 @@ CAPS = [  # (بداية، نهاية، سطر أول، سطر ثاني)
     (T_SONG, T_LET, "وأول ما ينفتح", "بتشتغل أغنيتكم"),
     (T_LET, T_CARD, "رسالة منك", "بظرف مختوم"),
     (T_CARD, T_HEART, "كروت بتنقلب", "وكل وحدة سبب"),
-    (T_HEART, D2, "وخاتمة", "بقلب بينبض"),
+    (T_HEART, D2, "وخاتمة", "بقلب عم ينبض"),
 ]
 caps_html = "".join(
     clip(f"d-c{i}", a, b - a, "cap", "top:280px", f'<span id="d-c{i}a" class="in c1">{l1}</span><br><span id="d-c{i}b" class="in c2">{l2}</span>')

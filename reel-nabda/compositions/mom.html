@@ -33,9 +33,9 @@
 <svg id="m-h10" class="ht" viewBox="0 0 24 24" style="left:837px;top:1802px;width:61px;height:61px;opacity:0.14"><path d="M12 21s-7.5-4.6-9.5-9.2C1 8 3 4.5 6.5 4.5c2 0 3.6 1.1 5.5 3.3 1.9-2.2 3.5-3.3 5.5-3.3C21 4.5 23 8 21.5 11.8 19.5 16.4 12 21 12 21z" fill="#b48a3c"/></svg>
 <svg id="m-h11" class="ht" viewBox="0 0 24 24" style="left:13px;top:1084px;width:72px;height:72px;opacity:0.2"><path d="M12 21s-7.5-4.6-9.5-9.2C1 8 3 4.5 6.5 4.5c2 0 3.6 1.1 5.5 3.3 1.9-2.2 3.5-3.3 5.5-3.3C21 4.5 23 8 21.5 11.8 19.5 16.4 12 21 12 21z" fill="#b48a3c"/></svg>
 <div id="m-l1" class="clip cap" data-start="0" data-duration="2.2" style=""><span id="m-l1i" class="in">ومش بس لحبيبتك…</span></div>
-<div id="m-l2" class="clip cap" data-start="2.2" data-duration="2.22" style=""><span id="m-l2i" class="in">لكل حدا <b>غالي عليك</b></span></div>
-<div id="m-card" class="clip" data-start="0" data-duration="4.42"><div id="m-ci"><span class="tag">عيد الأم</span><span class="mm">ماما</span><span class="ms">ست الحبايب</span></div></div>
-<div id="m-r950" class="clip row" data-start="0" data-duration="4.42" style="top:950px"><span id="m-ch0" class="chip">أمك</span><span id="m-ch1" class="chip">أبوك</span><span id="m-ch2" class="chip">أختك</span></div><div id="m-r1052" class="clip row" data-start="0" data-duration="4.42" style="top:1052px"><span id="m-ch3" class="chip">أخوك</span><span id="m-ch4" class="chip">صاحبك</span><span id="m-ch5" class="chip">صاحبتك</span></div><div id="m-r1154" class="clip row" data-start="0" data-duration="4.42" style="top:1154px"><span id="m-ch6" class="chip">حدا زعلان منك وبدك ترضيه</span></div>
+<div id="m-l2" class="clip cap" data-start="2.2" data-duration="2.52" style=""><span id="m-l2i" class="in">لكل حدا <b>غالي عليك</b></span></div>
+<div id="m-card" class="clip" data-start="0" data-duration="4.72"><div id="m-ci"><span class="tag">عيد الأم</span><span class="mm">ماما</span><span class="ms">ست الحبايب</span></div></div>
+<div id="m-r950" class="clip row" data-start="0" data-duration="4.72" style="top:950px"><span id="m-ch0" class="chip">أمك</span><span id="m-ch1" class="chip">أبوك</span><span id="m-ch2" class="chip">أختك</span></div><div id="m-r1052" class="clip row" data-start="0" data-duration="4.72" style="top:1052px"><span id="m-ch3" class="chip">أخوك</span><span id="m-ch4" class="chip">صاحبك</span><span id="m-ch5" class="chip">صاحبتك</span></div><div id="m-r1154" class="clip row" data-start="0" data-duration="4.72" style="top:1154px"><span id="m-ch6" class="chip">حدا زعلان منك وبدك ترضيه</span></div>
 
 </div>
 <script>
@@ -44,21 +44,21 @@ const tl = gsap.timeline({ paused: true });
 const pop = (s, t, o = {}) => tl.fromTo(s, { opacity: 0, y: o.y ?? 70, scale: o.s ?? 0.8 }, { opacity: 1, y: 0, scale: 1, duration: o.d ?? 0.42, ease: o.e ?? "back.out(1.7)" }, t);
 const bye = (s, t) => tl.to(s, { opacity: 0, y: -50, scale: 0.94, duration: 0.2, ease: "power2.in" }, t);
 
-tl.fromTo("#m-h0",{y:0,rotation:-17},{y:-138,rotation:0,duration:4.42,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#m-h1",{y:0,rotation:-7},{y:-185,rotation:11,duration:4.42,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#m-h2",{y:0,rotation:4},{y:-175,rotation:13,duration:4.42,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#m-h3",{y:0,rotation:11},{y:-124,rotation:-1,duration:4.42,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#m-h4",{y:0,rotation:-9},{y:-104,rotation:15,duration:4.42,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#m-h5",{y:0,rotation:-7},{y:-123,rotation:-17,duration:4.42,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#m-h6",{y:0,rotation:-10},{y:-240,rotation:-4,duration:4.42,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#m-h7",{y:0,rotation:4},{y:-135,rotation:4,duration:4.42,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#m-h8",{y:0,rotation:3},{y:-223,rotation:9,duration:4.42,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#m-h9",{y:0,rotation:-1},{y:-133,rotation:1,duration:4.42,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#m-h10",{y:0,rotation:14},{y:-147,rotation:6,duration:4.42,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#m-h11",{y:0,rotation:-14},{y:-229,rotation:-3,duration:4.42,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#m-h0",{y:0,rotation:-17},{y:-138,rotation:0,duration:4.72,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#m-h1",{y:0,rotation:-7},{y:-185,rotation:11,duration:4.72,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#m-h2",{y:0,rotation:4},{y:-175,rotation:13,duration:4.72,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#m-h3",{y:0,rotation:11},{y:-124,rotation:-1,duration:4.72,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#m-h4",{y:0,rotation:-9},{y:-104,rotation:15,duration:4.72,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#m-h5",{y:0,rotation:-7},{y:-123,rotation:-17,duration:4.72,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#m-h6",{y:0,rotation:-10},{y:-240,rotation:-4,duration:4.72,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#m-h7",{y:0,rotation:4},{y:-135,rotation:4,duration:4.72,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#m-h8",{y:0,rotation:3},{y:-223,rotation:9,duration:4.72,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#m-h9",{y:0,rotation:-1},{y:-133,rotation:1,duration:4.72,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#m-h10",{y:0,rotation:14},{y:-147,rotation:6,duration:4.72,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#m-h11",{y:0,rotation:-14},{y:-229,rotation:-3,duration:4.72,ease:"none",transformOrigin:"50% 50%"},0);
 pop("#m-l1i", 0.05, { s: 0.6 }); bye("#m-l1i", 2.0); pop("#m-l2i", 2.2, { s: 0.6 });
 tl.fromTo("#m-ci", { opacity: 0, y: 200, rotation: -9, scale: 0.8 }, { opacity: 1, y: 0, rotation: -3, scale: 1, duration: 0.6, ease: "back.out(1.5)" }, 0.1);
-tl.to("#m-ci", { rotation: 2, duration: 3.62, ease: "sine.inOut" }, 0.7);
+tl.to("#m-ci", { rotation: 2, duration: 3.92, ease: "sine.inOut" }, 0.7);
 pop("#m-ch0",1.2,{y:30,s:0.5,d:0.3});pop("#m-ch1",1.36,{y:30,s:0.5,d:0.3});pop("#m-ch2",1.52,{y:30,s:0.5,d:0.3});pop("#m-ch3",1.68,{y:30,s:0.5,d:0.3});pop("#m-ch4",1.84,{y:30,s:0.5,d:0.3});pop("#m-ch5",2.0,{y:30,s:0.5,d:0.3});pop("#m-ch6",2.16,{y:30,s:0.5,d:0.3});
 
 window.__timelines["mom"] = tl;
