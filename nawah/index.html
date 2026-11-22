@@ -485,9 +485,10 @@
       document.getElementById('ref').textContent = out.ref;
       const waLink = waUrl(out.ref);
       document.getElementById('waBtn').href = waLink;
-      window.open(waLink, '_blank', 'noopener'); // لو المتصفح منع الفتح التلقائي، الزر موجود
       [...form.children].forEach(c => { if (c.id !== 'success') c.style.display = 'none'; });
       document.getElementById('success').style.display = 'block';
+      // الموبايل بيمنع window.open بعد الإرسال، فبنحوّل نفس الصفحة لواتساب بدل نافذة جديدة
+      location.href = waLink;
     } catch (err) {
       showError('صار خطأ وما وصلت فكرتك. تأكد من الإنترنت وجرّب مرة ثانية.');
       btn.disabled = false;
