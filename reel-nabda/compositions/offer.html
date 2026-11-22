@@ -11,7 +11,7 @@
 #o-l2{top:350px;font:700 330px 'Tajawal';color:#e6cc8f;line-height:1.15}
 #o-l2 small{font:700 130px 'El Messiri';color:#fbf0dc}
 #o-l3{top:740px;font:700 72px 'Tajawal';color:#f1d7de}
-#o-l4{top:822px;font:700 132px 'El Messiri';color:#e6cc8f}
+#o-l4{top:824px;font:700 120px 'El Messiri';color:#e6cc8f}
 #o-l5{top:984px}
 #o-l5i{font:700 46px 'Tajawal';color:#fbf0dc;border:2px solid #e6cc8f;border-radius:999px;padding:6px 44px}
 #o-l6{top:1060px}
@@ -35,13 +35,13 @@
 <svg id="o-h11" class="ht" viewBox="0 0 24 24" style="left:31px;top:617px;width:62px;height:62px;opacity:0.15"><path d="M12 21s-7.5-4.6-9.5-9.2C1 8 3 4.5 6.5 4.5c2 0 3.6 1.1 5.5 3.3 1.9-2.2 3.5-3.3 5.5-3.3C21 4.5 23 8 21.5 11.8 19.5 16.4 12 21 12 21z" fill="#e6456e"/></svg>
 <svg id="o-h12" class="ht" viewBox="0 0 24 24" style="left:930px;top:744px;width:40px;height:40px;opacity:0.22"><path d="M12 21s-7.5-4.6-9.5-9.2C1 8 3 4.5 6.5 4.5c2 0 3.6 1.1 5.5 3.3 1.9-2.2 3.5-3.3 5.5-3.3C21 4.5 23 8 21.5 11.8 19.5 16.4 12 21 12 21z" fill="#e6456e"/></svg>
 <svg id="o-h13" class="ht" viewBox="0 0 24 24" style="left:63px;top:1837px;width:65px;height:65px;opacity:0.16"><path d="M12 21s-7.5-4.6-9.5-9.2C1 8 3 4.5 6.5 4.5c2 0 3.6 1.1 5.5 3.3 1.9-2.2 3.5-3.3 5.5-3.3C21 4.5 23 8 21.5 11.8 19.5 16.4 12 21 12 21z" fill="#e6456e"/></svg>
-<div id="o-l1" class="clip cap" data-start="0" data-duration="4.2" style=""><span id="o-l1i" class="in">هديتك جاهزة خلال</span></div>
-<div id="o-l2" class="clip cap" data-start="0" data-duration="4.2" style=""><span id="o-l2i" class="in"><span id="o-n">24</span> <small>ساعة</small></span></div>
-<div id="o-l3" class="clip cap" data-start="1.2" data-duration="3.0" style=""><span id="o-l3i" class="in">أقل من بوكيه ورد…</span></div>
-<div id="o-l4" class="clip cap" data-start="1.7" data-duration="2.5" style=""><span id="o-l4i" class="in">وبتضل للأبد</span></div>
-<div id="o-l5" class="clip cap" data-start="2.4" data-duration="1.8" style=""><span id="o-l5i" class="in">تبدأ من 299 ج.م</span></div>
-<div id="o-l6" class="clip cap" data-start="2.8" data-duration="1.4" style=""><span id="o-l6i" class="in">اطلب هديتك هلأ</span></div>
-<div id="o-l7" class="clip cap" data-start="3.1" data-duration="1.1" style=""><span id="o-l7i" class="in">nabda.nawahcore.org</span></div>
+<div id="o-l1" class="clip cap" data-start="0" data-duration="5.16" style=""><span id="o-l1i" class="in">هديتك جاهزة خلال</span></div>
+<div id="o-l2" class="clip cap" data-start="0" data-duration="5.16" style=""><span id="o-l2i" class="in"><span id="o-n">24</span> <small>ساعة</small></span></div>
+<div id="o-l3" class="clip cap" data-start="1.7" data-duration="3.46" style=""><span id="o-l3i" class="in">أقل من بوكيه ورد…</span></div>
+<div id="o-l4" class="clip cap" data-start="2.5" data-duration="2.66" style=""><span id="o-l4i" class="in">وبتضل للأبد</span></div>
+<div id="o-l5" class="clip cap" data-start="3.1" data-duration="2.06" style=""><span id="o-l5i" class="in">تبدأ من 299 ج.م</span></div>
+<div id="o-l6" class="clip cap" data-start="3.5" data-duration="1.66" style=""><span id="o-l6i" class="in">اطلب هديتك هلأ</span></div>
+<div id="o-l7" class="clip cap" data-start="3.8" data-duration="1.36" style=""><span id="o-l7i" class="in">nabda.nawahcore.org</span></div>
 
 </div>
 <script>
@@ -50,27 +50,27 @@ const tl = gsap.timeline({ paused: true });
 const pop = (s, t, o = {}) => tl.fromTo(s, { opacity: 0, y: o.y ?? 70, scale: o.s ?? 0.8 }, { opacity: 1, y: 0, scale: 1, duration: o.d ?? 0.42, ease: o.e ?? "back.out(1.7)" }, t);
 const bye = (s, t) => tl.to(s, { opacity: 0, y: -50, scale: 0.94, duration: 0.2, ease: "power2.in" }, t);
 
-tl.fromTo("#o-h0",{y:0,rotation:-13},{y:-123,rotation:5,duration:4.2,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#o-h1",{y:0,rotation:-13},{y:-232,rotation:-4,duration:4.2,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#o-h2",{y:0,rotation:17},{y:-210,rotation:2,duration:4.2,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#o-h3",{y:0,rotation:14},{y:-176,rotation:-1,duration:4.2,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#o-h4",{y:0,rotation:-16},{y:-227,rotation:10,duration:4.2,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#o-h5",{y:0,rotation:6},{y:-141,rotation:-3,duration:4.2,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#o-h6",{y:0,rotation:-8},{y:-161,rotation:9,duration:4.2,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#o-h7",{y:0,rotation:9},{y:-250,rotation:3,duration:4.2,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#o-h8",{y:0,rotation:9},{y:-129,rotation:17,duration:4.2,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#o-h9",{y:0,rotation:-3},{y:-165,rotation:-5,duration:4.2,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#o-h10",{y:0,rotation:-3},{y:-221,rotation:-15,duration:4.2,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#o-h11",{y:0,rotation:-18},{y:-140,rotation:1,duration:4.2,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#o-h12",{y:0,rotation:-4},{y:-175,rotation:-10,duration:4.2,ease:"none",transformOrigin:"50% 50%"},0);
-tl.fromTo("#o-h13",{y:0,rotation:-7},{y:-90,rotation:17,duration:4.2,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#o-h0",{y:0,rotation:-13},{y:-123,rotation:5,duration:5.16,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#o-h1",{y:0,rotation:-13},{y:-232,rotation:-4,duration:5.16,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#o-h2",{y:0,rotation:17},{y:-210,rotation:2,duration:5.16,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#o-h3",{y:0,rotation:14},{y:-176,rotation:-1,duration:5.16,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#o-h4",{y:0,rotation:-16},{y:-227,rotation:10,duration:5.16,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#o-h5",{y:0,rotation:6},{y:-141,rotation:-3,duration:5.16,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#o-h6",{y:0,rotation:-8},{y:-161,rotation:9,duration:5.16,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#o-h7",{y:0,rotation:9},{y:-250,rotation:3,duration:5.16,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#o-h8",{y:0,rotation:9},{y:-129,rotation:17,duration:5.16,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#o-h9",{y:0,rotation:-3},{y:-165,rotation:-5,duration:5.16,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#o-h10",{y:0,rotation:-3},{y:-221,rotation:-15,duration:5.16,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#o-h11",{y:0,rotation:-18},{y:-140,rotation:1,duration:5.16,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#o-h12",{y:0,rotation:-4},{y:-175,rotation:-10,duration:5.16,ease:"none",transformOrigin:"50% 50%"},0);
+tl.fromTo("#o-h13",{y:0,rotation:-7},{y:-90,rotation:17,duration:5.16,ease:"none",transformOrigin:"50% 50%"},0);
 pop("#o-l1i", 0.05, { y: 40, d: 0.3 });
 tl.fromTo("#o-l2i", { opacity: 0, scale: 2.2 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power4.in" }, 0.15);
 const cnt = { v: 0 }, num = document.getElementById("o-n");
 tl.fromTo(cnt, { v: 0 }, { v: 24, duration: 0.75, ease: "power2.out", onUpdate: () => { num.textContent = Math.round(cnt.v); } }, 0.15);
-pop("#o-l3i", 1.2, { y: 40, d: 0.3 }); pop("#o-l4i", 1.7, { s: 0.5, d: 0.5 });
-pop("#o-l5i", 2.4, { s: 0.6 }); pop("#o-l6i", 2.8, { s: 0.5, d: 0.5 }); pop("#o-l7i", 3.1, { y: 30, d: 0.3 });
-tl.to("#o-l6i", { scale: 1.07, duration: 0.25, yoyo: true, repeat: 1, ease: "sine.inOut" }, 3.45);
+pop("#o-l3i", 1.7, { y: 40, d: 0.3 }); pop("#o-l4i", 2.5, { s: 0.5, d: 0.5 });
+pop("#o-l5i", 3.1, { s: 0.6 }); pop("#o-l6i", 3.5, { s: 0.5, d: 0.5 }); pop("#o-l7i", 3.8, { y: 30, d: 0.3 });
+tl.to("#o-l6i", { scale: 1.07, duration: 0.25, yoyo: true, repeat: 1, ease: "sine.inOut" }, 4.25);
 
 window.__timelines["offer"] = tl;
 })();

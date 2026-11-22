@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 # يبني ريل نبضة: compositions/*.html + index.html (شغّله بعد أي تعديل هون)
-import pathlib, random
+import pathlib, random, subprocess
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 random.seed(14)  # بذرة ثابتة عشان القلوب تطلع بنفس الأماكن كل مرة
+# مدة كل مشهد بتتحدد من طول جملة التعليق الصوتي تبعته (assets/vo/voNN.wav)
+VO = [float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(ROOT / f"assets/vo/vo{i:02d}.wav")])) for i in range(1, 11)]
+beat = lambda i, lo: round(max(lo, VO[i - 1] + 0.3), 2)
 
 AR = "U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F"
 LA = "U+0000-05FF,U+2010-2027"
@@ -57,7 +60,7 @@ def clip(i, s, d, cls, style, inner):
     return f'<div id="{i}" class="clip {cls}" data-start="{s}" data-duration="{round(d, 3)}" style="{style}">{inner}</div>'
 
 # ───────── 1) الهوك: عيد الحب قرّب… ولسّا وردة؟ ─────────
-D1 = 3.4
+D1 = beat(1, 3.4)
 hh, hj = hearts("k", 14, "#e6456e", D1)
 write("hook", """
 .bg{background:radial-gradient(1000px 1000px at 50% 36%,#8a2450 0%,#4a1028 48%,#1e060d 100%)}
@@ -80,31 +83,35 @@ write("hook", """
     <path d="M150 122 C168 126 170 150 152 154 C138 156 132 142 142 136" stroke="#e7809d" stroke-width="5" fill="none" stroke-linecap="round"/>
     <circle id="k-gray" cx="150" cy="144" r="96" fill="#3a2a2e" opacity="0"/>
   </g></svg>''')}
-{clip("k-l2", 0.8, D1 - 0.8, "cap", "", '<span id="k-l2i" class="in">ولسّا بدك تجيب وردة؟</span>')}
-{clip("k-l3", 1.9, D1 - 1.9, "cap", "", '<span id="k-l3i" class="in">بتذبل بعد يومين.</span>')}
+{clip("k-l2", 1.1, D1 - 1.1, "cap", "", '<span id="k-l2i" class="in">ولسّا بدك تجيب وردة؟</span>')}
+{clip("k-l3", 2.7, D1 - 2.7, "cap", "", '<span id="k-l3i" class="in">بتذبل بعد يومين.</span>')}
 """, f"""
 {hj}
 tl.fromTo("#k-l1i", {{ scale: 1.14, opacity: 1 }}, {{ scale: 1, opacity: 1, duration: 0.7, ease: "power3.out" }}, 0);
 tl.fromTo("#k-rs", {{ scale: 0.9, y: 30, opacity: 1 }}, {{ scale: 1, y: 0, opacity: 1, duration: 0.7, ease: "power3.out" }}, 0);
-tl.fromTo("#k-l2i", {{ opacity: 0, scale: 1.7 }}, {{ opacity: 1, scale: 1, duration: 0.26, ease: "power4.in" }}, 0.8);
-tl.fromTo("#k-rs", {{ rotation: 0 }}, {{ rotation: 4, duration: 0.07, repeat: 5, yoyo: true, ease: "sine.inOut" }}, 1.06);
-tl.to("#k-bloom", {{ rotation: 62, svgOrigin: "150 200", duration: 0.9, ease: "power2.inOut" }}, 1.5);
-tl.to("#k-gray", {{ opacity: 0.6, duration: 0.9 }}, 1.5);
-tl.to("#k-p1", {{ x: -70, y: 250, opacity: 0.5, duration: 1.0, ease: "power1.in" }}, 1.55);
-tl.to("#k-p2", {{ x: 60, y: 262, opacity: 0.5, duration: 1.1, ease: "power1.in" }}, 1.7);
-tl.to("#k-p3", {{ x: 12, y: 200, opacity: 0.5, duration: 0.9, ease: "power1.in" }}, 1.85);
-pop("#k-l3i", 1.9, {{ s: 0.6 }});
+tl.fromTo("#k-l2i", {{ opacity: 0, scale: 1.7 }}, {{ opacity: 1, scale: 1, duration: 0.26, ease: "power4.in" }}, 1.1);
+tl.fromTo("#k-rs", {{ rotation: 0 }}, {{ rotation: 4, duration: 0.07, repeat: 5, yoyo: true, ease: "sine.inOut" }}, 1.36);
+tl.to("#k-bloom", {{ rotation: 62, svgOrigin: "150 200", duration: 0.9, ease: "power2.inOut" }}, 2.2);
+tl.to("#k-gray", {{ opacity: 0.6, duration: 0.9 }}, 2.2);
+tl.to("#k-p1", {{ x: -70, y: 250, opacity: 0.5, duration: 1.0, ease: "power1.in" }}, 2.25);
+tl.to("#k-p2", {{ x: 60, y: 262, opacity: 0.5, duration: 1.1, ease: "power1.in" }}, 2.4);
+tl.to("#k-p3", {{ x: 12, y: 200, opacity: 0.5, duration: 0.9, ease: "power1.in" }}, 2.55);
+pop("#k-l3i", 2.7, {{ s: 0.6 }});
 ["#k-l1i", "#k-l2i", "#k-l3i"].forEach(s => bye(s, {D1 - 0.22}));
 tl.to("#k-rs", {{ opacity: 0, scale: 0.8, duration: 0.2 }}, {D1 - 0.22});
 """)
 
 # ───────── 2) الديمو: الجوال بيفرجي الهدية خطوة خطوة ─────────
-D2 = 15.6
-T_LET, T_CARD, T_HEART = 8.0, 11.2, 13.8
+T_LOCK = beat(2, 3.0)
+T_SONG = round(T_LOCK + beat(3, 2.6), 2)
+T_LET = round(T_SONG + beat(4, 2.4), 2)
+T_CARD = round(T_LET + beat(5, 3.2), 2)
+T_HEART = round(T_CARD + beat(6, 2.6), 2)
+D2 = round(T_HEART + beat(7, 1.8), 2)
 dh, dj = hearts("d", 16, "#b8325e", D2)
 CAPS = [  # (بداية، نهاية، سطر أول، سطر ثاني)
-    (3.0, 5.6, "ما بينفتح إلا", "بتاريخكم"),
-    (5.6, 8.0, "وأول ما ينفتح", "بتشتغل أغنيتكم"),
+    (T_LOCK, T_SONG, "ما بينفتح إلا", "بتاريخكم"),
+    (T_SONG, T_LET, "وأول ما ينفتح", "بتشتغل أغنيتكم"),
     (T_LET, T_CARD, "رسالة منك", "بظرف مختوم"),
     (T_CARD, T_HEART, "كروت بتنقلب", "وكل وحدة سبب"),
     (T_HEART, D2, "وخاتمة", "بقلب بينبض"),
@@ -120,11 +127,11 @@ cards_html = "".join(
     f'<div class="cd"><div id="d-cf{i}" class="cf"><svg viewBox="0 0 24 24" width="74" height="74"><path d="{HEART}" fill="#e6cc8f"/></svg></div><div id="d-cb{i}" class="cb">{r}</div></div>'
     for i, r in enumerate(REASONS))
 cards_js = "".join(
-    f'tl.to("#d-cf{i}",{{scaleX:0,duration:0.15,ease:"power2.in"}},{round(T_CARD + 0.4 + 0.4 * i, 2)});tl.fromTo("#d-cb{i}",{{scaleX:0}},{{scaleX:1,duration:0.2,ease:"back.out(2)"}},{round(T_CARD + 0.55 + 0.4 * i, 2)});'
+    f'tl.to("#d-cf{i}",{{scaleX:0,duration:0.15,ease:"power2.in"}},{round(T_CARD + 0.5 + 0.8 * i, 2)});tl.fromTo("#d-cb{i}",{{scaleX:0}},{{scaleX:1,duration:0.2,ease:"back.out(2)"}},{round(T_CARD + 0.65 + 0.8 * i, 2)});'
     for i in range(4))
 bars_html = "".join(f'<i id="d-b{i}"></i>' for i in range(11))
 bars_js = "".join(
-    f'tl.fromTo("#d-b{i}",{{scaleY:{round(random.uniform(0.15, 0.4), 2)}}},{{scaleY:{round(random.uniform(0.6, 1), 2)},duration:{round(random.uniform(0.2, 0.34), 2)},repeat:9,yoyo:true,ease:"sine.inOut",transformOrigin:"50% 100%"}},5.05);'
+    f'tl.fromTo("#d-b{i}",{{scaleY:{round(random.uniform(0.15, 0.4), 2)}}},{{scaleY:{round(random.uniform(0.6, 1), 2)},duration:{round(random.uniform(0.2, 0.34), 2)},repeat:15,yoyo:true,ease:"sine.inOut",transformOrigin:"50% 100%"}},{round(T_SONG + 0.1, 2)});'
     for i in range(11))
 write("demo", """
 .bg{background:radial-gradient(1200px 800px at 50% -6%,#f6dbe1 0%,#faf5ef 62%)}
@@ -170,7 +177,7 @@ write("demo", """
 """, f"""
 <div class="bg"></div>
 {dh}
-{clip("d-c0", 0, 3.0, "cap", "", '<span id="d-k" class="in">— هدية ما بتنتسى —</span><br><span id="d-t1" class="in">هالسنة… اهديها</span><br><span id="d-t2" class="in">موقع كامل باسمها</span>')}
+{clip("d-c0", 0, T_LOCK, "cap", "", '<span id="d-k" class="in">— هدية ما بتنتسى —</span><br><span id="d-t1" class="in">هالسنة… اهديها</span><br><span id="d-t2" class="in">موقع كامل باسمها</span>')}
 {caps_html}
 <div id="d-ph" class="clip" data-start="0" data-duration="{D2}"><div id="d-phi">
   <div id="d-s1" class="scr">
@@ -193,25 +200,25 @@ write("demo", """
 const scr = (a, b, t) => {{ tl.to(a, {{ opacity: 0, x: -70, duration: 0.22, ease: "power2.in" }}, t); tl.fromTo(b, {{ opacity: 0, x: 70 }}, {{ opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }}, t + 0.18); }};
 tl.set(["#d-s2", "#d-s3", "#d-s4", "#d-s5", "#d-g0", "#d-g1", "#d-g2", "#d-g3", "#d-paper", "#d-p0", "#d-p1", "#d-p2", "#d-p3"], {{ opacity: 0 }}, 0);
 pop("#d-k", 0.05, {{ y: 30, d: 0.3 }}); pop("#d-t1", 0.2, {{ y: 40, d: 0.35 }}); pop("#d-t2", 0.45, {{ s: 0.55, d: 0.5 }});
-["#d-k", "#d-t1", "#d-t2"].forEach(s => bye(s, 2.8));
+["#d-k", "#d-t1", "#d-t2"].forEach(s => bye(s, {round(T_LOCK - 0.2, 2)}));
 tl.fromTo("#d-phi", {{ y: 980, rotation: 7 }}, {{ y: 0, rotation: 0, duration: 0.9, ease: "power3.out" }}, 0.5);
 {caps_js}
-[0, 1, 2, 3].forEach(k => tl.fromTo("#d-g" + k, {{ opacity: 0, scale: 0.3 }}, {{ opacity: 1, scale: 1, duration: 0.16, ease: "back.out(3)" }}, 3.3 + 0.3 * k));
-tl.to("#d-lk", {{ scale: 1.25, duration: 0.14, yoyo: true, repeat: 1 }}, 4.55);
-tl.fromTo("#d-ring", {{ scale: 0.5, opacity: 0.9 }}, {{ scale: 3.4, opacity: 0, duration: 0.6, ease: "power2.out" }}, 4.6);
-scr("#d-s1", "#d-s2", 4.85);
-tl.fromTo("#d-nm", {{ scale: 0.4 }}, {{ scale: 1, duration: 0.5, ease: "back.out(2)" }}, 5.05);
+[0, 1, 2, 3].forEach(k => tl.fromTo("#d-g" + k, {{ opacity: 0, scale: 0.3 }}, {{ opacity: 1, scale: 1, duration: 0.16, ease: "back.out(3)" }}, {T_LOCK} + 0.4 + 0.35 * k));
+tl.to("#d-lk", {{ scale: 1.25, duration: 0.14, yoyo: true, repeat: 1 }}, {round(T_SONG - 0.5, 2)});
+tl.fromTo("#d-ring", {{ scale: 0.5, opacity: 0.9 }}, {{ scale: 3.4, opacity: 0, duration: 0.6, ease: "power2.out" }}, {round(T_SONG - 0.45, 2)});
+scr("#d-s1", "#d-s2", {round(T_SONG - 0.2, 2)});
+tl.fromTo("#d-nm", {{ scale: 0.4 }}, {{ scale: 1, duration: 0.5, ease: "back.out(2)" }}, {round(T_SONG + 0.1, 2)});
 {bars_js}
-scr("#d-s2", "#d-s3", 7.85);
-tl.to("#d-seal", {{ scale: 0, rotation: 90, duration: 0.25, ease: "back.in(2)" }}, 8.45);
-tl.to("#d-flap", {{ scaleY: -1, transformOrigin: "50% 0%", duration: 0.35, ease: "power2.inOut" }}, 8.6);
-tl.to("#d-env", {{ y: 330, opacity: 0, scale: 0.8, duration: 0.4, ease: "power2.in" }}, 8.95);
-tl.fromTo("#d-paper", {{ opacity: 0, y: 120, scale: 0.7 }}, {{ opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.5)" }}, 9.0);
-[0, 1, 2, 3].forEach(k => tl.fromTo("#d-p" + k, {{ opacity: 0, y: 16 }}, {{ opacity: 1, y: 0, duration: 0.3 }}, 9.25 + 0.22 * k));
-scr("#d-s3", "#d-s4", {T_CARD - 0.15});
+scr("#d-s2", "#d-s3", {round(T_LET - 0.15, 2)});
+tl.to("#d-seal", {{ scale: 0, rotation: 90, duration: 0.25, ease: "back.in(2)" }}, {round(T_LET + 0.45, 2)});
+tl.to("#d-flap", {{ scaleY: -1, transformOrigin: "50% 0%", duration: 0.35, ease: "power2.inOut" }}, {round(T_LET + 0.6, 2)});
+tl.to("#d-env", {{ y: 330, opacity: 0, scale: 0.8, duration: 0.4, ease: "power2.in" }}, {round(T_LET + 0.95, 2)});
+tl.fromTo("#d-paper", {{ opacity: 0, y: 120, scale: 0.7 }}, {{ opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.5)" }}, {round(T_LET + 1.0, 2)});
+[0, 1, 2, 3].forEach(k => tl.fromTo("#d-p" + k, {{ opacity: 0, y: 16 }}, {{ opacity: 1, y: 0, duration: 0.3 }}, {round(T_LET + 1.25, 2)} + 0.22 * k));
+scr("#d-s3", "#d-s4", {round(T_CARD - 0.15, 2)});
 {cards_js}
-scr("#d-s4", "#d-s5", {T_HEART - 0.15});
-[{T_HEART + 0.35}, {T_HEART + 0.85}, {T_HEART + 1.35}].forEach((t, k) => {{
+scr("#d-s4", "#d-s5", {round(T_HEART - 0.15, 2)});
+[{round(T_HEART + 0.35, 2)}, {round(T_HEART + 0.85, 2)}, {round(T_HEART + 1.35, 2)}].forEach((t, k) => {{
   tl.to("#d-hv", {{ scale: 1.22, duration: 0.12, ease: "power2.out" }}, t); tl.to("#d-hv", {{ scale: 1, duration: 0.3, ease: "power2.inOut" }}, t + 0.12);
   tl.fromTo("#d-r" + k, {{ scale: 0.7, opacity: 0.8 }}, {{ scale: 2.1, opacity: 0, duration: 0.5, ease: "power2.out" }}, t);
   tl.to("#d-phi", {{ scale: 1.025, duration: 0.1, yoyo: true, repeat: 1 }}, t);
@@ -219,7 +226,7 @@ scr("#d-s4", "#d-s5", {T_HEART - 0.15});
 """)
 
 # ───────── 3) مش بس لحبيبتك: لأمك ولكل حدا غالي ─────────
-D3 = 3.4
+D3 = beat(8, 3.4)
 mh, mj = hearts("m", 12, "#b48a3c", D3)
 ROWS = [(950, ["أمك", "أبوك", "أختك"]), (1052, ["أخوك", "صاحبك", "صاحبتك"]), (1154, ["حدا زعلان منك وبدك ترضيه"])]
 chips_html, chips_js, n = "", "", 0
@@ -227,7 +234,7 @@ for top, words in ROWS:
     spans = ""
     for w in words:
         spans += f'<span id="m-ch{n}" class="chip">{w}</span>'
-        chips_js += f'pop("#m-ch{n}",{round(0.9 + 0.13 * n, 2)},{{y:30,s:0.5,d:0.3}});'
+        chips_js += f'pop("#m-ch{n}",{round(1.2 + 0.16 * n, 2)},{{y:30,s:0.5,d:0.3}});'
         n += 1
     chips_html += clip(f"m-r{top}", 0, D3, "row", f"top:{top}px", spans)
 write("mom", """
@@ -244,20 +251,20 @@ write("mom", """
 """, f"""
 <div class="bg"></div>
 {mh}
-{clip("m-l1", 0, 1.5, "cap", "", '<span id="m-l1i" class="in">ومش بس لحبيبتك…</span>')}
-{clip("m-l2", 1.5, D3 - 1.5, "cap", "", '<span id="m-l2i" class="in">لكل حدا <b>غالي عليك</b></span>')}
+{clip("m-l1", 0, 2.2, "cap", "", '<span id="m-l1i" class="in">ومش بس لحبيبتك…</span>')}
+{clip("m-l2", 2.2, D3 - 2.2, "cap", "", '<span id="m-l2i" class="in">لكل حدا <b>غالي عليك</b></span>')}
 <div id="m-card" class="clip" data-start="0" data-duration="{D3}"><div id="m-ci"><span class="tag">عيد الأم</span><span class="mm">ماما</span><span class="ms">ست الحبايب</span></div></div>
 {chips_html}
 """, f"""
 {mj}
-pop("#m-l1i", 0.05, {{ s: 0.6 }}); bye("#m-l1i", 1.3); pop("#m-l2i", 1.5, {{ s: 0.6 }});
+pop("#m-l1i", 0.05, {{ s: 0.6 }}); bye("#m-l1i", 2.0); pop("#m-l2i", 2.2, {{ s: 0.6 }});
 tl.fromTo("#m-ci", {{ opacity: 0, y: 200, rotation: -9, scale: 0.8 }}, {{ opacity: 1, y: 0, rotation: -3, scale: 1, duration: 0.6, ease: "back.out(1.5)" }}, 0.1);
-tl.to("#m-ci", {{ rotation: 2, duration: 2.6, ease: "sine.inOut" }}, 0.7);
+tl.to("#m-ci", {{ rotation: 2, duration: {round(D3 - 0.8, 2)}, ease: "sine.inOut" }}, 0.7);
 {chips_js}
 """)
 
 # ───────── 4) العرض: 24 ساعة، أقل من بوكيه ورد، اطلب ─────────
-D4 = 4.2
+D4 = beat(9, 4.2)
 oh, oj = hearts("o", 14, "#e6456e", D4)
 write("offer", """
 .bg{background:radial-gradient(1000px 1000px at 50% 30%,#8a2450 0%,#4a1028 50%,#1e060d 100%)}
@@ -265,7 +272,7 @@ write("offer", """
 #o-l2{top:350px;font:700 330px 'Tajawal';color:#e6cc8f;line-height:1.15}
 #o-l2 small{font:700 130px 'El Messiri';color:#fbf0dc}
 #o-l3{top:740px;font:700 72px 'Tajawal';color:#f1d7de}
-#o-l4{top:822px;font:700 132px 'El Messiri';color:#e6cc8f}
+#o-l4{top:824px;font:700 120px 'El Messiri';color:#e6cc8f}
 #o-l5{top:984px}
 #o-l5i{font:700 46px 'Tajawal';color:#fbf0dc;border:2px solid #e6cc8f;border-radius:999px;padding:6px 44px}
 #o-l6{top:1060px}
@@ -276,24 +283,24 @@ write("offer", """
 {oh}
 {clip("o-l1", 0, D4, "cap", "", '<span id="o-l1i" class="in">هديتك جاهزة خلال</span>')}
 {clip("o-l2", 0, D4, "cap", "", '<span id="o-l2i" class="in"><span id="o-n">24</span> <small>ساعة</small></span>')}
-{clip("o-l3", 1.2, D4 - 1.2, "cap", "", '<span id="o-l3i" class="in">أقل من بوكيه ورد…</span>')}
-{clip("o-l4", 1.7, D4 - 1.7, "cap", "", '<span id="o-l4i" class="in">وبتضل للأبد</span>')}
-{clip("o-l5", 2.4, D4 - 2.4, "cap", "", '<span id="o-l5i" class="in">تبدأ من 299 ج.م</span>')}
-{clip("o-l6", 2.8, D4 - 2.8, "cap", "", '<span id="o-l6i" class="in">اطلب هديتك هلأ</span>')}
-{clip("o-l7", 3.1, D4 - 3.1, "cap", "", '<span id="o-l7i" class="in">nabda.nawahcore.org</span>')}
+{clip("o-l3", 1.7, D4 - 1.7, "cap", "", '<span id="o-l3i" class="in">أقل من بوكيه ورد…</span>')}
+{clip("o-l4", 2.5, D4 - 2.5, "cap", "", '<span id="o-l4i" class="in">وبتضل للأبد</span>')}
+{clip("o-l5", 3.1, D4 - 3.1, "cap", "", '<span id="o-l5i" class="in">تبدأ من 299 ج.م</span>')}
+{clip("o-l6", 3.5, D4 - 3.5, "cap", "", '<span id="o-l6i" class="in">اطلب هديتك هلأ</span>')}
+{clip("o-l7", 3.8, D4 - 3.8, "cap", "", '<span id="o-l7i" class="in">nabda.nawahcore.org</span>')}
 """, f"""
 {oj}
 pop("#o-l1i", 0.05, {{ y: 40, d: 0.3 }});
 tl.fromTo("#o-l2i", {{ opacity: 0, scale: 2.2 }}, {{ opacity: 1, scale: 1, duration: 0.3, ease: "power4.in" }}, 0.15);
 const cnt = {{ v: 0 }}, num = document.getElementById("o-n");
 tl.fromTo(cnt, {{ v: 0 }}, {{ v: 24, duration: 0.75, ease: "power2.out", onUpdate: () => {{ num.textContent = Math.round(cnt.v); }} }}, 0.15);
-pop("#o-l3i", 1.2, {{ y: 40, d: 0.3 }}); pop("#o-l4i", 1.7, {{ s: 0.5, d: 0.5 }});
-pop("#o-l5i", 2.4, {{ s: 0.6 }}); pop("#o-l6i", 2.8, {{ s: 0.5, d: 0.5 }}); pop("#o-l7i", 3.1, {{ y: 30, d: 0.3 }});
-tl.to("#o-l6i", {{ scale: 1.07, duration: 0.25, yoyo: true, repeat: 1, ease: "sine.inOut" }}, 3.45);
+pop("#o-l3i", 1.7, {{ y: 40, d: 0.3 }}); pop("#o-l4i", 2.5, {{ s: 0.5, d: 0.5 }});
+pop("#o-l5i", 3.1, {{ s: 0.6 }}); pop("#o-l6i", 3.5, {{ s: 0.5, d: 0.5 }}); pop("#o-l7i", 3.8, {{ y: 30, d: 0.3 }});
+tl.to("#o-l6i", {{ scale: 1.07, duration: 0.25, yoyo: true, repeat: 1, ease: "sine.inOut" }}, 4.25);
 """)
 
 # ───────── 5) الخاتمة: مشروع من نواة… عندك فكرة؟ ─────────
-D5 = 5.6
+D5 = beat(10, 5.6)
 write("nawah", """
 #root{font-family:'Readex Pro'}
 .bg{background:radial-gradient(1000px 1000px at 50% 30%,#0f7a4c 0%,#095534 52%,#053520 100%)}
@@ -322,10 +329,10 @@ write("nawah", """
     <path id="n-lf2" d="M60 62 C84 54 100 34 98 12 C74 18 60 38 60 62Z" fill="#6dbb3f"/>
   </svg>
 </div></div>
-{clip("n-l2", 1.3, D5 - 1.3, "cap", "", '<span id="n-l2i" class="in">عندك <b>فكرة؟</b></span>')}
-{clip("n-l3", 2.0, D5 - 2.0, "cap", "", '<span id="n-l3i" class="in">قدّمها بنواة</span>')}
-{clip("n-l4", 2.6, D5 - 2.6, "cap", "", '<span id="n-l4i" class="in">احنا منبنيها… وإلك نسبة من إيراداتها</span>')}
-{clip("n-l5", 3.0, D5 - 3.0, "cap", "", '<span id="n-l5i" class="in">nawahcore.org</span>')}
+{clip("n-l2", 1.6, D5 - 1.6, "cap", "", '<span id="n-l2i" class="in">عندك <b>فكرة؟</b></span>')}
+{clip("n-l3", 2.5, D5 - 2.5, "cap", "", '<span id="n-l3i" class="in">قدّمها بنواة</span>')}
+{clip("n-l4", 3.3, D5 - 3.3, "cap", "", '<span id="n-l4i" class="in">احنا منبنيها… وإلك نسبة من إيراداتها</span>')}
+{clip("n-l5", 4.0, D5 - 4.0, "cap", "", '<span id="n-l5i" class="in">nawahcore.org</span>')}
 """, """
 pop("#n-l1i", 0.05, { y: 40, d: 0.3 });
 tl.fromTo("#n-wm", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.55, ease: "back.out(1.8)" }, 0.2);
@@ -333,9 +340,9 @@ tl.fromTo("#n-sp", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3 }, 0
 tl.fromTo("#n-st", { scaleY: 0, svgOrigin: "60 128" }, { scaleY: 1, duration: 0.4, ease: "power2.out" }, 0.45);
 tl.fromTo("#n-lf1", { scale: 0, svgOrigin: "60 84" }, { scale: 1, duration: 0.4, ease: "back.out(2.2)" }, 0.7);
 tl.fromTo("#n-lf2", { scale: 0, svgOrigin: "60 62" }, { scale: 1, duration: 0.4, ease: "back.out(2.2)" }, 0.85);
-tl.fromTo("#n-l2i", { opacity: 0, scale: 1.8 }, { opacity: 1, scale: 1, duration: 0.28, ease: "power4.in" }, 1.3);
-pop("#n-l3i", 2.0, { s: 0.55, d: 0.45 }); pop("#n-l4i", 2.6, { y: 40, d: 0.3 }); pop("#n-l5i", 3.0, { s: 0.5, d: 0.5 });
-tl.to("#n-l5i", { scale: 1.06, duration: 0.3, yoyo: true, repeat: 1, ease: "sine.inOut" }, 3.9);
+tl.fromTo("#n-l2i", { opacity: 0, scale: 1.8 }, { opacity: 1, scale: 1, duration: 0.28, ease: "power4.in" }, 1.6);
+pop("#n-l3i", 2.5, { s: 0.55, d: 0.45 }); pop("#n-l4i", 3.3, { y: 40, d: 0.3 }); pop("#n-l5i", 4.0, { s: 0.5, d: 0.5 });
+tl.to("#n-l5i", { scale: 1.06, duration: 0.3, yoyo: true, repeat: 1, ease: "sine.inOut" }, 4.9);
 """)
 
 # ───────── الجذر: المشاهد + الصوت ─────────
@@ -348,20 +355,24 @@ for z, (cid, d) in enumerate(SCENES, start=1):
 TOTAL = t
 S = starts
 SFX = [  # (ملف، وقت مطلق، مدة، صوت)
-    ("impact-bass-2", S["hook"] + 1.04, 1.6, 0.7), ("whoosh", S["demo"] - 0.1, 0.57, 0.6), ("whoosh-short", S["demo"] + 0.6, 0.57, 0.45),
-    *[("key-press", S["demo"] + 3.3 + 0.3 * k, 0.43, 0.7) for k in range(4)],
-    ("chime", S["demo"] + 4.6, 2.5, 0.55), ("whoosh-short", S["demo"] + 7.85, 0.57, 0.4), ("pop", S["demo"] + 8.45, 0.7, 0.6),
-    *[("pop", S["demo"] + T_CARD + 0.55 + 0.4 * k, 0.7, 0.5) for k in range(4)],
+    ("impact-bass-2", S["hook"] + 1.34, 1.6, 0.7), ("whoosh", S["demo"] - 0.1, 0.57, 0.6), ("whoosh-short", S["demo"] + 0.6, 0.57, 0.45),
+    *[("key-press", S["demo"] + T_LOCK + 0.4 + 0.35 * k, 0.43, 0.7) for k in range(4)],
+    ("chime", S["demo"] + T_SONG - 0.45, 2.5, 0.55), ("whoosh-short", S["demo"] + T_LET - 0.15, 0.57, 0.4), ("pop", S["demo"] + T_LET + 0.45, 0.7, 0.6),
+    *[("pop", S["demo"] + T_CARD + 0.65 + 0.8 * k, 0.7, 0.5) for k in range(4)],
     *[("impact-bass-1", S["demo"] + t0, 0.5, 0.55) for t0 in (T_HEART + 0.35, T_HEART + 0.85, T_HEART + 1.35)],
-    ("whoosh", S["mom"] - 0.05, 0.57, 0.6), ("pop", S["mom"] + 0.9, 0.7, 0.4), ("pop", S["mom"] + 1.3, 0.7, 0.4), ("pop", S["mom"] + 1.7, 0.7, 0.4),
-    ("impact-bass-2", S["offer"] + 0.42, 2.0, 0.75), ("sparkle", S["offer"] + 1.75, 1.8, 0.6), ("pop", S["offer"] + 2.85, 0.7, 0.5),
-    ("whoosh-cinematic", S["nawah"] - 0.15, 3.0, 0.5), ("impact-bass-1", S["nawah"] + 1.56, 2.0, 0.7), ("chime", S["nawah"] + 3.05, 2.2, 0.5),
+    ("whoosh", S["mom"] - 0.05, 0.57, 0.6), ("pop", S["mom"] + 1.2, 0.7, 0.4), ("pop", S["mom"] + 1.7, 0.7, 0.4), ("pop", S["mom"] + 2.2, 0.7, 0.4),
+    ("impact-bass-2", S["offer"] + 0.42, 2.0, 0.75), ("sparkle", S["offer"] + 2.55, 1.8, 0.6), ("pop", S["offer"] + 3.55, 0.7, 0.5),
+    ("whoosh-cinematic", S["nawah"] - 0.15, 3.0, 0.5), ("impact-bass-1", S["nawah"] + 1.86, 2.0, 0.7), ("chime", S["nawah"] + 4.05, 1.9, 0.5),
 ]
-audio = [f'<audio id="music" class="clip" src="assets/music/bed.mp3" data-start="0" data-duration="{TOTAL}" data-track-index="20" data-volume="0.5" data-fade-in="0.3" data-fade-out="1.2"></audio>']
+audio = [f'<audio id="music" class="clip" src="assets/music/bed-long.mp3" data-start="0" data-duration="{TOTAL}" data-track-index="20" data-volume="0.2" data-fade-in="0.3" data-fade-out="1.2"></audio>']
 for k, (f, at, d, v) in enumerate(SFX):
     d = round(min(d, TOTAL - at), 3)
     fade = ' data-fade-out="0.25"' if d > 1 else ""
-    audio.append(f'<audio id="sfx{k}" class="clip" src="assets/sfx/{f}.mp3" data-start="{round(at, 3)}" data-duration="{d}" data-track-index="{21 + k}" data-volume="{v}"{fade}></audio>')
+    audio.append(f'<audio id="sfx{k}" class="clip" src="assets/sfx/{f}.mp3" data-start="{round(at, 3)}" data-duration="{d}" data-track-index="{21 + k}" data-volume="{round(v * 0.55, 2)}"{fade}></audio>')
+VO_AT = [S["hook"] + 0.15, S["demo"] + 0.15, S["demo"] + T_LOCK + 0.1, S["demo"] + T_SONG + 0.1, S["demo"] + T_LET + 0.1, S["demo"] + T_CARD + 0.1, S["demo"] + T_HEART + 0.1, S["mom"] + 0.15, S["offer"] + 0.15, S["nawah"] + 0.15]
+for k, at in enumerate(VO_AT, start=1):
+    assert at + VO[k - 1] <= TOTAL + 0.01, f"vo{k} runs past the end"
+    audio.append(f'<audio id="vo{k}" class="clip" src="assets/vo/vo{k:02d}.wav" data-start="{round(at, 3)}" data-duration="{round(min(VO[k - 1], TOTAL - at), 3)}" data-track-index="{60 + k}" data-volume="1"></audio>')
 NL = "\n      "
 (ROOT / "index.html").write_text(f"""<!doctype html>
 <html lang="ar">
