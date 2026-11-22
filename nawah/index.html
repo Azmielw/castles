@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>نَواة | Nawah — فكرتك علينا</title>
+<meta name="description" content="نَواة بتحوّل أفكار الناس لمشاريع حقيقية. قدّم فكرتك، احنا منبنيها، وإلك نسبة من أرباحها.">
+<link rel="icon" href="assets/nawah-icon.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#095534; --green-2:#0d6b43; --leaf:#55A030; --gold:#CE9F26;
+    --cream:#FAF6F1; --sand:#F1EADF; --ink:#1d2a24; --muted:#5b6b63; --line:#e4dccf;
+    --radius:20px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"Readex Pro",system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.8;font-size:17px}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{width:min(1140px,100% - 32px);margin-inline:auto}
+  section{padding:96px 0}
+  .eyebrow{display:inline-block;color:var(--gold);font-weight:600;font-size:15px;letter-spacing:.5px;margin-bottom:10px}
+  h1,h2,h3{line-height:1.35;color:var(--green)}
+  h2{font-size:clamp(28px,4vw,40px);margin-bottom:14px}
+  .lead{color:var(--muted);font-size:18px;max-width:640px}
+  .center{text-align:center}.center .lead{margin-inline:auto}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:999px;font-weight:600;font-family:inherit;font-size:16px;border:2px solid var(--green);cursor:pointer;transition:.2s}
+  .btn-primary{background:var(--green);color:var(--cream)}
+  .btn-primary:hover{background:var(--green-2);border-color:var(--green-2);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--green)}
+  .btn-ghost:hover{background:var(--green);color:var(--cream)}
+
+  /* nav */
+  header{position:sticky;top:0;z-index:50;background:rgba(250,246,241,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:76px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand img{height:44px;width:auto}
+  .brand b{display:block;font-size:24px;color:var(--green);line-height:1}
+  .brand small{display:block;font-size:10px;letter-spacing:4px;color:var(--gold);font-weight:600}
+  .links{display:flex;gap:28px;font-weight:400;color:var(--muted)}
+  .links a:hover{color:var(--green)}
+  .nav .btn{padding:10px 22px;font-size:15px}
+  .menu-btn{display:none;background:none;border:0;font-size:28px;color:var(--green);cursor:pointer}
+
+  /* hero */
+  .hero{padding:72px 0 96px;position:relative;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+  .hero h1{font-size:clamp(36px,6vw,64px);font-weight:700;margin-bottom:18px}
+  .hero h1 span{color:var(--gold)}
+  .hero .lead{font-size:20px;margin-bottom:32px}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap}
+  .trust-row{display:flex;gap:22px;flex-wrap:wrap;margin-top:34px;color:var(--muted);font-size:15px}
+  .trust-row span::before{content:"✓";color:var(--leaf);font-weight:700;margin-left:6px}
+  .hero-art{position:relative;aspect-ratio:1;display:grid;place-items:center}
+  .hero-art::before{content:"";position:absolute;inset:6%;border-radius:50%;background:radial-gradient(circle,#fff 0%,var(--sand) 70%)}
+  .hero-art::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px dashed #d9cdb8;animation:spin 60s linear infinite}
+  .hero-art img{position:relative;width:62%;animation:float 6s ease-in-out infinite}
+  @keyframes float{50%{transform:translateY(-12px)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* pains */
+  .pains{background:var(--green);color:var(--cream)}
+  .pains h2{color:var(--cream)}
+  .pains .lead{color:#c9dccf}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
+  .card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:30px}
+  .card .ic{font-size:34px;margin-bottom:10px}
+  .card h3{color:var(--cream);font-size:20px;margin-bottom:6px}
+  .card p{color:#c9dccf;font-size:16px}
+  .pains .punch{margin-top:44px;font-size:clamp(22px,3vw,30px);font-weight:600;text-align:center}
+  .pains .punch span{color:var(--gold)}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:52px;counter-reset:s}
+  .step{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;position:relative}
+  .step::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--green);color:var(--cream);font-weight:700;font-size:20px;margin-bottom:16px}
+  .step:last-child::before{background:var(--gold)}
+  .step h3{font-size:19px;margin-bottom:6px}
+  .step p{color:var(--muted);font-size:15.5px}
+
+  /* model */
+  .model{background:var(--sand)}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:44px}
+  .side{border-radius:var(--radius);padding:34px;background:#fff;border:1px solid var(--line)}
+  .side.us{background:var(--green);color:var(--cream);border:0}
+  .side h3{font-size:22px;margin-bottom:16px}
+  .side.us h3{color:var(--cream)}
+  .side ul{list-style:none;display:grid;gap:10px}
+  .side li::before{content:"●";color:var(--leaf);margin-left:10px;font-size:12px}
+  .side.us li::before{color:var(--gold)}
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:22px}
+  .tier{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px;text-align:center}
+  .tier.hot{border:2px solid var(--gold)}
+  .tier h4{color:var(--green);font-size:18px}
+  .tier .pct{font-size:44px;font-weight:700;color:var(--gold);line-height:1.4}
+  .tier p{color:var(--muted);font-size:15px}
+  .note{margin-top:18px;color:var(--muted);font-size:14.5px;text-align:center}
+
+  /* trust */
+  .trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:44px}
+  .t{padding:26px;border-radius:var(--radius);background:#fff;border:1px solid var(--line)}
+  .t .ic{width:52px;height:52px;border-radius:14px;background:var(--sand);display:grid;place-items:center;font-size:26px;margin-bottom:14px}
+  .t h3{font-size:18px;margin-bottom:4px}
+  .t p{color:var(--muted);font-size:15px}
+
+  /* projects */
+  .projects{background:var(--sand)}
+  .proj{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;margin-top:44px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:34px;text-align:right}
+  .proj+.proj{margin-top:24px}
+  .proj .badge{display:inline-block;background:var(--gold);color:#fff;font-size:13px;font-weight:600;padding:4px 14px;border-radius:99px;margin-bottom:10px}
+  .proj h3{font-size:30px;margin-bottom:6px}
+  .proj p{color:var(--muted)}
+  .proj ul{list-style:none;margin:14px 0 22px;display:grid;gap:6px}
+  .proj li::before{content:"●";color:var(--leaf);margin-left:10px;font-size:12px}
+  .proj-art{aspect-ratio:4/3;border-radius:18px;background:radial-gradient(circle at 30% 25%,#7a2346,#4a1028 70%);display:grid;place-items:center;text-align:center;color:#f3e2b0;font-size:46px;font-weight:700;box-shadow:inset 0 0 0 8px rgba(255,255,255,.06)}
+  .proj-art small{display:block;font-size:15px;color:#e6cc8f;font-weight:400}
+  .proj-art.urturn{background:radial-gradient(circle at 30% 25%,#2c343c,#14181C 70%);color:#fff;letter-spacing:1px}
+  .proj-art.urturn small{color:var(--gold);letter-spacing:0}
+
+  /* form */
+  .submit{background:var(--green);}
+  .form-box{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:start}
+  .submit h2{color:var(--cream)}
+  .submit .lead{color:#c9dccf}
+  .submit .side-note{margin-top:26px;padding:22px;border-radius:16px;background:rgba(255,255,255,.07);color:#dbe8df;font-size:15px}
+  .submit .side-note b{color:var(--gold)}
+  form{background:var(--cream);border-radius:24px;padding:34px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .f{display:grid;gap:6px}
+  .f.full{grid-column:1/-1}
+  label{font-weight:600;font-size:14.5px;color:var(--green)}
+  input,select,textarea{font-family:inherit;font-size:16px;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);width:100%}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--leaf);box-shadow:0 0 0 3px rgba(85,160,48,.15)}
+  textarea{min-height:120px;resize:vertical}
+  .hint{font-size:13px;color:var(--muted)}
+  .check{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;color:var(--muted)}
+  .check input{width:auto;margin-top:6px}
+  form .btn{justify-content:center;width:100%}
+  .form-error{display:none;background:#fdecea;color:#a3261b;border-radius:12px;padding:12px 16px;font-size:15px}
+  .form-error.show{display:block}
+  .btn[disabled]{opacity:.65;cursor:wait;transform:none}
+  .success{display:none;grid-column:1/-1;text-align:center;padding:30px 10px}
+  .success img{width:80px;margin:0 auto 12px}
+  .success h3{font-size:24px}
+  .success p{color:var(--muted)}
+
+  /* faq */
+  .faq{max-width:820px;margin:44px auto 0;display:grid;gap:12px}
+  details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 24px}
+  summary{cursor:pointer;font-weight:600;color:var(--green);list-style:none;display:flex;justify-content:space-between;gap:16px}
+  summary::after{content:"+";font-size:24px;line-height:1;color:var(--gold);transition:.2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{color:var(--muted);margin-top:10px;font-size:16px}
+
+  /* footer */
+  footer{background:#063d26;color:#b8cbbf;padding:56px 0 28px}
+  .foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:center}
+  footer .brand b{color:var(--cream)}
+  .social{display:flex;gap:12px}
+  .social a{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;transition:.2s}
+  .social a:hover{background:var(--gold);border-color:var(--gold);color:#063d26}
+  .social svg{width:20px;height:20px;fill:currentColor}
+  .copy{border-top:1px solid rgba(255,255,255,.1);margin-top:36px;padding-top:20px;font-size:14px;text-align:center}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(24px);transition:.7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:960px){
+    .hero-grid,.form-box,.split{grid-template-columns:1fr}
+    .hero-art{max-width:380px;margin-inline:auto;order:-1}
+    .cards,.tiers,.proj{grid-template-columns:1fr}
+    .steps,.trust-grid{grid-template-columns:1fr 1fr}
+    .links{display:none;position:absolute;top:76px;inset-inline:0;background:var(--cream);flex-direction:column;padding:20px 24px;gap:16px;border-bottom:1px solid var(--line)}
+    .links.open{display:flex}
+    .menu-btn{display:block}
+    .nav .btn{display:none}
+  }
+  @media (max-width:600px){
+    section{padding:68px 0}
+    .steps,.trust-grid{grid-template-columns:1fr}
+    form{grid-template-columns:1fr;padding:24px}
+    .hero .lead{font-size:18px}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="brand" aria-label="نواة">
+      <img src="assets/nawah-icon.webp" alt="">
+      <span><b>نَواة</b><small>NAWAH</small></span>
+    </a>
+    <nav class="links" id="links">
+      <a href="#how">كيف منشتغل</a>
+      <a href="#model">نموذج الشراكة</a>
+      <a href="#projects">مشاريعنا</a>
+      <a href="#trust">ضماناتك</a>
+      <a href="#faq">أسئلة شائعة</a>
+    </nav>
+    <a href="#submit" class="btn btn-primary">قدّم فكرتك</a>
+    <button class="menu-btn" id="menuBtn" aria-label="القائمة">☰</button>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">🌱 من فكرة.. لمشروع حقيقي</span>
+        <h1>أنت <span>النواة</span>..<br>واحنا منكبّرها</h1>
+        <p class="lead">عندك فكرة بس ما عندك الخبرة أو الوقت تنفّذها؟ ابعتلنا ياها. احنا منبنيها من الصفر، ولما تنجح.. إلك نسبة من أرباحها.</p>
+        <div class="cta-row">
+          <a href="#submit" class="btn btn-primary">قدّم فكرتك الآن ←</a>
+          <a href="#how" class="btn btn-ghost">كيف منشتغل؟</a>
+        </div>
+        <div class="trust-row">
+          <span>فكرتك محمية باتفاقية سرية</span>
+          <span>بدون أي تكلفة عليك</span>
+          <span>نسبة من الإيرادات</span>
+        </div>
+      </div>
+      <div class="hero-art"><img src="assets/nawah-icon.webp" alt="شعار نواة"></div>
+    </div>
+  </section>
+
+  <!-- PAINS -->
+  <section class="pains">
+    <div class="wrap center">
+      <span class="eyebrow">بتعرف هالشعور؟</span>
+      <h2>كم فكرة حلوة ضلّت بالدرج؟</h2>
+      <p class="lead">كل يوم في أفكار ممتازة بتموت قبل ما تشوف النور، مش لأنها سيئة.. بس لأن صاحبها:</p>
+      <div class="cards">
+        <div class="card reveal"><div class="ic">🧭</div><h3>ما عنده الخبرة</h3><p>ما بيعرف من وين يبلّش ولا كيف يحوّل الفكرة لمنتج أو خدمة.</p></div>
+        <div class="card reveal"><div class="ic">⏳</div><h3>ما عنده الوقت</h3><p>مشغول بشغله وحياته، والفكرة بدها تفرّغ ومتابعة يومية.</p></div>
+        <div class="card reveal"><div class="ic">💸</div><h3>ما عنده التمويل</h3><p>التنفيذ بده فريق ومصاريف، والمخاطرة كبيرة عليه لحاله.</p></div>
+      </div>
+      <p class="punch reveal">هون بيجي دورنا: <span>فكرتك.. وشغلنا.. ونجاحنا سوا.</span></p>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section id="how">
+    <div class="wrap center">
+      <span class="eyebrow">كيف منشتغل</span>
+      <h2>من النواة.. للشجرة بأربع خطوات</h2>
+      <p class="lead">رحلة واضحة من أول ما تبعت فكرتك لحد ما يوصلك نصيبك.</p>
+      <div class="steps" style="text-align:right">
+        <div class="step reveal"><h3>قدّم فكرتك</h3><p>بتعبّي نموذج قصير بفكرة عامة. التفاصيل الكاملة ما منطلبها إلا بعد توقيع اتفاقية السرية.</p></div>
+        <div class="step reveal"><h3>مندرسها</h3><p>فريقنا بيقيّم الفكرة: السوق، المنافسين، تكلفة التنفيذ وفرص النجاح، وبنرد عليك بقرار واضح.</p></div>
+        <div class="step reveal"><h3>منوقّع ومنبني</h3><p>بنوقّع عقد شراكة بيحدد نسبتك، وبعدها منتكفّل بالتنفيذ كامل: تصميم، تطوير، تسويق وإطلاق.</p></div>
+        <div class="step reveal"><h3>بتاخد نصيبك</h3><p>لما المشروع يبلّش يجيب دخل، بتوصلك نسبتك من الإيرادات مع تقارير دورية شفافة.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODEL -->
+  <section class="model" id="model">
+    <div class="wrap center">
+      <span class="eyebrow">نموذج الشراكة</span>
+      <h2>أنت بتعطي الفكرة.. واحنا بنعطي كل الباقي</h2>
+      <div class="split" style="text-align:right">
+        <div class="side reveal">
+          <h3>عليك أنت 💡</h3>
+          <ul>
+            <li>الفكرة وشرحها بوضوح</li>
+            <li>الإجابة على أسئلتنا وقت الدراسة</li>
+            <li>رأيك ومشاركتك إذا حبيت (وبتزيد نسبتك)</li>
+          </ul>
+        </div>
+        <div class="side us reveal">
+          <h3>علينا احنا 🛠️</h3>
+          <ul>
+            <li>دراسة السوق والجدوى</li>
+            <li>التمويل وكل مصاريف التنفيذ</li>
+            <li>الفريق: تصميم، برمجة، تسويق، إدارة</li>
+            <li>الإطلاق والتشغيل والتطوير المستمر</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tiers">
+        <div class="tier reveal"><h4>فكرة فقط</h4><div class="pct">5%</div><p>من إيرادات المشروع</p></div>
+        <div class="tier hot reveal"><h4>فكرة + خبرة بالمجال</h4><div class="pct">10%</div><p>من إيرادات المشروع</p></div>
+        <div class="tier reveal"><h4>فكرة + مشاركة بالشغل</h4><div class="pct">حتى 20%</div><p>من إيرادات المشروع</p></div>
+      </div>
+      <p class="note">* النسبة النهائية بتنحدد بالعقد حسب حجم الفكرة ومساهمتك. ونسبتك من <b>الإيرادات</b> مش من صافي الربح، عشان تكون واضحة وعادلة.</p>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section id="trust">
+    <div class="wrap center">
+      <span class="eyebrow">ضماناتك</span>
+      <h2>فكرتك بأمان معنا</h2>
+      <p class="lead">بنعرف إنه أكبر خوف عندك إنه فكرتك تنسرق. عشان هيك بنينا نواة على الثقة من أول خطوة.</p>
+      <div class="trust-grid" style="text-align:right">
+        <div class="t reveal"><div class="ic">🔒</div><h3>اتفاقية سرية</h3><p>بنوقّع اتفاقية عدم إفصاح (NDA) قبل ما تحكيلنا التفاصيل.</p></div>
+        <div class="t reveal"><div class="ic">🕒</div><h3>توثيق بالتاريخ</h3><p>كل فكرة بتوصلنا بتاخد رقم مرجعي وتاريخ موثّق بيثبت أسبقيتك.</p></div>
+        <div class="t reveal"><div class="ic">📄</div><h3>عقد واضح</h3><p>نسبتك وحقوقك مكتوبة بعقد رسمي، بدون شروط مخفية.</p></div>
+        <div class="t reveal"><div class="ic">📊</div><h3>تقارير شفافة</h3><p>بتوصلك تقارير دورية عن أداء المشروع وإيراداته.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="projects" id="projects">
+    <div class="wrap center">
+      <span class="eyebrow">مشاريعنا</span>
+      <h2>أفكار صارت مشاريع حقيقية</h2>
+      <p class="lead">كل مشروع هون بلّش كنواة صغيرة… وكبر.</p>
+      <div class="proj reveal">
+        <div>
+          <span class="badge">أول مشروع من نواة</span>
+          <h3>نَبضة</h3>
+          <p>مواقع إهداء شخصية: موقع كامل باسم اللي بتحبها، بينفتح بتاريخ بيعنيلكم، وفيه أغنيتكم ورسالتك وأسباب حبك.</p>
+          <ul><li>هدية رقمية بتضل للأبد</li><li>تسليم خلال 24 ساعة</li><li>لكل المناسبات: عيد ميلاد، ذكرى، عيد الحب، عيد الأم</li></ul>
+          <a href="https://nabda.nawahcore.org" target="_blank" rel="noopener" class="btn btn-primary">زور نبضة ←</a>
+        </div>
+        <a class="proj-art" href="https://nabda.nawahcore.org" target="_blank" rel="noopener" aria-label="نبضة"><span>نَبضة<small>هدية ما بتنتسى</small></span></a>
+      </div>
+      <div class="proj reveal">
+        <div>
+          <span class="badge">من مشاريع نواة</span>
+          <h3>UR TURN</h3>
+          <p>نظام نداء ذكي للكافيهات والمطاعم: جوال الزبون صار البيجر. الزبون بيمسح الكود، بيكتب رقم فاتورته، وأول ما الطلب يجهز جواله بيرن ويهتز.</p>
+          <ul><li>بدون تطبيق ولا أجهزة بيجر</li><li>عدّاد للوقت المتوقع وكم طلب قبله</li><li>زر تقييم على جوجل بعد الاستلام</li></ul>
+          <a href="https://urturnapp.github.io/urturnapp/" target="_blank" rel="noopener" class="btn btn-primary">زور UR TURN ←</a>
+        </div>
+        <a class="proj-art urturn" href="https://urturnapp.github.io/urturnapp/" target="_blank" rel="noopener" aria-label="UR TURN"><span>UR TURN<small>جوال الزبون صار البيجر</small></span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBMIT -->
+  <section class="submit" id="submit">
+    <div class="wrap form-box">
+      <div>
+        <span class="eyebrow">قدّم فكرتك</span>
+        <h2>ازرع نواتك اليوم 🌱</h2>
+        <p class="lead">احكيلنا عن فكرتك بشكل عام. ما بدنا كل الأسرار هلأ، بس اللي بيكفي نفهم الفكرة.</p>
+        <div class="side-note">
+          <b>شو بيصير بعد ما تبعت؟</b><br>
+          بتوصلك رسالة تأكيد برقم مرجعي، وبنتواصل معك خلال <b>7 أيام عمل</b> لنوقّع اتفاقية السرية ونسمع التفاصيل.
+        </div>
+      </div>
+
+      <form id="ideaForm" novalidate>
+        <div class="f"><label for="name">الاسم الكامل</label><input id="name" required autocomplete="name"></div>
+        <div class="f"><label for="phone">رقم الواتساب</label><input id="phone" type="tel" required dir="ltr" placeholder="+970 ..." autocomplete="tel"></div>
+        <div class="f"><label for="email">الإيميل</label><input id="email" type="email" required dir="ltr" autocomplete="email"></div>
+        <div class="f"><label for="country">الدولة</label><input id="country" required autocomplete="country-name"></div>
+        <div class="f full"><label for="title">عنوان الفكرة</label><input id="title" required placeholder="مثلاً: تطبيق بيربط الطلاب بمدرّسين خصوصيين"></div>
+        <div class="f"><label for="field">المجال</label>
+          <select id="field" required>
+            <option value="">اختار المجال</option>
+            <option>تطبيق أو موقع إلكتروني</option>
+            <option>متجر أو تجارة إلكترونية</option>
+            <option>منتج ملموس</option>
+            <option>خدمة</option>
+            <option>تعليم</option>
+            <option>صحة</option>
+            <option>غير ذلك</option>
+          </select>
+        </div>
+        <div class="f"><label for="stage">وين وصلت فكرتك؟</label>
+          <select id="stage" required>
+            <option value="">اختار</option>
+            <option>لسا فكرة براسي</option>
+            <option>كاتبها على ورق</option>
+            <option>عملت دراسة أو تجربة بسيطة</option>
+          </select>
+        </div>
+        <div class="f full"><label for="desc">وصف مختصر للفكرة</label><textarea id="desc" required maxlength="600" placeholder="شو المشكلة اللي بتحلها فكرتك؟ ومين المستفيد منها؟"></textarea><span class="hint">وصف عام فقط، التفاصيل بعد اتفاقية السرية.</span></div>
+        <div class="f full"><label for="role">كيف بتحب تشارك؟</label>
+          <select id="role">
+            <option>بقدّم الفكرة فقط</option>
+            <option>عندي خبرة بالمجال وبحب أساعد</option>
+            <option>بحب أشتغل معكم بالتنفيذ</option>
+          </select>
+        </div>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);opacity:0">
+        <label class="check f full"><input type="checkbox" id="agree" required> بأكّد إنه الفكرة فكرتي، وموافق على الشروط والأحكام وسياسة الخصوصية.</label>
+        <button class="btn btn-primary f full" type="submit" id="sendBtn">ابعت فكرتي 🌱</button>
+        <p class="form-error f full" id="formError" role="alert"></p>
+        <div class="success" id="success">
+          <img src="assets/nawah-icon.webp" alt="">
+          <h3>وصلت نواتك! 🎉</h3>
+          <p>رقمك المرجعي: <b id="ref"></b><br>بعتنالك رسالة تأكيد على إيميلك، ورح نتواصل معك خلال 7 أيام عمل.</p>
+          <p style="margin-top:14px"><b>خطوة أخيرة:</b> ابعت فكرتك على واتساب نواة عشان توصلنا فوراً.</p>
+          <a class="btn btn-primary" id="waBtn" href="https://wa.me/201037374409" target="_blank" rel="noopener" style="margin-top:12px">ابعتها على واتساب نواة</a>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap center">
+      <span class="eyebrow">أسئلة شائعة</span>
+      <h2>عندك سؤال؟</h2>
+      <div class="faq" style="text-align:right">
+        <details><summary>كيف بضمن إنه ما رح تسرقوا فكرتي؟</summary><p>ما منطلب منك إلا وصف عام بالبداية. قبل ما تحكيلنا التفاصيل منوقّع اتفاقية سرية رسمية، وكل فكرة بتوصلنا بتنوثّق برقم مرجعي وتاريخ بيثبت إنها إلك.</p></details>
+        <details><summary>هل لازم أدفع أي شي؟</summary><p>لا. كل تكاليف الدراسة والتنفيذ والتشغيل علينا. أنت بتقدّم الفكرة، وبتاخد نسبتك لما المشروع يجيب دخل.</p></details>
+        <details><summary>قديش نسبتي بالضبط؟</summary><p>بتبدأ من 5% من الإيرادات وممكن توصل لـ20%، حسب حجم الفكرة وقديش بتشارك فيها بخبرتك أو شغلك. النسبة النهائية بتنكتب بالعقد.</p></details>
+        <details><summary>ليش النسبة من الإيرادات مش من الأرباح؟</summary><p>لأنها أوضح وأعدل إلك. الإيرادات رقم واضح، أما صافي الربح فبيتأثر بمصاريف كثيرة وممكن يطلع صفر على الورق.</p></details>
+        <details><summary>شو بيصير إذا ما قبلتوا فكرتي؟</summary><p>بنحكيلك بصراحة ليش، والفكرة بتضل إلك وبتقدر تعمل فيها اللي بدك. واتفاقية السرية بتضل سارية.</p></details>
+        <details><summary>إذا شخصين قدّموا نفس الفكرة؟</summary><p>الأسبقية لمين قدّمها أول، حسب التاريخ الموثّق برقمه المرجعي.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <a href="#" class="brand"><img src="assets/nawah-icon-light.webp" alt=""><span><b>نَواة</b><small>NAWAH</small></span></a>
+      <p>أنت النواة.. واحنا منكبّرها 🌱</p>
+      <div class="social">
+        <a href="https://www.instagram.com/nawah.core" target="_blank" rel="noopener" aria-label="إنستغرام"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 4.6a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 8.6a3.4 3.4 0 1 1 0-6.8 3.4 3.4 0 0 1 0 6.8zm5.4-9.9a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg></a>
+        <a href="https://wa.me/201037374409" target="_blank" rel="noopener" aria-label="واتساب"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+      </div>
+    </div>
+    <p class="copy">© 2026 نَواة | Nawah. جميع الحقوق محفوظة.</p>
+  </div>
+</footer>
+
+<script>
+  // mobile menu
+  const links = document.getElementById('links');
+  document.getElementById('menuBtn').onclick = () => links.classList.toggle('open');
+  links.querySelectorAll('a').forEach(a => a.onclick = () => links.classList.remove('open'));
+
+  // reveal on scroll
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // idea form → Google Sheet (رابط الـ Web App من Apps Script)
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbywGOWmcwMePrkWL5LMk_OFAR57ik1AFjxvhtLGNtpzKxzq-Irm-W5S-sWFECCBeCW2/exec';
+
+  const form = document.getElementById('ideaForm');
+  const btn = document.getElementById('sendBtn');
+  const errBox = document.getElementById('formError');
+  const FIELDS = ['name', 'phone', 'email', 'country', 'title', 'field', 'stage', 'desc', 'role', 'website'];
+
+  function showError(msg) { errBox.textContent = msg; errBox.classList.add('show'); }
+
+  // رسالة الفكرة الجاهزة على واتساب نواة
+  const WA_NUMBER = '201037374409';
+  function waUrl(ref) {
+    const v = id => document.getElementById(id).value.trim();
+    const msg = [
+      'مرحبا نواة 🌱 قدّمت فكرة جديدة من الموقع',
+      'الرقم المرجعي: ' + ref,
+      'الاسم: ' + v('name'),
+      'الدولة: ' + v('country'),
+      'عنوان الفكرة: ' + v('title'),
+      'المجال: ' + v('field'),
+      'المرحلة: ' + v('stage'),
+      'المشاركة: ' + v('role'),
+      'الوصف: ' + v('desc')
+    ].join('\n');
+    return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+  }
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    errBox.classList.remove('show');
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    if (!SHEET_URL) { showError('النموذج لسا مش مربوط بجدول الأفكار. جرّب كمان شوي أو تواصل معنا على الواتساب.'); return; }
+
+    const data = new URLSearchParams();
+    FIELDS.forEach(id => data.append(id, document.getElementById(id).value.trim()));
+
+    btn.disabled = true;
+    btn.textContent = 'جاري الإرسال...';
+    try {
+      const res = await fetch(SHEET_URL, { method: 'POST', body: data });
+      const out = await res.json();
+      if (!out.ok) throw new Error(out.error || 'failed');
+      document.getElementById('ref').textContent = out.ref;
+      const waLink = waUrl(out.ref);
+      document.getElementById('waBtn').href = waLink;
+      window.open(waLink, '_blank', 'noopener'); // لو المتصفح منع الفتح التلقائي، الزر موجود
+      [...form.children].forEach(c => { if (c.id !== 'success') c.style.display = 'none'; });
+      document.getElementById('success').style.display = 'block';
+    } catch (err) {
+      showError('صار خطأ وما وصلت فكرتك. تأكد من الإنترنت وجرّب مرة ثانية.');
+      btn.disabled = false;
+      btn.textContent = 'ابعت فكرتي 🌱';
+    }
+  });
+</script>
+</body>
+</html>
