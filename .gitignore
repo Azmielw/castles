@@ -1,2 +1,6 @@
 __pycache__/
 *.pyc
+# صفحات هدايا الزبائن فيها بيانات شخصية: ما بتنرفع على GitHub
+sites/nabda/*/
+!sites/nabda/presets/
+!sites/nabda/demo/

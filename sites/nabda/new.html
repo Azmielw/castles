@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>موقع زبون جديد · نبضة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#4a1028;--gold:#b48a3c;--ink:#2f1520;--muted:#7a5e68;--line:#eadcd2;--bg:#faf5ef;--paper:#fffdf8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Tajawal,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+.wrap{display:grid;grid-template-columns:minmax(320px,520px) 1fr;gap:20px;padding:20px;min-height:100vh}
+@media (max-width:900px){.wrap{grid-template-columns:1fr}}
+h1{font-family:'El Messiri',serif;color:var(--wine);font-size:26px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:14px}
+form,.out{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px}
+fieldset{border:0;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+legend{font-family:'El Messiri',serif;color:var(--wine);font-size:18px;margin-bottom:8px;grid-column:1/-1}
+label{display:grid;gap:4px;font-weight:700;font-size:13.5px;color:var(--wine)}
+label.full{grid-column:1/-1}
+small{font-weight:400;color:var(--muted)}
+input,select,textarea{font:15px Tajawal,sans-serif;padding:9px 11px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);width:100%}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:1px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+button{font:700 15px Tajawal,sans-serif;border:0;border-radius:999px;padding:10px 20px;min-height:44px;background:var(--wine);color:#fbf0dc;cursor:pointer}
+button.ghost{background:#fff;color:var(--wine);border:1.5px solid var(--wine)}
+.out{display:flex;flex-direction:column;gap:12px}
+iframe{width:100%;height:560px;border:1px solid var(--line);border-radius:14px;background:#fff}
+pre{direction:ltr;text-align:left;background:#2f1520;color:#fbe9d6;border-radius:12px;padding:12px;font-size:12px;max-height:260px;overflow:auto;white-space:pre-wrap}
+.msg{background:#f0f7f3;border:1px solid #cfe5d8;border-radius:12px;padding:12px;white-space:pre-wrap;font-size:14px}
+.err{color:#a3261b;font-weight:700;min-height:22px}
+.tabs{display:flex;gap:6px}
+.tabs button{padding:6px 14px;min-height:36px;font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<form id="f" autocomplete="off">
+  <h1>موقع زبون جديد</h1>
+  <p class="sub">عبّي معلومات الطلب، شوف المعاينة، وبعدين نزّل ملف الموقع وحطه بـ <b>sites/الرابط/index.html</b>.</p>
+
+  <fieldset>
+    <legend>الأساسيات</legend>
+    <label>الرابط <small>(إنجليزي، بدون مسافات)</small><input id="slug" dir="ltr" placeholder="hajar" required pattern="[a-z0-9-]+"></label>
+    <label>مين الشخص؟<select id="preset">
+      <option value="love">حبيبة / زوجة</option><option value="love-m">حبيب / زوج</option>
+      <option value="mom">أم</option><option value="dad">أب</option><option value="sister">أخت</option><option value="brother">أخ</option>
+      <option value="friend-f">صاحبة</option><option value="friend-m">صاحب</option>
+      <option value="sorry-f">اعتذار لحبيبة</option><option value="sorry-m">اعتذار لحبيب</option>
+    </select></label>
+    <label>الاسم<input id="name" required placeholder="هاجر"></label>
+    <label>الدلع <small>(بيطلع بالعناوين)</small><input id="nick" placeholder="هجورتي"></label>
+    <label>اليوم <small>(كلمة السر)</small><input id="day" type="number" min="1" max="31" required></label>
+    <label>الشهر<input id="month" type="number" min="1" max="12" required></label>
+    <label>التوقيع<input id="from" placeholder="حبيبك / ابنك / أختك"></label>
+    <label>رابط الأغنية <small>(يوتيوب)</small><input id="song" dir="ltr" placeholder="https://youtu.be/..."></label>
+    <label>تبلش الأغنية من ثانية<input id="songStart" type="number" min="0" value="0"></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>نصوص خاصة <small>(اختياري: إذا فاضية بيطلع النص الجاهز)</small></legend>
+    <label class="full">الأسباب <small>(كل سبب بسطر، لحد 6)</small><textarea id="reasons"></textarea></label>
+    <label class="full">الرسالة <small>(كل فقرة بسطر، والسطر اللي بيبلش بـ * بيطلع أعرض)</small><textarea id="letter"></textarea></label>
+    <label class="full">الوعود <small>(كل وعد بسطر)</small><textarea id="promises"></textarea></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>ميزات الباقات الأعلى</legend>
+    <label class="full">أسماء الصور <small>(نبضتين وفوق: كل صورة بسطر، ممكن تحط تعليق بعد |)</small><textarea id="photos" dir="ltr" placeholder="1.webp | أول مرة شفتك&#10;2.webp"></textarea></label>
+    <label>اسم ملف الرسالة الصوتية <small>(العمر كله)</small><input id="voice" dir="ltr" placeholder="voice.m4a"></label>
+    <label>يفتح بموعد <small>(العمر كله)</small><input id="openAt" type="datetime-local"></label>
+  </fieldset>
+
+  <p class="err" id="err" role="alert"></p>
+  <div class="btns">
+    <button type="submit">حدّث المعاينة</button>
+    <button type="button" class="ghost" id="dl">نزّل index.html</button>
+    <button type="button" class="ghost" id="copy">انسخ الكود</button>
+  </div>
+</form>
+
+<div class="out">
+  <div class="tabs"><button type="button" id="tPrev">المعاينة</button><button type="button" class="ghost" id="tCode">الكود</button></div>
+  <iframe id="pv" title="معاينة موقع الزبون"></iframe>
+  <pre id="code" hidden></pre>
+  <div><b>رسالة للزبون بعد التسليم:</b></div>
+  <div class="msg" id="msg"></div>
+  <div class="btns"><button type="button" class="ghost" id="copyMsg">انسخ الرسالة</button><button type="button" class="ghost" id="card">افتح كرت QR</button></div>
+</div>
+</div>
+
+<script>
+const BASE = 'https://nabda.nawahcore.org';
+const $ = id => document.getElementById(id);
+const lines = id => $(id).value.split('\n').map(s => s.trim()).filter(Boolean);
+const esc = s => String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+const arr = a => '[' + a.map(s => `'${esc(s)}'`).join(', ') + ']';
+function ytId(u){ u = u.trim(); if (!u) return ''; const m = u.match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/); return m ? m[1] : (/^[\w-]{11}$/.test(u) ? u : ''); }
+function build(){
+  const err = []; const slug = $('slug').value.trim().toLowerCase();
+  if (!/^[a-z0-9-]+$/.test(slug)) err.push('الرابط لازم يكون حروف إنجليزية صغيرة أو أرقام');
+  if (!$('name').value.trim()) err.push('اكتب الاسم');
+  const d = +$('day').value, m = +$('month').value;
+  if (!(d >= 1 && d <= 31 && m >= 1 && m <= 12)) err.push('التاريخ مش صحيح');
+  const song = ytId($('song').value); if ($('song').value.trim() && !song) err.push('رابط يوتيوب مش واضح');
+  $('err').textContent = err.join(' · ');
+  const p = $('preset').value, presetVar = p === 'love' ? 'NB_LOVE' : 'NB_PRESET';
+  const nick = $('nick').value.trim() || $('name').value.trim();
+  const o = [`name: '${esc($('name').value.trim())}'`, `nick: '${esc(nick)}'`, `day: ${d}`, `month: ${m}`];
+  if ($('from').value.trim()) o.push(`from: '${esc($('from').value.trim())}'`);
+  if (song) o.push(`song: '${song}'`, `songStart: ${+$('songStart').value || 0}`);
+  if (lines('reasons').length) o.push('reasons: ' + arr(lines('reasons').slice(0, 6)));
+  if (lines('letter').length) o.push('letter: ' + arr(lines('letter')));
+  if (lines('promises').length) o.push('promises: ' + arr(lines('promises')));
+  const ph = lines('photos').map(l => { const [f, c] = l.split('|').map(s => s.trim()); const src = 'photos/' + f.replace(/^photos\//, ''); return c ? `{src: '${esc(src)}', cap: '${esc(c)}'}` : `'${esc(src)}'`; });
+  if (ph.length) o.push('photos: [' + ph.join(', ') + ']');
+  if ($('voice').value.trim()) o.push(`voice: '${esc($('voice').value.trim())}'`);
+  if ($('openAt').value) { const dt = new Date($('openAt').value); const off = -dt.getTimezoneOffset(); const sign = off >= 0 ? '+' : '-'; const hh = String(Math.floor(Math.abs(off) / 60)).padStart(2, '0'), mm2 = String(Math.abs(off) % 60).padStart(2, '0'); o.push(`openAt: '${$('openAt').value}:00${sign}${hh}:${mm2}'`); }
+  const config = `Object.assign({}, ${presetVar}, { ${o.join(', ')} })`;
+  const title = `في هدية إلك يا ${nick}`;
+  const page = (asset) => `<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#faf5ef">
+<title>في هدية إلك</title>
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:type" content="website">
+<meta property="og:url" content="${BASE}/${slug}">
+<meta property="og:site_name" content="نبضة">
+<meta property="og:title" content="${title.replace(/"/g, '&quot;')}">
+<meta property="og:description" content="حدا بيحبك عملك هالمكان بإيده… وما بينفتح إلا بالتاريخ اللي بيعنيلكم.">
+<meta property="og:image" content="${BASE}/gift.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${BASE}/gift.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;700&family=Amiri:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="${asset}/nabda.css">
+</head>
+<body>
+<script src="${asset}/presets/${p}.js"><\/script>
+<script>
+const CONFIG = ${config};
+<\/script>
+<script src="${asset}/nabda.js"><\/script>
+</body>
+</html>
+`;
+  const html = page('');
+  $('code').textContent = html;
+  // المعاينة: نفس الصفحة بس الملفات من الموقع الحي، والصور مش موجودة لسا
+  $('pv').srcdoc = page(BASE).replace('<head>', `<head><base href="${BASE}/${slug}/">`);
+  const url = `${BASE}/${slug}`;
+  $('msg').textContent = `هدية ${$('name').value.trim() || ''} جاهزة\n\nالرابط: ${url}\nكلمة السر: ${d}/${m} (اليوم/الشهر)\n\nابعتلها/له الرابط بس، وخلي كلمة السر هي التاريخ اللي بيعنيلكم.`;
+  $('card').onclick = () => open(`${BASE}/card?u=${encodeURIComponent(url)}&n=${encodeURIComponent(nick)}`, '_blank');
+  return {html, slug, ok: !err.length};
+}
+$('f').onsubmit = e => { e.preventDefault(); build(); };
+$('dl').onclick = () => { const r = build(); if (!r.ok) return; const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([r.html], {type: 'text/html'})); a.download = 'index.html'; a.click(); };
+$('copy').onclick = () => { const r = build(); navigator.clipboard && navigator.clipboard.writeText(r.html); $('copy').textContent = 'اننسخ ✓'; setTimeout(() => $('copy').textContent = 'انسخ الكود', 1500); };
+$('copyMsg').onclick = () => { navigator.clipboard && navigator.clipboard.writeText($('msg').textContent); $('copyMsg').textContent = 'اننسخت ✓'; setTimeout(() => $('copyMsg').textContent = 'انسخ الرسالة', 1500); };
+$('tPrev').onclick = () => { $('pv').hidden = false; $('code').hidden = true; $('tPrev').className = ''; $('tCode').className = 'ghost'; };
+$('tCode').onclick = () => { $('pv').hidden = true; $('code').hidden = false; $('tCode').className = ''; $('tPrev').className = 'ghost'; };
+</script>
+</body>
+</html>
